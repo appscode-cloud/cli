@@ -17,9 +17,9 @@ limitations under the License.
 package v1beta1
 
 import (
-	"stash.appscode.dev/apimachinery/api/crds"
+	"stash.appscode.dev/apimachinery/crds"
 
-	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1"
+	"kmodules.xyz/client-go/apiextensions"
 )
 
 func (_ Function) CustomResourceDefinition() *apiextensions.CustomResourceDefinition {
