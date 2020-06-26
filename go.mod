@@ -17,7 +17,6 @@ require (
 	k8s.io/component-base v0.18.3
 	k8s.io/kubectl v0.18.3
 	kmodules.xyz/client-go v0.0.0-20200525195850-2fd180961371
-	kmodules.xyz/custom-resources v0.0.0-20200604135349-9e9f5c4fdba9 // indirect
 	kmodules.xyz/objectstore-api v0.0.0-20200521103120-92080446e04d
 	kmodules.xyz/offshoot-api v0.0.0-20200521035628-e135bf07b226
 	kmodules.xyz/openshift v0.0.0-20200522123204-ce4abf5433c8
@@ -70,3 +69,5 @@ replace k8s.io/apiserver => github.com/kmodules/apiserver v0.18.4-0.202005210009
 replace k8s.io/client-go => k8s.io/client-go v0.18.3
 
 replace k8s.io/kubernetes => github.com/kmodules/kubernetes v1.19.0-alpha.0.0.20200521033432-49d3646051ad
+
+replace stash.appscode.dev/apimachinery => github.com/appscode-cloud/apimachinery v0.10.0-alpha.4

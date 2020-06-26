@@ -20,10 +20,10 @@ import (
 	"hash/fnv"
 	"strconv"
 
-	"stash.appscode.dev/apimachinery/api/crds"
+	"stash.appscode.dev/apimachinery/crds"
 
-	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1"
 	hashutil "k8s.io/kubernetes/pkg/util/hash"
+	"kmodules.xyz/client-go/apiextensions"
 )
 
 func (_ BackupSession) CustomResourceDefinition() *apiextensions.CustomResourceDefinition {
