@@ -26,7 +26,7 @@ RUN set -x \
   && echo 'Etc/UTC' > /etc/timezone
 
 ADD bin/{ARG_BIN}-{ARG_OS}-{ARG_ARCH} /{ARG_BIN}
-COPY --from=build-env /usr/local/bin/dlv /bin/dlv
+COPY --from=0 /usr/local/bin/dlv /bin/dlv
 
 EXPOSE 40000
 
