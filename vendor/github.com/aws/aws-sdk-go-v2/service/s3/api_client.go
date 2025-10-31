@@ -14,6 +14,7 @@ import (
 	internalauth "github.com/aws/aws-sdk-go-v2/internal/auth"
 	internalauthsmithy "github.com/aws/aws-sdk-go-v2/internal/auth/smithy"
 	internalConfig "github.com/aws/aws-sdk-go-v2/internal/configsources"
+	internalmiddleware "github.com/aws/aws-sdk-go-v2/internal/middleware"
 	"github.com/aws/aws-sdk-go-v2/internal/v4a"
 	acceptencodingcust "github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding"
 	internalChecksum "github.com/aws/aws-sdk-go-v2/service/internal/checksum"
@@ -22,12 +23,14 @@ import (
 	s3sharedconfig "github.com/aws/aws-sdk-go-v2/service/internal/s3shared/config"
 	s3cust "github.com/aws/aws-sdk-go-v2/service/s3/internal/customizations"
 	smithy "github.com/aws/smithy-go"
+	smithyauth "github.com/aws/smithy-go/auth"
 	smithydocument "github.com/aws/smithy-go/document"
 	"github.com/aws/smithy-go/logging"
 	"github.com/aws/smithy-go/middleware"
 	smithyhttp "github.com/aws/smithy-go/transport/http"
 	"net"
 	"net/http"
+	"sync/atomic"
 	"time"
 )
 
@@ -38,6 +41,9 @@ const ServiceAPIVersion = "2006-03-01"
 // Storage Service.
 type Client struct {
 	options Options
+
+	// Difference between the time reported by the server and the client
+	timeOffset *atomic.Int64
 }
 
 // New returns an initialized Client based on the functional options. Provide
@@ -56,9 +62,9 @@ func New(options Options, optFns ...func(*Options)) *Client {
 
 	resolveHTTPSignerV4(&options)
 
-	resolveHTTPSignerV4a(&options)
-
 	resolveEndpointResolverV2(&options)
+
+	resolveHTTPSignerV4a(&options)
 
 	resolveAuthSchemeResolver(&options)
 
@@ -67,8 +73,6 @@ func New(options Options, optFns ...func(*Options)) *Client {
 	}
 
 	finalizeRetryMaxAttempts(&options)
-
-	resolveCredentialProvider(&options)
 
 	ignoreAnonymousAuth(&options)
 
@@ -83,6 +87,8 @@ func New(options Options, optFns ...func(*Options)) *Client {
 	}
 
 	finalizeExpressCredentials(&options, client)
+
+	initializeTimeOffsetResolver(client)
 
 	return client
 }
@@ -110,8 +116,6 @@ func (c *Client) invokeOperation(ctx context.Context, opID string, params interf
 	finalizeOperationRetryMaxAttempts(&options, *c)
 
 	finalizeClientEndpointResolverOptions(&options)
-
-	resolveCredentialProvider(&options)
 
 	finalizeOperationExpressCredentials(&options, *c)
 
@@ -263,15 +267,16 @@ func setResolvedDefaultsMode(o *Options) {
 // NewFromConfig returns a new client from the provided config.
 func NewFromConfig(cfg aws.Config, optFns ...func(*Options)) *Client {
 	opts := Options{
-		Region:             cfg.Region,
-		DefaultsMode:       cfg.DefaultsMode,
-		RuntimeEnvironment: cfg.RuntimeEnvironment,
-		HTTPClient:         cfg.HTTPClient,
-		Credentials:        cfg.Credentials,
-		APIOptions:         cfg.APIOptions,
-		Logger:             cfg.Logger,
-		ClientLogMode:      cfg.ClientLogMode,
-		AppID:              cfg.AppID,
+		Region:                cfg.Region,
+		DefaultsMode:          cfg.DefaultsMode,
+		RuntimeEnvironment:    cfg.RuntimeEnvironment,
+		HTTPClient:            cfg.HTTPClient,
+		Credentials:           cfg.Credentials,
+		APIOptions:            cfg.APIOptions,
+		Logger:                cfg.Logger,
+		ClientLogMode:         cfg.ClientLogMode,
+		AppID:                 cfg.AppID,
+		AccountIDEndpointMode: cfg.AccountIDEndpointMode,
 	}
 	resolveAWSRetryerProvider(cfg, &opts)
 	resolveAWSRetryMaxAttempts(cfg, &opts)
@@ -398,15 +403,35 @@ func resolveAWSEndpointResolver(cfg aws.Config, o *Options) {
 }
 
 func addClientUserAgent(stack *middleware.Stack, options Options) error {
-	if err := awsmiddleware.AddSDKAgentKeyValue(awsmiddleware.APIMetadata, "s3", goModuleVersion)(stack); err != nil {
+	ua, err := getOrAddRequestUserAgent(stack)
+	if err != nil {
 		return err
 	}
 
+	ua.AddSDKAgentKeyValue(awsmiddleware.APIMetadata, "s3", goModuleVersion)
 	if len(options.AppID) > 0 {
-		return awsmiddleware.AddSDKAgentKey(awsmiddleware.ApplicationIdentifier, options.AppID)(stack)
+		ua.AddSDKAgentKey(awsmiddleware.ApplicationIdentifier, options.AppID)
 	}
 
 	return nil
+}
+
+func getOrAddRequestUserAgent(stack *middleware.Stack) (*awsmiddleware.RequestUserAgent, error) {
+	id := (*awsmiddleware.RequestUserAgent)(nil).ID()
+	mw, ok := stack.Build.Get(id)
+	if !ok {
+		mw = awsmiddleware.NewRequestUserAgent()
+		if err := stack.Build.Add(mw, middleware.After); err != nil {
+			return nil, err
+		}
+	}
+
+	ua, ok := mw.(*awsmiddleware.RequestUserAgent)
+	if !ok {
+		return nil, fmt.Errorf("%T for %s middleware did not match expected type", mw, id)
+	}
+
+	return ua, nil
 }
 
 type HTTPSignerV4 interface {
@@ -428,12 +453,72 @@ func newDefaultV4Signer(o Options) *v4.Signer {
 	})
 }
 
-func addRetryMiddlewares(stack *middleware.Stack, o Options) error {
-	mo := retry.AddRetryMiddlewaresOptions{
-		Retryer:          o.Retryer,
-		LogRetryAttempts: o.ClientLogMode.IsRetries(),
+func addClientRequestID(stack *middleware.Stack) error {
+	return stack.Build.Add(&awsmiddleware.ClientRequestID{}, middleware.After)
+}
+
+func addComputeContentLength(stack *middleware.Stack) error {
+	return stack.Build.Add(&smithyhttp.ComputeContentLength{}, middleware.After)
+}
+
+func addRawResponseToMetadata(stack *middleware.Stack) error {
+	return stack.Deserialize.Add(&awsmiddleware.AddRawResponse{}, middleware.Before)
+}
+
+func addRecordResponseTiming(stack *middleware.Stack) error {
+	return stack.Deserialize.Add(&awsmiddleware.RecordResponseTiming{}, middleware.After)
+}
+func addStreamingEventsPayload(stack *middleware.Stack) error {
+	return stack.Finalize.Add(&v4.StreamingEventsPayload{}, middleware.Before)
+}
+
+func addUnsignedPayload(stack *middleware.Stack) error {
+	return stack.Finalize.Insert(&v4.UnsignedPayload{}, "ResolveEndpointV2", middleware.After)
+}
+
+func addComputePayloadSHA256(stack *middleware.Stack) error {
+	return stack.Finalize.Insert(&v4.ComputePayloadSHA256{}, "ResolveEndpointV2", middleware.After)
+}
+
+func addContentSHA256Header(stack *middleware.Stack) error {
+	return stack.Finalize.Insert(&v4.ContentSHA256Header{}, (*v4.ComputePayloadSHA256)(nil).ID(), middleware.After)
+}
+
+func addIsWaiterUserAgent(o *Options) {
+	o.APIOptions = append(o.APIOptions, func(stack *middleware.Stack) error {
+		ua, err := getOrAddRequestUserAgent(stack)
+		if err != nil {
+			return err
+		}
+
+		ua.AddUserAgentFeature(awsmiddleware.UserAgentFeatureWaiter)
+		return nil
+	})
+}
+
+func addIsPaginatorUserAgent(o *Options) {
+	o.APIOptions = append(o.APIOptions, func(stack *middleware.Stack) error {
+		ua, err := getOrAddRequestUserAgent(stack)
+		if err != nil {
+			return err
+		}
+
+		ua.AddUserAgentFeature(awsmiddleware.UserAgentFeaturePaginator)
+		return nil
+	})
+}
+
+func addRetry(stack *middleware.Stack, o Options) error {
+	attempt := retry.NewAttemptMiddleware(o.Retryer, smithyhttp.RequestCloner, func(m *retry.Attempt) {
+		m.LogAttempts = o.ClientLogMode.IsRetries()
+	})
+	if err := stack.Finalize.Insert(attempt, "Signing", middleware.Before); err != nil {
+		return err
 	}
-	return retry.AddRetryMiddlewares(stack, mo)
+	if err := stack.Finalize.Insert(&retry.MetricsHeader{}, attempt.ID(), middleware.After); err != nil {
+		return err
+	}
+	return nil
 }
 
 // resolves UseARNRegion S3 configuration
@@ -496,31 +581,16 @@ func resolveUseFIPSEndpoint(cfg aws.Config, o *Options) error {
 	return nil
 }
 
-func resolveCredentialProvider(o *Options) {
-	if o.Credentials == nil {
-		return
+func resolveAccountID(identity smithyauth.Identity, mode aws.AccountIDEndpointMode) *string {
+	if mode == aws.AccountIDEndpointModeDisabled {
+		return nil
 	}
 
-	if _, ok := o.Credentials.(v4a.CredentialsProvider); ok {
-		return
+	if ca, ok := identity.(*internalauthsmithy.CredentialsAdapter); ok && ca.Credentials.AccountID != "" {
+		return aws.String(ca.Credentials.AccountID)
 	}
 
-	if aws.IsCredentialsProvider(o.Credentials, (*aws.AnonymousCredentials)(nil)) {
-		return
-	}
-
-	o.Credentials = &v4a.SymmetricCredentialAdaptor{SymmetricProvider: o.Credentials}
-}
-
-func swapWithCustomHTTPSignerMiddleware(stack *middleware.Stack, o Options) error {
-	mw := s3cust.NewSignHTTPRequestMiddleware(s3cust.SignHTTPRequestMiddlewareOptions{
-		CredentialsProvider: o.Credentials,
-		V4Signer:            o.HTTPSignerV4,
-		V4aSigner:           o.httpSignerV4a,
-		LogSigning:          o.ClientLogMode.IsSigning(),
-	})
-
-	return s3cust.RegisterSigningMiddleware(stack, mw)
+	return nil
 }
 
 type httpSignerV4a interface {
@@ -540,8 +610,52 @@ func newDefaultV4aSigner(o Options) *v4a.Signer {
 	return v4a.NewSigner(func(so *v4a.SignerOptions) {
 		so.Logger = o.Logger
 		so.LogSigning = o.ClientLogMode.IsSigning()
-		so.DisableURIPathEscaping = true
 	})
+}
+
+func addTimeOffsetBuild(stack *middleware.Stack, c *Client) error {
+	mw := internalmiddleware.AddTimeOffsetMiddleware{Offset: c.timeOffset}
+	if err := stack.Build.Add(&mw, middleware.After); err != nil {
+		return err
+	}
+	return stack.Deserialize.Insert(&mw, "RecordResponseTiming", middleware.Before)
+}
+func initializeTimeOffsetResolver(c *Client) {
+	c.timeOffset = new(atomic.Int64)
+}
+
+func checkAccountID(identity smithyauth.Identity, mode aws.AccountIDEndpointMode) error {
+	switch mode {
+	case aws.AccountIDEndpointModeUnset:
+	case aws.AccountIDEndpointModePreferred:
+	case aws.AccountIDEndpointModeDisabled:
+	case aws.AccountIDEndpointModeRequired:
+		if ca, ok := identity.(*internalauthsmithy.CredentialsAdapter); !ok {
+			return fmt.Errorf("accountID is required but not set")
+		} else if ca.Credentials.AccountID == "" {
+			return fmt.Errorf("accountID is required but not set")
+		}
+	// default check in case invalid mode is configured through request config
+	default:
+		return fmt.Errorf("invalid accountID endpoint mode %s, must be preferred/required/disabled", mode)
+	}
+
+	return nil
+}
+
+func addUserAgentRetryMode(stack *middleware.Stack, options Options) error {
+	ua, err := getOrAddRequestUserAgent(stack)
+	if err != nil {
+		return err
+	}
+
+	switch options.Retryer.(type) {
+	case *retry.Standard:
+		ua.AddUserAgentFeature(awsmiddleware.UserAgentFeatureRetryModeStandard)
+	case *retry.AdaptiveMode:
+		ua.AddUserAgentFeature(awsmiddleware.UserAgentFeatureRetryModeAdaptive)
+	}
+	return nil
 }
 
 func addMetadataRetrieverMiddleware(stack *middleware.Stack) error {
@@ -550,6 +664,10 @@ func addMetadataRetrieverMiddleware(stack *middleware.Stack) error {
 
 func add100Continue(stack *middleware.Stack, options Options) error {
 	return s3shared.Add100Continue(stack, options.ContinueHeaderThresholdBytes)
+}
+
+func addRecursionDetection(stack *middleware.Stack) error {
+	return stack.Build.Add(&awsmiddleware.RecursionDetection{}, middleware.After)
 }
 
 // ComputedInputChecksumsMetadata provides information about the algorithms used
@@ -777,6 +895,12 @@ func (c presignConverter) convertToPresignMiddleware(stack *middleware.Stack, op
 	if _, ok := stack.Finalize.Get((*acceptencodingcust.DisableGzip)(nil).ID()); ok {
 		stack.Finalize.Remove((*acceptencodingcust.DisableGzip)(nil).ID())
 	}
+	if _, ok := stack.Finalize.Get((*retry.Attempt)(nil).ID()); ok {
+		stack.Finalize.Remove((*retry.Attempt)(nil).ID())
+	}
+	if _, ok := stack.Finalize.Get((*retry.MetricsHeader)(nil).ID()); ok {
+		stack.Finalize.Remove((*retry.MetricsHeader)(nil).ID())
+	}
 	stack.Deserialize.Clear()
 	stack.Build.Remove((*awsmiddleware.ClientRequestID)(nil).ID())
 	stack.Build.Remove("UserAgent")
@@ -818,7 +942,7 @@ func (c presignConverter) convertToPresignMiddleware(stack *middleware.Stack, op
 	if err != nil {
 		return err
 	}
-	err = presignedurlcust.AddAsIsPresigingMiddleware(stack)
+	err = presignedurlcust.AddAsIsPresigningMiddleware(stack)
 	if err != nil {
 		return err
 	}
