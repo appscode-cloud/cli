@@ -138,54 +138,69 @@ func (g *gatewayOpts) run() error {
 	}
 	g.dir = dir
 
+	klog.Infof("populate Resource Map")
 	if err := g.populateResourceMap(); err != nil {
 		return err
 	}
-
+	klog.Infof("database")
 	if err := g.collectDatabase(); err != nil {
 		return err
 	}
+	klog.Infof("bindings")
 	if err := g.collectBindings(); err != nil {
 		return err
 	}
+	klog.Infof("helmreleases")
 	if err := g.collectHelmReleases(); err != nil {
 		return err
 	}
+	klog.Infof("gateways")
 	if err := g.collectGateways(); err != nil {
 		return err
 	}
+	klog.Infof("routes")
 	if err := g.collectRoutes(); err != nil {
 		return err
 	}
+	klog.Infof("secrets")
 	if err := g.collectSecrets(); err != nil {
 		return err
 	}
+	klog.Infof("seed backend info")
 	if err := g.collectSeedBackendInfo(); err != nil {
 		return err
 	}
 
+	klog.Infof("service")
 	if err := g.collectService(); err != nil {
 		return err
 	}
+	klog.Infof("gatewayPresets and configs")
 	if err := g.collectPresetsNConfigs(); err != nil {
 		return err
 	}
+	klog.Infof("referencegrats")
 	if err := g.collectReferenceGrants(); err != nil {
 		return err
 	}
+	klog.Infof("backendtlsPolicy")
 	if err := g.collectBackendTLSPolicies(); err != nil {
 		return err
 	}
+	klog.Infof("certs")
 	if err := g.collectCerts(); err != nil {
 		return err
 	}
 
+	klog.Infof("operator logs")
 	if err := g.collectOperatorLogs(); err != nil {
 		return err
 	}
+	klog.Infof("gateway logs")
 	if err := g.collectGatewayLogs(); err != nil {
 		return err
 	}
+	klog.Infof("envoy logs")
 	if err := g.collectEnvoyLogs(); err != nil {
 		return err
 	}

@@ -25,6 +25,7 @@ import (
 	flux "github.com/fluxcd/helm-controller/api/v2"
 	"gomodules.xyz/pointer"
 	"k8s.io/apimachinery/pkg/types"
+	"k8s.io/klog/v2"
 	kmapi "kmodules.xyz/client-go/api/v1"
 	gwapi "sigs.k8s.io/gateway-api/apis/v1"
 )
@@ -144,6 +145,7 @@ func (g *gatewayOpts) collectGWClass() error {
 func (g *gatewayOpts) collectHelmRelease(cls gwapi.GatewayClass) error {
 	hrName := cls.Annotations["meta.helm.sh/release-name"]
 	hrNamespace := cls.Annotations["meta.helm.sh/release-namespace"]
+	klog.Infof("Found gatewayClass: %v %v", cls.Name, cls.Annotations)
 	if hrName != "" && hrNamespace != "" {
 		g.hr = types.NamespacedName{
 			Namespace: hrNamespace,
@@ -186,6 +188,7 @@ func (g *gatewayOpts) collectEnvoyProxy(cls gwapi.GatewayClass) error {
 }
 
 func (g *gatewayOpts) collectSeedBackendInfo() error {
+	klog.Infof("%v, %v", g.hr.Namespace, g.hr.Name)
 	seedKey := types.NamespacedName{
 		Namespace: g.hr.Namespace,
 		Name:      g.hr.Namespace + "-seed-backend",
