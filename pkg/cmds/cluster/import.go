@@ -82,7 +82,7 @@ func importCluster(f *config.Factory, opts clustermodel.ImportOptions) error {
 	if err != nil {
 		return err
 	}
-	defer nc.Close()
+	defer nc.Close() // nolint:errcheck
 
 	responseID := xid.New().String()
 	wg := sync.WaitGroup{}

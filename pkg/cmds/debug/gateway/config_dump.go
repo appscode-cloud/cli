@@ -34,7 +34,7 @@ func (g *gatewayOpts) collectConfigDump(podMeta metav1.ObjectMeta) error {
 	if err != nil {
 		return err
 	}
-	defer tunnel.Close()
+	defer tunnel.Close() // nolint:errcheck
 
 	// curl http://10.42.0.82:19000/config_dump?resource%3D%26mask%3D%26name_regex%3D > out.yaml
 	u := &url.URL{
@@ -52,7 +52,7 @@ func (g *gatewayOpts) collectConfigDump(podMeta metav1.ObjectMeta) error {
 		fmt.Printf("curl failed: %v\n", err)
 		return err
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close() // nolint:errcheck
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf("unexpected status code %d", resp.StatusCode)
 	}
@@ -62,7 +62,7 @@ func (g *gatewayOpts) collectConfigDump(podMeta metav1.ObjectMeta) error {
 	if err != nil {
 		return fmt.Errorf("cannot create %s: %v", outputFile, err)
 	}
-	defer f.Close()
+	defer f.Close() // nolint:errcheck
 	if _, err := io.Copy(f, resp.Body); err != nil {
 		return fmt.Errorf("cannot write %s: %v", outputFile, err)
 	}

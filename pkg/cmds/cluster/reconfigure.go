@@ -68,7 +68,7 @@ func reconfigureCluster(f *config.Factory, opts clustermodel.ReconfigureOptions)
 	if err != nil {
 		return err
 	}
-	defer nc.Close()
+	defer nc.Close() // nolint:errcheck
 
 	responseID := xid.New().String()
 	wg := sync.WaitGroup{}

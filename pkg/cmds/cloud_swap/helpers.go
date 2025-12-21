@@ -83,7 +83,7 @@ func tlsEnabled(url string) bool {
 	if err != nil {
 		return false
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close() // nolint:errcheck
 	return resp.TLS != nil
 }
 

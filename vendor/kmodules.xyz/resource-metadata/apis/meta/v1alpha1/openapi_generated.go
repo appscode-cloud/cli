@@ -478,6 +478,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kmodules.xyz/resource-metadata/apis/shared.Dashboard":                          schema_kmodulesxyz_resource_metadata_apis_shared_Dashboard(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.DashboardVar":                       schema_kmodulesxyz_resource_metadata_apis_shared_DashboardVar(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.DeploymentParameters":               schema_kmodulesxyz_resource_metadata_apis_shared_DeploymentParameters(ref),
+		"kmodules.xyz/resource-metadata/apis/shared.DistroSpec":                         schema_kmodulesxyz_resource_metadata_apis_shared_DistroSpec(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.HelmInfo":                           schema_kmodulesxyz_resource_metadata_apis_shared_HelmInfo(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.HelmRelease":                        schema_kmodulesxyz_resource_metadata_apis_shared_HelmRelease(ref),
 		"kmodules.xyz/resource-metadata/apis/shared.HelmRepository":                     schema_kmodulesxyz_resource_metadata_apis_shared_HelmRepository(ref),
@@ -23202,6 +23203,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourcePageLayout(ref common.R
 							Format:  "",
 						},
 					},
+					"icon": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 					"requiredFeatureSets": {
 						SchemaProps: spec.SchemaProps{
 							Type: []string{"object"},
@@ -23257,6 +23264,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_ResourcePageOutline(ref common.
 							Default: "",
 							Type:    []string{"string"},
 							Format:  "",
+						},
+					},
+					"icon": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
 						},
 					},
 					"requiredFeatureSets": {
@@ -24015,14 +24028,12 @@ func schema_resource_metadata_apis_meta_v1alpha1_TableCell(ref common.ReferenceC
 					"data": {
 						SchemaProps: spec.SchemaProps{
 							Description: "cells will be as wide as the column definitions array and may contain strings, numbers (float64 or int64), booleans, simple maps, lists, or null. See the type field of the column definition for a more detailed description.",
-							Type:        []string{"object"},
-							Format:      "",
+							Ref:         ref("any"),
 						},
 					},
 					"sort": {
 						SchemaProps: spec.SchemaProps{
-							Type:   []string{"object"},
-							Format: "",
+							Ref: ref("any"),
 						},
 					},
 					"link": {
@@ -24053,6 +24064,8 @@ func schema_resource_metadata_apis_meta_v1alpha1_TableCell(ref common.ReferenceC
 				Required: []string{"data"},
 			},
 		},
+		Dependencies: []string{
+			"any"},
 	}
 }
 
@@ -24162,6 +24175,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_Action(ref common.Referenc
 							Format: "",
 						},
 					},
+					"icon": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 					"description": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
@@ -24228,6 +24247,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionGroup(ref common.Ref
 							Format: "",
 						},
 					},
+					"icon": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 					"description": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
@@ -24268,6 +24293,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionInfo(ref common.Refe
 							Format: "",
 						},
 					},
+					"icon": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 					"description": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
@@ -24287,6 +24318,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplate(ref common.
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
 					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"icon": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
 							Format: "",
@@ -24343,6 +24380,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplate(ref common.
 							Format:  "",
 						},
 					},
+					"partOf": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
 				},
 				Required: []string{"operationId", "flow", "enforceQuota"},
 			},
@@ -24359,6 +24402,12 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_ActionTemplateGroup(ref co
 				Type: []string{"object"},
 				Properties: map[string]spec.Schema{
 					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"icon": {
 						SchemaProps: spec.SchemaProps{
 							Type:   []string{"string"},
 							Format: "",
@@ -24545,6 +24594,33 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_DeploymentParameters(ref c
 		},
 		Dependencies: []string{
 			"x-helm.dev/apimachinery/apis/releases/v1alpha1.ChartSourceRef"},
+	}
+}
+
+func schema_kmodulesxyz_resource_metadata_apis_shared_DistroSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"openshift": {
+						SchemaProps: spec.SchemaProps{
+							Default: false,
+							Type:    []string{"boolean"},
+							Format:  "",
+						},
+					},
+					"ubi": {
+						SchemaProps: spec.SchemaProps{
+							Default: "",
+							Type:    []string{"string"},
+							Format:  "",
+						},
+					},
+				},
+				Required: []string{"openshift", "ubi"},
+			},
+		},
 	}
 }
 
@@ -24844,6 +24920,14 @@ func schema_kmodulesxyz_resource_metadata_apis_shared_RegistryProxies(ref common
 					"appscode": {
 						SchemaProps: spec.SchemaProps{
 							Description: "r.appscode.com",
+							Default:     "",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"weaviate": {
+						SchemaProps: spec.SchemaProps{
+							Description: "cr.weaviate.io",
 							Default:     "",
 							Type:        []string{"string"},
 							Format:      "",

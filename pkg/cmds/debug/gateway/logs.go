@@ -120,13 +120,13 @@ func (g *gatewayOpts) writeLogs(podName, ns, container string) error {
 	if err != nil {
 		return err
 	}
-	defer podLogs.Close()
+	defer podLogs.Close() // nolint:errcheck
 
 	logFile, err := os.Create(path.Join(g.dir, logsDir, podName+"_"+container+".log"))
 	if err != nil {
 		return err
 	}
-	defer logFile.Close()
+	defer logFile.Close() // nolint:errcheck
 
 	buf := make([]byte, 1024)
 	for {

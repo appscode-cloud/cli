@@ -61,16 +61,16 @@ type tablePrinter struct{}
 
 func (p *tablePrinter) printCluster(cluster *v1alpha1.ClusterInfo) error {
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 5, ' ', 0)
-	fmt.Fprintln(w, "NAME\tDISPLAY_NAME\tPROVIDER\tPHASE")
-	fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", cluster.Spec.Name, cluster.Spec.DisplayName, cluster.Spec.Provider, cluster.Status.Phase)
+	_, _ = fmt.Fprintln(w, "NAME\tDISPLAY_NAME\tPROVIDER\tPHASE")
+	_, _ = fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", cluster.Spec.Name, cluster.Spec.DisplayName, cluster.Spec.Provider, cluster.Status.Phase)
 	return w.Flush()
 }
 
 func (p *tablePrinter) printClusterList(clusters []v1alpha1.ClusterInfo) error {
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 5, ' ', 0)
-	fmt.Fprintln(w, "NAME\tDISPLAY_NAME\tPROVIDER\tPHASE")
+	_, _ = fmt.Fprintln(w, "NAME\tDISPLAY_NAME\tPROVIDER\tPHASE")
 	for i := range clusters {
-		fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", clusters[i].Spec.Name, clusters[i].Spec.DisplayName, clusters[i].Spec.Provider, clusters[i].Status.Phase)
+		_, _ = fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", clusters[i].Spec.Name, clusters[i].Spec.DisplayName, clusters[i].Spec.Provider, clusters[i].Status.Phase)
 	}
 	return w.Flush()
 }
