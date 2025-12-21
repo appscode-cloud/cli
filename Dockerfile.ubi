@@ -14,11 +14,25 @@
 
 FROM {ARG_FROM}
 
-LABEL org.opencontainers.image.source https://github.com/appscode-cloud/cli
+LABEL org.opencontainers.image.source="https://github.com/appscode-cloud/cli" \
+    name="ACE Cli" \
+    maintainer=AppsCode \
+    vendor=AppsCode \
+    version={ARG_TAG} \
+    release={ARG_TAG} \
+    summary="ACE cli" \
+    description="ACE cli"
+
+RUN mkdir -p /licenses
+COPY LICENSE.md /licenses/
 
 RUN set -x \
-  && apk add --update --upgrade --no-cache pcre2 ca-certificates tzdata openssh-client \
-  && echo 'Etc/UTC' > /etc/timezone
+  && microdnf update -y \
+  && microdnf install -y ca-certificates tzdata openssh-clients \
+  && microdnf clean all
+
+ENV TZ=Etc/UTC
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 ADD bin/{ARG_BIN}-{ARG_OS}-{ARG_ARCH} /{ARG_BIN}
 
