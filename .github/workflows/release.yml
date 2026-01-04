@@ -35,6 +35,11 @@ jobs:
             url."https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com".insteadOf \
             "https://github.com"
 
+      - name: Prepare Host
+        run: |
+          sudo apt-get -qq update || true
+          sudo apt-get install -y zip
+
       - name: Print version info
         id: semver
         run: |
