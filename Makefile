@@ -417,3 +417,9 @@ deploy-to-kind: push-to-kind install
 
 .PHONY: deploy
 deploy: uninstall push install
+
+.PHONY: docker-certify-redhat
+docker-certify-redhat:
+	@preflight check container $(IMAGE):$(VERSION_UBI) \
+		--submit \
+		--certification-component-id=695bac12274e2ac1e9d40762
