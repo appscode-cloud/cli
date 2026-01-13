@@ -114,6 +114,8 @@ type EnvoyProxySpec struct {
 	//
 	// - envoy.filters.http.stateful_session
 	//
+	// - envoy.filters.http.lua
+	//
 	// - envoy.filters.http.ext_proc
 	//
 	// - envoy.filters.http.wasm
@@ -155,7 +157,38 @@ type EnvoyProxySpec struct {
 	//
 	// +optional
 	PreserveRouteOrder *bool `json:"preserveRouteOrder,omitempty"`
+
+	// LuaValidation determines strictness of the Lua script validation for Lua EnvoyExtensionPolicies
+	// Default: Strict
+	// +optional
+	LuaValidation *LuaValidation `json:"luaValidation,omitempty"`
 }
+
+// +kubebuilder:validation:Enum=Strict;InsecureSyntax;Disabled
+type LuaValidation string
+
+const (
+	// LuaValidationStrict is the default level and checks for issues during script execution.
+	// Recommended if your scripts only use the standard Envoy Lua stream handle API and no external libraries.
+	// For supported APIs, see: https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/lua_filter#stream-handle-api
+	// INFO: This validation mode executes Lua scripts from EnvoyExtensionPolicy (EEP) resources in the gateway controller.
+	// Since the Gateway controller watches EEPs across all namespaces (or namespaces matching the configured selector),
+	// unprivileged users can create EEPs in their namespaces and cause arbitrary Lua code to execute in the Gateway controller process.
+	// Security measures are in place to prevent unsafe Lua code from accessing critical system resources on the controller
+	// and fail validation, preventing the unsafe code from flowing to the data plane proxy.
+	LuaValidationStrict LuaValidation = "Strict"
+
+	// LuaValidationInsecureSyntax checks for Lua syntax errors only.
+	// Useful if your scripts use external libraries other than the standard Envoy Lua stream handle API.
+	// WARNING: This mode does NOT offer any runtime validations, so no security measures are applied to validate Lua code safety.
+	// Not recommended unless you completely trust all EnvoyExtensionPolicy resources.
+	LuaValidationInsecureSyntax LuaValidation = "InsecureSyntax"
+
+	// LuaValidationDisabled disables all Lua script validations.
+	// WARNING: This mode does NOT offer any runtime or syntax validations, so no security measures are applied to validate Lua code safety.
+	// Not recommended unless you completely trust all EnvoyExtensionPolicy resources.
+	LuaValidationDisabled LuaValidation = "Disabled"
+)
 
 // RoutingType defines the type of routing of this Envoy proxy.
 type RoutingType string
@@ -195,7 +228,7 @@ type FilterPosition struct {
 }
 
 // EnvoyFilter defines the type of Envoy HTTP filter.
-// +kubebuilder:validation:Enum=envoy.filters.http.health_check;envoy.filters.http.fault;envoy.filters.http.cors;envoy.filters.http.ext_authz;envoy.filters.http.api_key_auth;envoy.filters.http.basic_auth;envoy.filters.http.oauth2;envoy.filters.http.jwt_authn;envoy.filters.http.stateful_session;envoy.filters.http.ext_proc;envoy.filters.http.wasm;envoy.filters.http.rbac;envoy.filters.http.local_ratelimit;envoy.filters.http.ratelimit;envoy.filters.http.custom_response;envoy.filters.http.compressor
+// +kubebuilder:validation:Enum=envoy.filters.http.health_check;envoy.filters.http.fault;envoy.filters.http.cors;envoy.filters.http.ext_authz;envoy.filters.http.api_key_auth;envoy.filters.http.basic_auth;envoy.filters.http.oauth2;envoy.filters.http.jwt_authn;envoy.filters.http.stateful_session;envoy.filters.http.lua;envoy.filters.http.ext_proc;envoy.filters.http.wasm;envoy.filters.http.rbac;envoy.filters.http.local_ratelimit;envoy.filters.http.ratelimit;envoy.filters.http.custom_response;envoy.filters.http.compressor
 type EnvoyFilter string
 
 const (
@@ -233,6 +266,9 @@ const (
 	// EnvoyFilterWasm defines the Envoy HTTP WebAssembly filter.
 	EnvoyFilterWasm EnvoyFilter = "envoy.filters.http.wasm"
 
+	// EnvoyFilterLua defines the Envoy HTTP Lua filter.
+	EnvoyFilterLua EnvoyFilter = "envoy.filters.http.lua"
+
 	// EnvoyFilterRBAC defines the Envoy RBAC filter.
 	EnvoyFilterRBAC EnvoyFilter = "envoy.filters.http.rbac"
 
@@ -242,14 +278,44 @@ const (
 	// EnvoyFilterRateLimit defines the Envoy HTTP rate limit filter.
 	EnvoyFilterRateLimit EnvoyFilter = "envoy.filters.http.ratelimit"
 
+	// EnvoyFilterGRPCWeb defines the Envoy HTTP gRPC-web filter.
+	EnvoyFilterGRPCWeb EnvoyFilter = "envoy.filters.http.grpc_web"
+
+	// EnvoyFilterGRPCStats defines the Envoy HTTP gRPC stats filter.
+	EnvoyFilterGRPCStats EnvoyFilter = "envoy.filters.http.grpc_stats"
+
 	// EnvoyFilterCustomResponse defines the Envoy HTTP custom response filter.
 	EnvoyFilterCustomResponse EnvoyFilter = "envoy.filters.http.custom_response"
+
+	// EnvoyFilterCredentialInjector defines the Envoy HTTP credential injector filter.
+	EnvoyFilterCredentialInjector EnvoyFilter = "envoy.filters.http.credential_injector"
 
 	// EnvoyFilterCompressor defines the Envoy HTTP compressor filter.
 	EnvoyFilterCompressor EnvoyFilter = "envoy.filters.http.compressor"
 
 	// EnvoyFilterRouter defines the Envoy HTTP router filter.
 	EnvoyFilterRouter EnvoyFilter = "envoy.filters.http.router"
+
+	// EnvoyFilterBuffer defines the Envoy HTTP buffer filter
+	EnvoyFilterBuffer EnvoyFilter = "envoy.filters.http.buffer"
+
+	// StatFormatterRouteName defines the Route Name formatter for stats
+	StatFormatterRouteName string = "%ROUTE_NAME%"
+
+	// StatFormatterRouteNamespace defines the Route Name formatter for stats
+	StatFormatterRouteNamespace string = "%ROUTE_NAMESPACE%"
+
+	// StatFormatterRouteKind defines the Route Name formatter for stats
+	StatFormatterRouteKind string = "%ROUTE_KIND%"
+
+	// StatFormatterRouteRuleName defines the Route Name formatter for stats
+	StatFormatterRouteRuleName string = "%ROUTE_RULE_NAME%"
+
+	// StatFormatterRouteRuleNumber defines the Route Name formatter for stats
+	StatFormatterRouteRuleNumber string = "%ROUTE_RULE_NUMBER%"
+
+	// StatFormatterBackendRefs defines the Route Name formatter for stats
+	StatFormatterBackendRefs string = "%BACKEND_REFS%"
 )
 
 type ProxyTelemetry struct {
@@ -290,12 +356,12 @@ type ShutdownConfig struct {
 	// If unspecified, defaults to 60 seconds.
 	//
 	// +optional
-	DrainTimeout *metav1.Duration `json:"drainTimeout,omitempty"`
+	DrainTimeout *gwapiv1.Duration `json:"drainTimeout,omitempty"`
 	// MinDrainDuration defines the minimum drain duration allowing time for endpoint deprogramming to complete.
 	// If unspecified, defaults to 10 seconds.
 	//
 	// +optional
-	MinDrainDuration *metav1.Duration `json:"minDrainDuration,omitempty"`
+	MinDrainDuration *gwapiv1.Duration `json:"minDrainDuration,omitempty"`
 }
 
 // +kubebuilder:validation:XValidation:rule="((has(self.envoyDeployment) && !has(self.envoyDaemonSet)) || (!has(self.envoyDeployment) && has(self.envoyDaemonSet))) || (!has(self.envoyDeployment) && !has(self.envoyDaemonSet))",message="only one of envoyDeployment or envoyDaemonSet can be specified"
@@ -325,7 +391,6 @@ type EnvoyProxyKubernetesProvider struct {
 	EnvoyService *KubernetesServiceSpec `json:"envoyService,omitempty"`
 
 	// EnvoyHpa defines the Horizontal Pod Autoscaler settings for Envoy Proxy Deployment.
-	// Once the HPA is being set, Replicas field from EnvoyDeployment will be ignored.
 	//
 	// +optional
 	EnvoyHpa *KubernetesHorizontalPodAutoscalerSpec `json:"envoyHpa,omitempty"`
@@ -340,6 +405,17 @@ type EnvoyProxyKubernetesProvider struct {
 	// EnvoyPDB allows to control the pod disruption budget of an Envoy Proxy.
 	// +optional
 	EnvoyPDB *KubernetesPodDisruptionBudgetSpec `json:"envoyPDB,omitempty"`
+
+	// EnvoyServiceAccount defines the desired state of the Envoy service account resource.
+	EnvoyServiceAccount *KubernetesServiceAccountSpec `json:"envoyServiceAccount,omitempty"`
+}
+
+type KubernetesServiceAccountSpec struct {
+	// Name of the Service Account.
+	// When unset, this defaults to an autogenerated name.
+	//
+	// +optional
+	Name *string `json:"name,omitempty"`
 }
 
 // ProxyLogging defines logging parameters for managed proxies.
@@ -392,7 +468,7 @@ const (
 // +union
 // +kubebuilder:validation:XValidation:rule="self.type == 'JSONPatch' ? self.jsonPatches.size() > 0 : has(self.value)", message="provided bootstrap patch doesn't match the configured patch type"
 type ProxyBootstrap struct {
-	// Type is the type of the bootstrap configuration, it should be either Replace,  Merge, or JSONPatch.
+	// Type is the type of the bootstrap configuration, it should be either **Replace**,  **Merge**, or **JSONPatch**.
 	// If unspecified, it defaults to Replace.
 	// +optional
 	// +kubebuilder:default=Replace

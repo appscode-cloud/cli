@@ -11,7 +11,9 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
+	"k8s.io/apimachinery/pkg/util/intstr"
 	gwapiv1 "sigs.k8s.io/gateway-api/apis/v1"
+	gwapiv1a2 "sigs.k8s.io/gateway-api/apis/v1alpha2"
 )
 
 const (
@@ -22,7 +24,7 @@ const (
 	// DefaultDeploymentMemoryResourceRequests for deployment memory resource
 	DefaultDeploymentMemoryResourceRequests = "512Mi"
 	// DefaultEnvoyProxyImage is the default image used by envoyproxy
-	DefaultEnvoyProxyImage = "docker.io/envoyproxy/envoy:distroless-v1.33.3"
+	DefaultEnvoyProxyImage = "docker.io/envoyproxy/envoy:distroless-v1.35.8"
 	// DefaultShutdownManagerCPUResourceRequests for shutdown manager cpu resource
 	DefaultShutdownManagerCPUResourceRequests = "10m"
 	// DefaultShutdownManagerMemoryResourceRequests for shutdown manager memory resource
@@ -30,11 +32,33 @@ const (
 	// DefaultShutdownManagerImage is the default image used for the shutdown manager.
 	DefaultShutdownManagerImage = "docker.io/envoyproxy/gateway-dev:latest"
 	// DefaultRateLimitImage is the default image used by ratelimit.
-	DefaultRateLimitImage = "docker.io/envoyproxy/ratelimit:3e085e5b"
+	DefaultRateLimitImage = "docker.io/envoyproxy/ratelimit:e74a664a"
 	// HTTPProtocol is the common-used http protocol.
 	HTTPProtocol = "http"
 	// GRPCProtocol is the common-used grpc protocol.
 	GRPCProtocol = "grpc"
+)
+
+const (
+	// PolicyConditionOverridden indicates whether the policy has
+	// completely attached to all the sections within the target or not.
+	//
+	// Possible reasons for this condition to be True are:
+	//
+	// * "Overridden"
+	//
+	PolicyConditionOverridden gwapiv1a2.PolicyConditionType = "Overridden"
+
+	// PolicyReasonOverridden is used with the "Overridden" condition when the policy
+	// has been overridden by another policy targeting a section within the same target.
+	PolicyReasonOverridden gwapiv1a2.PolicyConditionReason = "Overridden"
+
+	// PolicyConditionMerged indicates whether the policy has
+	// been merged with another policy targeting the parent(e.g. Gateway).
+	PolicyConditionMerged gwapiv1a2.PolicyConditionType = "Merged"
+	// PolicyReasonMerged is used with the "Merged" condition when the policy
+	// has been merged with another policy targeting the parent(e.g. Gateway).
+	PolicyReasonMerged gwapiv1a2.PolicyConditionReason = "Merged"
 )
 
 // GroupVersionKind unambiguously identifies a Kind.
@@ -184,6 +208,7 @@ type KubernetesPodSpec struct {
 }
 
 // KubernetesContainerSpec defines the desired state of the Kubernetes container resource.
+// +kubebuilder:validation:XValidation:rule="!has(self.image) || !has(self.imageRepository)",message="Either image or imageRepository can be set."
 type KubernetesContainerSpec struct {
 	// List of environment variables to set in the container.
 	//
@@ -203,10 +228,20 @@ type KubernetesContainerSpec struct {
 	// +optional
 	SecurityContext *corev1.SecurityContext `json:"securityContext,omitempty"`
 
-	// Image specifies the EnvoyProxy container image to be used, instead of the default image.
+	// Image specifies the EnvoyProxy container image to be used including a tag, instead of the default image.
+	// This field is mutually exclusive with ImageRepository.
 	//
+	// +kubebuilder:validation:XValidation:rule="self.matches('^[a-zA-Z0-9._-]+(:[0-9]+)?(/[a-zA-Z0-9._/-]+)?(:[a-zA-Z0-9._-]+)?(@sha256:[a-z0-9]+)?$')",message="Image must include a tag and allowed characters only (e.g., 'repo:tag')."
 	// +optional
 	Image *string `json:"image,omitempty"`
+
+	// ImageRepository specifies the container image repository to be used without specifying a tag.
+	// The default tag will be used.
+	// This field is mutually exclusive with Image.
+	//
+	// +kubebuilder:validation:XValidation:rule="self.matches('^[a-zA-Z0-9._-]+(:[0-9]+)?[a-zA-Z0-9._/-]+$')",message="ImageRepository must contain only allowed characters and must not include a tag."
+	// +optional
+	ImageRepository *string `json:"imageRepository,omitempty"`
 
 	// VolumeMounts are volumes to mount into the container's filesystem.
 	// Cannot be updated.
@@ -329,10 +364,13 @@ type KubernetesServiceSpec struct {
 }
 
 // LogLevel defines a log level for Envoy Gateway and EnvoyProxy system logs.
-// +kubebuilder:validation:Enum=debug;info;error;warn
+// +kubebuilder:validation:Enum=trace;debug;info;warn;error
 type LogLevel string
 
 const (
+	// LogLevelTrace defines the "Trace" logging level.
+	LogLevelTrace LogLevel = "trace"
+
 	// LogLevelDebug defines the "debug" logging level.
 	LogLevelDebug LogLevel = "debug"
 
@@ -349,7 +387,7 @@ const (
 // XDSTranslatorHook defines the types of hooks that an Envoy Gateway extension may support
 // for the xds-translator
 //
-// +kubebuilder:validation:Enum=VirtualHost;Route;HTTPListener;Translation
+// +kubebuilder:validation:Enum=VirtualHost;Route;HTTPListener;Translation;Cluster
 type XDSTranslatorHook string
 
 const (
@@ -357,6 +395,7 @@ const (
 	XDSRoute        XDSTranslatorHook = "Route"
 	XDSHTTPListener XDSTranslatorHook = "HTTPListener"
 	XDSTranslation  XDSTranslatorHook = "Translation"
+	XDSCluster      XDSTranslatorHook = "Cluster"
 )
 
 // StringMatch defines how to match any strings.
@@ -400,17 +439,31 @@ const (
 )
 
 // KubernetesPodDisruptionBudgetSpec defines Kubernetes PodDisruptionBudget settings of Envoy Proxy Deployment.
+//
+// +kubebuilder:validation:XValidation:rule="(has(self.minAvailable) && !has(self.maxUnavailable)) || (!has(self.minAvailable) && has(self.maxUnavailable))",message="only one of minAvailable or maxUnavailable can be specified"
 type KubernetesPodDisruptionBudgetSpec struct {
-	// MinAvailable specifies the minimum number of pods that must be available at all times during voluntary disruptions,
+	// MinAvailable specifies the minimum amount of pods (can be expressed as integers or as a percentage) that must be available at all times during voluntary disruptions,
 	// such as node drains or updates. This setting ensures that your envoy proxy maintains a certain level of availability
-	// and resilience during maintenance operations.
+	// and resilience during maintenance operations. Cannot be combined with maxUnavailable.
 	// +optional
-	MinAvailable *int32 `json:"minAvailable,omitempty"`
+	MinAvailable *intstr.IntOrString `json:"minAvailable,omitempty"`
+
+	// MaxUnavailable specifies the maximum amount of pods (can be expressed as integers or as a percentage) that can be unavailable at all times during voluntary disruptions,
+	// such as node drains or updates. This setting ensures that your envoy proxy maintains a certain level of availability
+	// and resilience during maintenance operations. Cannot be combined with minAvailable.
+	// +optional
+	MaxUnavailable *intstr.IntOrString `json:"maxUnavailable,omitempty"`
 
 	// Patch defines how to perform the patch operation to the PodDisruptionBudget
 	//
 	// +optional
 	Patch *KubernetesPatchSpec `json:"patch,omitempty"`
+
+	// Name of the podDisruptionBudget.
+	// When unset, this defaults to an autogenerated name.
+	//
+	// +optional
+	Name *string `json:"name,omitempty"`
 }
 
 // KubernetesHorizontalPodAutoscalerSpec defines Kubernetes Horizontal Pod Autoscaler settings of Envoy Proxy Deployment.
@@ -453,12 +506,17 @@ type KubernetesHorizontalPodAutoscalerSpec struct {
 	//
 	// +optional
 	Patch *KubernetesPatchSpec `json:"patch,omitempty"`
+
+	// Name of the horizontalPodAutoScaler.
+	// When unset, this defaults to an autogenerated name.
+	//
+	// +optional
+	Name *string `json:"name,omitempty"`
 }
 
 // HTTPStatus defines the http status code.
 // +kubebuilder:validation:Minimum=100
-// +kubebuilder:validation:Maximum=600
-// +kubebuilder:validation:ExclusiveMaximum=true
+// +kubebuilder:validation:Maximum=599
 type HTTPStatus int
 
 // MergeType defines the type of merge operation
@@ -627,11 +685,14 @@ type HTTP2Settings struct {
 }
 
 // ResponseOverride defines the configuration to override specific responses with a custom one.
+// +kubebuilder:validation:XValidation:rule="(has(self.response) && !has(self.redirect)) || (!has(self.response) && has(self.redirect))",message="exactly one of response or redirect must be specified"
 type ResponseOverride struct {
 	// Match configuration.
 	Match CustomResponseMatch `json:"match"`
 	// Response configuration.
-	Response CustomResponse `json:"response"`
+	Response *CustomResponse `json:"response,omitempty"`
+	// Redirect configuration
+	Redirect *CustomRedirect `json:"redirect,omitempty"`
 }
 
 // CustomResponseMatch defines the configuration for matching a user response to return a custom one.
@@ -694,6 +755,7 @@ type CustomResponse struct {
 	ContentType *string `json:"contentType,omitempty"`
 
 	// Body of the Custom Response
+	// Supports Envoy command operators for dynamic content (see https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#command-operators).
 	//
 	// +optional
 	Body *CustomResponseBody `json:"body,omitempty"`
@@ -744,4 +806,148 @@ type CustomResponseBody struct {
 	//
 	// +optional
 	ValueRef *gwapiv1.LocalObjectReference `json:"valueRef,omitempty"`
+}
+
+// Tracing defines the configuration for tracing.
+// TODO: we'd better deprecate SamplingRate in the EnvoyProxy spec, so that we can reuse the struct.
+type Tracing struct {
+	// SamplingFraction represents the fraction of requests that should be
+	// selected for tracing if no prior sampling decision has been made.
+	//
+	// This will take precedence over sampling fraction on EnvoyProxy if set.
+	//
+	// +optional
+	SamplingFraction *gwapiv1.Fraction `json:"samplingFraction,omitempty"`
+	// CustomTags defines the custom tags to add to each span.
+	// If provider is kubernetes, pod name and namespace are added by default.
+	//
+	// +optional
+	CustomTags map[string]CustomTag `json:"customTags,omitempty"`
+}
+
+// CustomRedirect contains configuration for returning a custom redirect.
+type CustomRedirect struct {
+	// Scheme is the scheme to be used in the value of the `Location` header in
+	// the response. When empty, the scheme of the request is used.
+	//
+	// +optional
+	// +kubebuilder:validation:Enum=http;https
+	Scheme *string `json:"scheme,omitempty"`
+
+	// Hostname is the hostname to be used in the value of the `Location`
+	// header in the response.
+	// When empty, the hostname in the `Host` header of the request is used.
+	//
+	// +optional
+	Hostname *gwapiv1.PreciseHostname `json:"hostname,omitempty"`
+
+	// Path defines parameters used to modify the path of the incoming request.
+	// The modified path is then used to construct the `Location` header. When
+	// empty, the request path is used as-is.
+	// Only ReplaceFullPath path modifier is supported currently.
+	//
+	// +optional
+	// +kubebuilder:validation:XValidation:message="only ReplaceFullPath is supported for path.type",rule="self.type == 'ReplaceFullPath'"
+	Path *gwapiv1.HTTPPathModifier `json:"path,omitempty"`
+
+	// Port is the port to be used in the value of the `Location`
+	// header in the response.
+	//
+	// If redirect scheme is not-empty, the well-known port associated with the redirect scheme will be used.
+	// Specifically "http" to port 80 and "https" to port 443. If the redirect scheme does not have a
+	// well-known port or redirect scheme is empty, the listener port of the Gateway will be used.
+	//
+	// Port will not be added in the 'Location' header if scheme is HTTP and port is 80
+	// or scheme is HTTPS and port is 443.
+	//
+	// +optional
+	Port *gwapiv1.PortNumber `json:"port,omitempty"`
+
+	// StatusCode is the HTTP status code to be used in response.
+	//
+	// +optional
+	// +kubebuilder:default=302
+	// +kubebuilder:validation:Enum=301;302
+	StatusCode *int `json:"statusCode,omitempty"`
+}
+
+// HTTPHeaderFilter has been copied from the upstream Gateway API project
+// https://github.com/kubernetes-sigs/gateway-api/blob/main/apis/v1/httproute_types.go
+// and edited to increase the maxItems from 16 to 64
+// Remove this definition and reuse the upstream one once it supports items more than 64
+
+// HTTPHeaderFilter defines a filter that modifies the headers of an HTTP
+// request or response. Only one action for a given header name is
+// permitted. Filters specifying multiple actions of the same or different
+// type for any one header name are invalid. Configuration to set or add
+// multiple values for a header must use RFC 7230 header value formatting,
+// separating each value with a comma.
+type HTTPHeaderFilter struct {
+	// Set overwrites the request with the given header (name, value)
+	// before the action.
+	//
+	// Input:
+	//   GET /foo HTTP/1.1
+	//   my-header: foo
+	//
+	// Config:
+	//   set:
+	//   - name: "my-header"
+	//     value: "bar"
+	//
+	// Output:
+	//   GET /foo HTTP/1.1
+	//   my-header: bar
+	//
+	// +optional
+	// +listType=map
+	// +listMapKey=name
+	// +kubebuilder:validation:MaxItems=64
+	Set []gwapiv1.HTTPHeader `json:"set,omitempty"`
+
+	// Add adds the given header(s) (name, value) to the request
+	// before the action. It appends to any existing values associated
+	// with the header name.
+	//
+	// Input:
+	//   GET /foo HTTP/1.1
+	//   my-header: foo
+	//
+	// Config:
+	//   add:
+	//   - name: "my-header"
+	//     value: "bar,baz"
+	//
+	// Output:
+	//   GET /foo HTTP/1.1
+	//   my-header: foo,bar,baz
+	//
+	// +optional
+	// +listType=map
+	// +listMapKey=name
+	// +kubebuilder:validation:MaxItems=64
+	Add []gwapiv1.HTTPHeader `json:"add,omitempty"`
+
+	// Remove the given header(s) from the HTTP request before the action. The
+	// value of Remove is a list of HTTP header names. Note that the header
+	// names are case-insensitive (see
+	// https://datatracker.ietf.org/doc/html/rfc2616#section-4.2).
+	//
+	// Input:
+	//   GET /foo HTTP/1.1
+	//   my-header1: foo
+	//   my-header2: bar
+	//   my-header3: baz
+	//
+	// Config:
+	//   remove: ["my-header1", "my-header3"]
+	//
+	// Output:
+	//   GET /foo HTTP/1.1
+	//   my-header2: bar
+	//
+	// +optional
+	// +listType=set
+	// +kubebuilder:validation:MaxItems=64
+	Remove []string `json:"remove,omitempty"`
 }

@@ -6,8 +6,24 @@
 package v1alpha1
 
 import (
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	gwapiv1 "sigs.k8s.io/gateway-api/apis/v1"
 	gwapiv1a2 "sigs.k8s.io/gateway-api/apis/v1alpha2"
+)
+
+const (
+	// PolicyConditionAggregated indicates whether the policy has been aggregated
+	// to satisfy CEL constraints in PolicyAncestorStatus (not exceeding 16).
+	//
+	// Possible reasons for this condition to be True are:
+	//
+	// * "Aggregated"
+	//
+	PolicyConditionAggregated gwapiv1a2.PolicyConditionType = "Aggregated"
+
+	// PolicyReasonAggregated is used with the "Aggregated" condition when the policy
+	// is aggregated to satisfy CEL constraints in PolicyAncestorStatus (not exceeding 16).
+	PolicyReasonAggregated gwapiv1a2.PolicyConditionReason = "Aggregated"
 )
 
 type PolicyTargetReferences struct {
@@ -37,7 +53,14 @@ type TargetSelector struct {
 	Kind gwapiv1.Kind `json:"kind"`
 
 	// MatchLabels are the set of label selectors for identifying the targeted resource
-	MatchLabels map[string]string `json:"matchLabels"`
+	// +optional
+	MatchLabels map[string]string `json:"matchLabels,omitempty"`
+
+	// MatchExpressions is a list of label selector requirements. The requirements are ANDed.
+	//
+	// +optional
+	// +listType=atomic
+	MatchExpressions []metav1.LabelSelectorRequirement `json:"matchExpressions,omitempty"`
 }
 
 func (p PolicyTargetReferences) GetTargetRefs() []gwapiv1a2.LocalPolicyTargetReferenceWithSectionName {
