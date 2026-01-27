@@ -1,0 +1,33 @@
+
+
+===== org1 =====
+# datastore :
+mongodb.kubedb.com/mgs   4.4.26    Ready    4d1h
+# pods :
+mgs-0   2/2     Running   0          4d1h
+# binding :
+mongodbbinding.catalog.appscode.com/mgs   org1     mgs        Current   4d1h
+# gateway :
+mongo-ui-3dc60439   org1    10.2.0.184   True         4d1h
+
+
+===== org1-monitoring =====
+# grafanadashboards :
+kubedb-redis-summary                     Redis / Summary                     Current   4d1h
+
+
+===== org1-gw =====
+# hr :
+org1   4d1h   True    Helm install succeeded for release org1-gw/org1.v1 with chart service-gateway@v2025.10.31
+# pods :
+org1-gw-seed-backend-5b84546bcc-ssd4q   1/1     Running   0            4d1h
+# configmaps :
+kube-root-ca.crt       1      4d1h
+# secrets :
+sh.helm.release.v1.org1.v1   helm.sh/release.v1   1      4d1h
+# gatewayconfigs :
+org1   4d1h
+# gatewaypresets :
+org1   4d1h
+# services :
+org1-gw-seed-backend   ClusterIP      10.43.5.45      <none>        3000/TCP                                         4d1h
