@@ -136,11 +136,14 @@ func (g *clientOrgOpts) run() error {
 	if err := g.collectNamespaces(); err != nil {
 		return err
 	}
+
+	klog.Infof("Collecting all resources from clientOrg namespaces")
 	err = g.collectAllResources()
 	if err != nil {
 		return err
 	}
 
+	klog.Infof("Cleaning up gw resources from terminating organizations")
 	err = g.cleanup()
 	return err
 }

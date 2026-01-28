@@ -106,19 +106,19 @@ func getResourceHeader(res string) []byte {
 }
 
 func (g *clientOrgOpts) collectAllResources() error {
-	err := os.MkdirAll(path.Join(g.dir, "active"), dirPerm)
-	if err != nil {
-		return err
-	}
+	//err := os.MkdirAll(path.Join(g.dir, "active"), dirPerm)
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//for _, org := range g.activeOrganizations {
+	//	err := g.collectForOneOrg(org, path.Join(g.dir, "active"))
+	//	if err != nil {
+	//		return err
+	//	}
+	//}
 
-	for _, org := range g.activeOrganizations {
-		err := g.collectForOneOrg(org, path.Join(g.dir, "active"))
-		if err != nil {
-			return err
-		}
-	}
-
-	err = os.MkdirAll(path.Join(g.dir, "terminating"), dirPerm)
+	err := os.MkdirAll(path.Join(g.dir, "terminating"), dirPerm)
 	if err != nil {
 		return err
 	}
