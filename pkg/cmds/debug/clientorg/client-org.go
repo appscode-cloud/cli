@@ -140,5 +140,7 @@ func (g *clientOrgOpts) run() error {
 	if err != nil {
 		return err
 	}
-	return nil
+
+	err = g.cleanup()
+	return err
 }

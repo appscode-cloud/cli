@@ -94,7 +94,7 @@ func makeArg(resource, namespace string) []any {
 
 func makeArgYaml(resource, namespace string) []any {
 	return []any{"get", resource, "-n", namespace}
-	//return []any{"get", resource, "-n", namespace, "--output", "yaml"} // TODO
+	// return []any{"get", resource, "-n", namespace, "--output", "yaml"} // TODO
 }
 
 func getNSHeader(ns string) []byte {
