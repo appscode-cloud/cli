@@ -19,6 +19,7 @@ package debug
 import (
 	"go.bytebuilders.dev/cli/pkg/cmds/debug/clientorg"
 	"go.bytebuilders.dev/cli/pkg/cmds/debug/gateway"
+	"go.bytebuilders.dev/cli/pkg/cmds/debug/license"
 
 	"github.com/spf13/cobra"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
@@ -38,6 +39,7 @@ func NewCmdDebug() *cobra.Command {
 
 	cmd.AddCommand(gateway.NewCmdGateway(f))
 	cmd.AddCommand(clientorg.NewCmdClientOrg(f))
+	cmd.AddCommand(license.NewCmdLicense(f))
 
 	return cmd
 }
