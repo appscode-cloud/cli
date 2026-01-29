@@ -17,6 +17,7 @@ limitations under the License.
 package debug
 
 import (
+	"go.bytebuilders.dev/cli/pkg/cmds/debug/clientorg"
 	"go.bytebuilders.dev/cli/pkg/cmds/debug/gateway"
 
 	"github.com/spf13/cobra"
@@ -36,6 +37,7 @@ func NewCmdDebug() *cobra.Command {
 	f := cmdutil.NewFactory(matchVersionKubeConfigFlags)
 
 	cmd.AddCommand(gateway.NewCmdGateway(f))
+	cmd.AddCommand(clientorg.NewCmdClientOrg(f))
 
 	return cmd
 }
