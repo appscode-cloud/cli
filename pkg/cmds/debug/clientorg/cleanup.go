@@ -16,9 +16,16 @@ limitations under the License.
 
 package clientorg
 
-import "gomodules.xyz/go-sh"
+import (
+	"gomodules.xyz/go-sh"
+	"k8s.io/klog/v2"
+)
 
 func (g *clientOrgOpts) cleanup() error {
+	if !g.clean || g.mode == modeActive {
+		return nil
+	}
+	klog.Infof("Cleaning up gw resources from %v(mode) organizations", g.mode)
 	for _, org := range g.terminatingOrganizations {
 		if !org.gwNamespace {
 			continue

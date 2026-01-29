@@ -29,12 +29,12 @@ import (
 )
 
 const (
-	logsDir  = "logs"
-	yamlsDir = "yamls"
 	dirPerm  = 0o755
 	filePerm = 0o644
 
-	kubectlCommand = "kubectl"
+	kubectlCommand  = "kubectl"
+	modeActive      = "active"
+	modeTerminating = "terminating"
 )
 
 var (
@@ -73,13 +73,16 @@ func (g *clientOrgOpts) collectNamespaces() error {
 	}
 
 	for _, ns := range nsList.Items {
+		if g.org != "" && ns.Name != g.org { // if ran for specific org, ignore all other ones.
+			continue
+		}
 		if val, exists := ns.Labels[kmapi.ClientOrgKey]; exists {
 			rg := constructResourceGroup(ns.Name)
 
 			switch val {
 			case "true":
 				g.activeOrganizations = append(g.activeOrganizations, rg)
-			case "terminating":
+			case modeTerminating:
 				g.terminatingOrganizations = append(g.terminatingOrganizations, rg)
 			}
 		}
@@ -106,27 +109,31 @@ func getResourceHeader(res string) []byte {
 }
 
 func (g *clientOrgOpts) collectAllResources() error {
-	//err := os.MkdirAll(path.Join(g.dir, "active"), dirPerm)
-	//if err != nil {
-	//	return err
-	//}
-	//
-	//for _, org := range g.activeOrganizations {
-	//	err := g.collectForOneOrg(org, path.Join(g.dir, "active"))
-	//	if err != nil {
-	//		return err
-	//	}
-	//}
-
-	err := os.MkdirAll(path.Join(g.dir, "terminating"), dirPerm)
-	if err != nil {
-		return err
-	}
-
-	for _, org := range g.terminatingOrganizations {
-		err := g.collectForOneOrg(org, path.Join(g.dir, "terminating"))
+	if g.mode == "both" || g.mode == modeActive {
+		err := os.MkdirAll(path.Join(g.dir, modeActive), dirPerm)
 		if err != nil {
 			return err
+		}
+
+		for _, org := range g.activeOrganizations {
+			err := g.collectForOneOrg(org, path.Join(g.dir, modeActive))
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	if g.mode == "both" || g.mode == modeTerminating {
+		err := os.MkdirAll(path.Join(g.dir, modeTerminating), dirPerm)
+		if err != nil {
+			return err
+		}
+
+		for _, org := range g.terminatingOrganizations {
+			err := g.collectForOneOrg(org, path.Join(g.dir, modeTerminating))
+			if err != nil {
+				return err
+			}
 		}
 	}
 	return nil
@@ -193,7 +200,9 @@ func (g *clientOrgOpts) writeContent(groupDir, fileName string, content []byte) 
 	if err != nil {
 		return err
 	}
-	defer f.Close()
+	defer func(f *os.File) {
+		_ = f.Close()
+	}(f)
 
 	_, err = f.Write(content)
 	if err != nil {

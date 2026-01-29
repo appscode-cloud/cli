@@ -72,12 +72,14 @@ func NewCmdClientOrg(f cmdutil.Factory) *cobra.Command {
 			if opt.dir == "" {
 				opt.dir = "client-org"
 			}
-			klog.Infof("The debug into will be generated in current directory under '%s' folder", opt.dir)
+			klog.Infof("The debug info will be generated in current directory under '%s' folder", opt.dir)
 			return opt.run()
 		},
 	}
 
 	cmd.Flags().StringVarP(&opt.org, "name", "m", "", "Client org name")
+	cmd.Flags().StringVarP(&opt.mode, "mode", "d", "terminating", "Possible values: 'active', 'terminating' or 'both'. Default is terminating")
+	cmd.Flags().BoolVarP(&opt.clean, "cleanup", "c", true, "cleanup should happen or not")
 	return cmd
 }
 
@@ -85,20 +87,20 @@ type clientOrgOpts struct {
 	kc         client.Client
 	config     *rest.Config
 	kubeClient kubernetes.Interface
-	org        string
-	dir        string
 
 	activeOrganizations      []resourceGroup
 	terminatingOrganizations []resourceGroup
+
+	org   string
+	mode  string
+	dir   string
+	clean bool
 }
 
 type resourceGroup struct {
 	clientOrgName       string
 	gwNamespace         bool
 	monitoringNamespace bool
-	mainResources       string
-	gwResources         string
-	monitoringResources string
 }
 
 func newClientOrgOpts(f cmdutil.Factory) *clientOrgOpts {
@@ -133,17 +135,21 @@ func (g *clientOrgOpts) run() error {
 		return err
 	}
 
+	klog.Infof("[[ Values passed: --name=%v, --mode=%v, --cleanup=%v ]]", g.org, g.mode, g.clean)
 	if err := g.collectNamespaces(); err != nil {
 		return err
 	}
 
-	klog.Infof("Collecting all resources from clientOrg namespaces")
+	orgName := g.org
+	if orgName == "" {
+		orgName = "all"
+	}
+	klog.Infof("Collecting resources from %v clientOrg namespace", orgName)
 	err = g.collectAllResources()
 	if err != nil {
 		return err
 	}
 
-	klog.Infof("Cleaning up gw resources from terminating organizations")
 	err = g.cleanup()
 	return err
 }
