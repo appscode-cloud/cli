@@ -1,0 +1,218 @@
+I0206 09:33:58.831690       1 log.go:244] FLAG: --add-dir-header="false"
+I0206 09:33:58.831706       1 log.go:244] FLAG: --alsologtostderr="false"
+I0206 09:33:58.831709       1 log.go:244] FLAG: --audit-log-batch-buffer-size="10000"
+I0206 09:33:58.831715       1 log.go:244] FLAG: --audit-log-batch-max-size="1"
+I0206 09:33:58.831717       1 log.go:244] FLAG: --audit-log-batch-max-wait="0s"
+I0206 09:33:58.831719       1 log.go:244] FLAG: --audit-log-batch-throttle-burst="0"
+I0206 09:33:58.831721       1 log.go:244] FLAG: --audit-log-batch-throttle-enable="false"
+I0206 09:33:58.831723       1 log.go:244] FLAG: --audit-log-batch-throttle-qps="0"
+I0206 09:33:58.831725       1 log.go:244] FLAG: --audit-log-compress="false"
+I0206 09:33:58.831726       1 log.go:244] FLAG: --audit-log-format="json"
+I0206 09:33:58.831728       1 log.go:244] FLAG: --audit-log-maxage="0"
+I0206 09:33:58.831730       1 log.go:244] FLAG: --audit-log-maxbackup="0"
+I0206 09:33:58.831731       1 log.go:244] FLAG: --audit-log-maxsize="0"
+I0206 09:33:58.831733       1 log.go:244] FLAG: --audit-log-mode="blocking"
+I0206 09:33:58.831735       1 log.go:244] FLAG: --audit-log-path="-"
+I0206 09:33:58.831736       1 log.go:244] FLAG: --audit-log-truncate-enabled="false"
+I0206 09:33:58.831738       1 log.go:244] FLAG: --audit-log-truncate-max-batch-size="10485760"
+I0206 09:33:58.831740       1 log.go:244] FLAG: --audit-log-truncate-max-event-size="102400"
+I0206 09:33:58.831742       1 log.go:244] FLAG: --audit-log-version="audit.k8s.io/v1"
+I0206 09:33:58.831746       1 log.go:244] FLAG: --audit-policy-file=""
+I0206 09:33:58.831748       1 log.go:244] FLAG: --audit-webhook-batch-buffer-size="10000"
+I0206 09:33:58.831750       1 log.go:244] FLAG: --audit-webhook-batch-initial-backoff="10s"
+I0206 09:33:58.831761       1 log.go:244] FLAG: --audit-webhook-batch-max-size="400"
+I0206 09:33:58.831763       1 log.go:244] FLAG: --audit-webhook-batch-max-wait="30s"
+I0206 09:33:58.831765       1 log.go:244] FLAG: --audit-webhook-batch-throttle-burst="15"
+I0206 09:33:58.831766       1 log.go:244] FLAG: --audit-webhook-batch-throttle-enable="true"
+I0206 09:33:58.831768       1 log.go:244] FLAG: --audit-webhook-batch-throttle-qps="10"
+I0206 09:33:58.831769       1 log.go:244] FLAG: --audit-webhook-config-file=""
+I0206 09:33:58.831771       1 log.go:244] FLAG: --audit-webhook-initial-backoff="10s"
+I0206 09:33:58.831773       1 log.go:244] FLAG: --audit-webhook-mode="batch"
+I0206 09:33:58.831775       1 log.go:244] FLAG: --audit-webhook-truncate-enabled="false"
+I0206 09:33:58.831776       1 log.go:244] FLAG: --audit-webhook-truncate-max-batch-size="10485760"
+I0206 09:33:58.831778       1 log.go:244] FLAG: --audit-webhook-truncate-max-event-size="102400"
+I0206 09:33:58.831780       1 log.go:244] FLAG: --audit-webhook-version="audit.k8s.io/v1"
+I0206 09:33:58.831781       1 log.go:244] FLAG: --authentication-configmap-namespace="kube-system"
+I0206 09:33:58.831783       1 log.go:244] FLAG: --authentication-kubeconfig=""
+I0206 09:33:58.831788       1 log.go:244] FLAG: --authentication-skip-lookup="false"
+I0206 09:33:58.831790       1 log.go:244] FLAG: --authentication-token-webhook-cache-ttl="***REDACTED***"
+I0206 09:33:58.831792       1 log.go:244] FLAG: --authentication-tolerate-lookup-failure="false"
+I0206 09:33:58.831796       1 log.go:244] FLAG: --authorization-always-allow-paths="[/healthz,/readyz,/livez]"
+I0206 09:33:58.831798       1 log.go:244] FLAG: --authorization-kubeconfig=""
+I0206 09:33:58.831800       1 log.go:244] FLAG: --authorization-webhook-cache-authorized-ttl="10s"
+I0206 09:33:58.831802       1 log.go:244] FLAG: --authorization-webhook-cache-unauthorized-ttl="10s"
+I0206 09:33:58.831804       1 log.go:244] FLAG: --baseURL=""
+I0206 09:33:58.831805       1 log.go:244] FLAG: --bind-address="0.0.0.0"
+I0206 09:33:58.831807       1 log.go:244] FLAG: --burst="1000000"
+I0206 09:33:58.831809       1 log.go:244] FLAG: --ca-file=""
+I0206 09:33:58.831810       1 log.go:244] FLAG: --cache-dir="/tmp/licenses"
+I0206 09:33:58.831812       1 log.go:244] FLAG: --cert-dir="apiserver.local.config/certificates"
+I0206 09:33:58.831814       1 log.go:244] FLAG: --client-ca-file=""
+I0206 09:33:58.831816       1 log.go:244] FLAG: --cluster-name="real-spoke1"
+I0206 09:33:58.831817       1 log.go:244] FLAG: --contention-profiling="false"
+I0206 09:33:58.831819       1 log.go:244] FLAG: --debug-socket-path=""
+I0206 09:33:58.831820       1 log.go:244] FLAG: --disable-http2-serving="false"
+I0206 09:33:58.831822       1 log.go:244] FLAG: --egress-selector-config-file=""
+I0206 09:33:58.831824       1 log.go:244] FLAG: --enable-priority-and-fairness="false"
+I0206 09:33:58.831825       1 log.go:244] FLAG: --feature-gates=""
+I0206 09:33:58.831827       1 log.go:244] FLAG: --help="false"
+I0206 09:33:58.831829       1 log.go:244] FLAG: --http2-max-streams-per-connection="1000"
+I0206 09:33:58.831831       1 log.go:244] FLAG: --hub-kubeconfig="/var/run/secrets/ocm/auth/kubeconfig"
+I0206 09:33:58.831832       1 log.go:244] FLAG: --insecure-skip-tls-verify="false"
+I0206 09:33:58.831834       1 log.go:244] FLAG: --kubeconfig=""
+I0206 09:33:58.831836       1 log.go:244] FLAG: --license-dir="/var/run/secrets/appscode/license"
+I0206 09:33:58.831838       1 log.go:244] FLAG: --log-backtrace-at=":0"
+I0206 09:33:58.831839       1 log.go:244] FLAG: --log-dir=""
+I0206 09:33:58.831841       1 log.go:244] FLAG: --log-file=""
+I0206 09:33:58.831842       1 log.go:244] FLAG: --log-file-max-size="1800"
+I0206 09:33:58.831844       1 log.go:244] FLAG: --log-flush-frequency="5s"
+I0206 09:33:58.831846       1 log.go:244] FLAG: --logtostderr="true"
+I0206 09:33:58.831850       1 log.go:244] FLAG: --one-output="false"
+I0206 09:33:58.831852       1 log.go:244] FLAG: --permit-address-sharing="false"
+I0206 09:33:58.831854       1 log.go:244] FLAG: --permit-port-sharing="false"
+I0206 09:33:58.831856       1 log.go:244] FLAG: --profiling="true"
+I0206 09:33:58.831857       1 log.go:244] FLAG: --qps="1e+06"
+I0206 09:33:58.831861       1 log.go:244] FLAG: --requestheader-allowed-names="[]"
+I0206 09:33:58.831863       1 log.go:244] FLAG: --requestheader-client-ca-file=""
+I0206 09:33:58.831868       1 log.go:244] FLAG: --requestheader-extra-headers-prefix="[x-remote-extra-]"
+I0206 09:33:58.831874       1 log.go:244] FLAG: --requestheader-group-headers="[x-remote-group]"
+I0206 09:33:58.831879       1 log.go:244] FLAG: --requestheader-uid-headers="[]"
+I0206 09:33:58.831884       1 log.go:244] FLAG: --requestheader-username-headers="[x-remote-user]"
+I0206 09:33:58.831887       1 log.go:244] FLAG: --secure-port="8443"
+I0206 09:33:58.831889       1 log.go:244] FLAG: --skip-headers="false"
+I0206 09:33:58.831891       1 log.go:244] FLAG: --skip-log-headers="false"
+I0206 09:33:58.831893       1 log.go:244] FLAG: --stderrthreshold="2"
+I0206 09:33:58.831896       1 log.go:244] FLAG: --tls-cert-file="/var/serving-cert/tls.crt"
+I0206 09:33:58.831901       1 log.go:244] FLAG: --tls-cipher-suites="[]"
+I0206 09:33:58.831904       1 log.go:244] FLAG: --tls-min-version=""
+I0206 09:33:58.831906       1 log.go:244] FLAG: --tls-private-key-file="/var/serving-cert/tls.key"
+I0206 09:33:58.831908       1 log.go:244] FLAG: --tls-sni-cert-key="[]"
+I0206 09:33:58.831909       1 log.go:244] FLAG: --token=""
+I0206 09:33:58.831912       1 log.go:244] FLAG: --tracing-config-file=""
+I0206 09:33:58.831913       1 log.go:244] FLAG: --use-kubeapiserver-fqdn-for-aks="true"
+I0206 09:33:58.831915       1 log.go:244] FLAG: --v="3"
+I0206 09:33:58.831917       1 log.go:244] FLAG: --vmodule=""
+I0206 09:33:58.831928       1 run.go:40] Starting license proxyserver version v0.0.26+841cf8cfa1c6dc548f46899a9698f82bfc1bcb15 ...
+I0206 09:33:58.832510       1 dynamic_serving_content.go:116] "Loaded a new cert/key pair" name="serving-cert::/var/serving-cert/tls.crt::/var/serving-cert/tls.key"
+I0206 09:33:58.976883       1 envvar.go:172] "Feature gate default state" feature="InOrderInformers" enabled=true
+I0206 09:33:58.976906       1 envvar.go:172] "Feature gate default state" feature="InformerResourceVersion" enabled=false
+I0206 09:33:58.976910       1 envvar.go:172] "Feature gate default state" feature="WatchListClient" enabled=false
+I0206 09:33:58.976914       1 envvar.go:172] "Feature gate default state" feature="ClientsAllowCBOR" enabled=false
+I0206 09:33:58.976917       1 envvar.go:172] "Feature gate default state" feature="ClientsPreferCBOR" enabled=false
+I0206 09:33:58.990586       1 requestheader_controller.go:255] Loaded a new request header values for RequestHeaderAuthRequestController
+I0206 09:33:58.991667       1 audit.go:293] No audit policy file provided, no events will be recorded for log backend
+I0206 09:33:58.998621       1 maxinflight.go:139] "Initialized nonMutatingChan" len=400
+I0206 09:33:58.998648       1 maxinflight.go:145] "Initialized mutatingChan" len=200
+I0206 09:33:58.998678       1 timing_ratio_histogram.go:203] "TimingRatioHistogramVec.NewForLabelValuesSafe hit the inefficient case" fqName="apiserver_flowcontrol_read_vs_write_current_requests" labelValues=["executing","readOnly"]
+I0206 09:33:58.998690       1 timing_ratio_histogram.go:203] "TimingRatioHistogramVec.NewForLabelValuesSafe hit the inefficient case" fqName="apiserver_flowcontrol_read_vs_write_current_requests" labelValues=["executing","mutating"]
+I0206 09:33:58.998716       1 maxinflight.go:116] "Set denominator for readonly requests" limit=400
+I0206 09:33:58.998723       1 maxinflight.go:120] "Set denominator for mutating requests" limit=200
+I0206 09:33:58.998978       1 config.go:942] Not requested to run hook priority-and-fairness-config-consumer
+I0206 09:33:59.019607       1 loader.go:73] "adding license" dir="/var/run/secrets/appscode/license" licenseID="6195746469964003255" product="kubedb" plan="kubedb-enterprise" expiry="06 Feb 26 10:32 UTC"
+I0206 09:33:59.019780       1 loader.go:73] "adding license" dir="/var/run/secrets/appscode/license" licenseID="521222224323038109" product="stash" plan="stash-enterprise" expiry="06 Feb 26 10:32 UTC"
+I0206 09:33:59.019901       1 loader.go:73] "adding license" dir="/tmp/licenses" licenseID="521222224323038109" product="stash" plan="stash-enterprise" expiry="06 Feb 26 10:32 UTC"
+I0206 09:33:59.019960       1 loader.go:73] "adding license" dir="/tmp/licenses" licenseID="6195746469964003255" product="kubedb" plan="kubedb-enterprise" expiry="06 Feb 26 10:32 UTC"
+I0206 09:33:59.020525       1 cert_rotation.go:141] "Starting client certificate rotation controller" logger="tls-transport-cache"
+I0206 09:33:59.043252       1 handler.go:285] Adding GroupVersion proxyserver.licenses.appscode.com v1alpha1 to ResourceManager
+I0206 09:33:59.043372       1 start.go:181] "starting manager" logger="setup"
+I0206 09:33:59.043415       1 server.go:208] "Starting metrics server" logger="controller-runtime.metrics"
+I0206 09:33:59.043514       1 server.go:247] "Serving metrics server" logger="controller-runtime.metrics" bindAddress=":8080" secure=false
+I0206 09:33:59.043624       1 start.go:172] "starting hub manager" logger="setup"
+I0206 09:33:59.043776       1 controller.go:353] "Starting EventSource" controller="secret" controllerGroup="" controllerKind="Secret" source="kind source: *v1.Secret"
+I0206 09:33:59.044022       1 reflector.go:358] "Starting reflector" logger="controller-runtime.cache" type="*v1.Secret" resyncPeriod="9h30m32.874191223s" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0206 09:33:59.044041       1 reflector.go:404] "Listing and watching" logger="controller-runtime.cache" type="*v1.Secret" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0206 09:33:59.045491       1 reflector.go:436] "Caches populated" logger="controller-runtime.cache" type="*v1.Secret" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0206 09:33:59.048265       1 genericapiserver.go:552] MuxAndDiscoveryComplete has all endpoints registered and discovery information is complete
+I0206 09:33:59.050401       1 configmap_cafile_content.go:205] "Starting controller" name="client-ca::kube-system::extension-apiserver-authentication::client-ca-file"
+I0206 09:33:59.050404       1 requestheader_controller.go:180] Starting RequestHeaderAuthRequestController
+I0206 09:33:59.050414       1 shared_informer.go:349] "Waiting for caches to sync" controller="client-ca::kube-system::extension-apiserver-authentication::client-ca-file"
+I0206 09:33:59.050415       1 shared_informer.go:349] "Waiting for caches to sync" controller="RequestHeaderAuthRequestController"
+I0206 09:33:59.050434       1 configmap_cafile_content.go:205] "Starting controller" name="client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file"
+I0206 09:33:59.050447       1 shared_informer.go:349] "Waiting for caches to sync" controller="client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file"
+I0206 09:33:59.050524       1 reflector.go:358] "Starting reflector" type="*v1.ConfigMap" resyncPeriod="12h0m0s" reflector="k8s.io/apiserver/pkg/server/dynamiccertificates/configmap_cafile_content.go:209"
+I0206 09:33:59.050535       1 reflector.go:404] "Listing and watching" type="*v1.ConfigMap" reflector="k8s.io/apiserver/pkg/server/dynamiccertificates/configmap_cafile_content.go:209"
+I0206 09:33:59.050545       1 reflector.go:358] "Starting reflector" type="*v1.ConfigMap" resyncPeriod="12h0m0s" reflector="k8s.io/apiserver/pkg/authentication/request/headerrequest/requestheader_controller.go:183"
+I0206 09:33:59.050551       1 reflector.go:404] "Listing and watching" type="*v1.ConfigMap" reflector="k8s.io/apiserver/pkg/authentication/request/headerrequest/requestheader_controller.go:183"
+I0206 09:33:59.050602       1 reflector.go:358] "Starting reflector" type="*v1.ConfigMap" resyncPeriod="12h0m0s" reflector="k8s.io/apiserver/pkg/server/dynamiccertificates/configmap_cafile_content.go:209"
+I0206 09:33:59.050628       1 reflector.go:404] "Listing and watching" type="*v1.ConfigMap" reflector="k8s.io/apiserver/pkg/server/dynamiccertificates/configmap_cafile_content.go:209"
+I0206 09:33:59.050634       1 dynamic_serving_content.go:135] "Starting controller" name="serving-cert::/var/serving-cert/tls.crt::/var/serving-cert/tls.key"
+I0206 09:33:59.050681       1 tlsconfig.go:203] "Loaded serving cert" certName="serving-cert::/var/serving-cert/tls.crt::/var/serving-cert/tls.key" certDetail="\"license-proxyserver.kubeops\" [serving] validServingFor=[license-proxyserver.kubeops,license-proxyserver.kubeops.svc] issuer=\"ca\" (2026-02-04 11:28:08 +0000 UTC to 2036-02-02 11:28:08 +0000 UTC (now=2026-02-06 09:33:59.050645133 +0000 UTC))"
+I0206 09:33:59.050798       1 named_certificates.go:53] "Loaded SNI cert" index=0 certName="self-signed loopback" certDetail="\"apiserver-loopback-client@1770370438\" [serving] validServingFor=[apiserver-loopback-client] issuer=\"apiserver-loopback-client-ca@1770370438\" (2026-02-06 08:33:58 +0000 UTC to 2029-02-06 08:33:58 +0000 UTC (now=2026-02-06 09:33:59.050786725 +0000 UTC))"
+I0206 09:33:59.050818       1 secure_serving.go:211] Serving securely on [::]:8443
+I0206 09:33:59.050849       1 genericapiserver.go:702] [graceful-termination] waiting for shutdown to be initiated
+I0206 09:33:59.050848       1 tlsconfig.go:243] "Starting DynamicServingCertificateController"
+I0206 09:33:59.051445       1 reflector.go:436] "Caches populated" type="*v1.ConfigMap" reflector="k8s.io/apiserver/pkg/authentication/request/headerrequest/requestheader_controller.go:183"
+I0206 09:33:59.051493       1 reflector.go:436] "Caches populated" type="*v1.ConfigMap" reflector="k8s.io/apiserver/pkg/server/dynamiccertificates/configmap_cafile_content.go:209"
+I0206 09:33:59.051632       1 reflector.go:436] "Caches populated" type="*v1.ConfigMap" reflector="k8s.io/apiserver/pkg/server/dynamiccertificates/configmap_cafile_content.go:209"
+I0206 09:33:59.144706       1 controller.go:286] "Starting Controller" controller="secret" controllerGroup="" controllerKind="Secret"
+I0206 09:33:59.144759       1 controller.go:289] "Starting workers" controller="secret" controllerGroup="" controllerKind="Secret" worker count=1
+I0206 09:33:59.144842       1 license_syncer.go:51] "Start reconciling" controller="secret" controllerGroup="" controllerKind="Secret" Secret="real-spoke1/license-proxyserver-licenses" namespace="real-spoke1" name="license-proxyserver-licenses" reconcileID="20ceba14-3b27-455a-8ed1-5aa633c167b9"
+I0206 09:33:59.145110       1 license_syncer.go:107] "adding license" licenseID="6195746469964003255" product="kubedb" plan="kubedb-enterprise" expiry="06 Feb 26 10:32 UTC"
+I0206 09:33:59.145219       1 license_syncer.go:107] "adding license" licenseID="521222224323038109" product="stash" plan="stash-enterprise" expiry="06 Feb 26 10:32 UTC"
+I0206 09:33:59.150499       1 shared_informer.go:356] "Caches are synced" controller="client-ca::kube-system::extension-apiserver-authentication::client-ca-file"
+I0206 09:33:59.150627       1 shared_informer.go:356] "Caches are synced" controller="client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file"
+I0206 09:33:59.150700       1 shared_informer.go:356] "Caches are synced" controller="RequestHeaderAuthRequestController"
+I0206 09:33:59.150722       1 tlsconfig.go:181] "Loaded client CA" index=0 certName="client-ca::kube-system::extension-apiserver-authentication::client-ca-file,client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file" certDetail="\"k3s-client-ca@1770203499\" [] issuer=\"<self>\" (2026-02-04 11:11:39 +0000 UTC to 2036-02-02 11:11:39 +0000 UTC (now=2026-02-06 09:33:59.150692871 +0000 UTC))"
+I0206 09:33:59.150907       1 tlsconfig.go:203] "Loaded serving cert" certName="serving-cert::/var/serving-cert/tls.crt::/var/serving-cert/tls.key" certDetail="\"license-proxyserver.kubeops\" [serving] validServingFor=[license-proxyserver.kubeops,license-proxyserver.kubeops.svc] issuer=\"ca\" (2026-02-04 11:28:08 +0000 UTC to 2036-02-02 11:28:08 +0000 UTC (now=2026-02-06 09:33:59.150894742 +0000 UTC))"
+I0206 09:33:59.151041       1 named_certificates.go:53] "Loaded SNI cert" index=0 certName="self-signed loopback" certDetail="\"apiserver-loopback-client@1770370438\" [serving] validServingFor=[apiserver-loopback-client] issuer=\"apiserver-loopback-client-ca@1770370438\" (2026-02-06 08:33:58 +0000 UTC to 2029-02-06 08:33:58 +0000 UTC (now=2026-02-06 09:33:59.151028884 +0000 UTC))"
+I0206 09:33:59.151087       1 tlsconfig.go:181] "Loaded client CA" index=0 certName="client-ca::kube-system::extension-apiserver-authentication::client-ca-file,client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file" certDetail="\"k3s-client-ca@1770203499\" [] issuer=\"<self>\" (2026-02-04 11:11:39 +0000 UTC to 2036-02-02 11:11:39 +0000 UTC (now=2026-02-06 09:33:59.151075965 +0000 UTC))"
+I0206 09:33:59.151098       1 tlsconfig.go:181] "Loaded client CA" index=1 certName="client-ca::kube-system::extension-apiserver-authentication::client-ca-file,client-ca::kube-system::extension-apiserver-authentication::requestheader-client-ca-file" certDetail="\"k3s-request-header-ca@1770203499\" [] issuer=\"<self>\" (2026-02-04 11:11:39 +0000 UTC to 2036-02-02 11:11:39 +0000 UTC (now=2026-02-06 09:33:59.151091664 +0000 UTC))"
+I0206 09:33:59.151089       1 license_syncer.go:82] "patched secret kubeops/license-proxyserver-licenses" controller="secret" controllerGroup="" controllerKind="Secret" Secret="real-spoke1/license-proxyserver-licenses" namespace="real-spoke1" name="license-proxyserver-licenses" reconcileID="20ceba14-3b27-455a-8ed1-5aa633c167b9"
+I0206 09:33:59.151235       1 tlsconfig.go:203] "Loaded serving cert" certName="serving-cert::/var/serving-cert/tls.crt::/var/serving-cert/tls.key" certDetail="\"license-proxyserver.kubeops\" [serving] validServingFor=[license-proxyserver.kubeops,license-proxyserver.kubeops.svc] issuer=\"ca\" (2026-02-04 11:28:08 +0000 UTC to 2036-02-02 11:28:08 +0000 UTC (now=2026-02-06 09:33:59.151226126 +0000 UTC))"
+I0206 09:33:59.151342       1 named_certificates.go:53] "Loaded SNI cert" index=0 certName="self-signed loopback" certDetail="\"apiserver-loopback-client@1770370438\" [serving] validServingFor=[apiserver-loopback-client] issuer=\"apiserver-loopback-client-ca@1770370438\" (2026-02-06 08:33:58 +0000 UTC to 2029-02-06 08:33:58 +0000 UTC (now=2026-02-06 09:33:59.151335116 +0000 UTC))"
+I0206 09:34:10.764957       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="588.296µs" userAgent="" audit-ID="09f86aa1-a6dd-485a-80da-2af8214e0ff7" srcIP="10.42.0.1:35066" resp=304
+I0206 09:35:10.760851       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="333.374µs" userAgent="" audit-ID="132235f9-d6f0-4778-a8be-86cf7489e4c9" srcIP="10.42.0.1:35066" resp=304
+I0206 09:36:10.761883       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="455.106µs" userAgent="" audit-ID="1fc5c130-c5b1-4ec8-b55f-957bba56e4c3" srcIP="10.42.0.1:35066" resp=304
+I0206 09:37:10.758964       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="466.597µs" userAgent="" audit-ID="da3f4c23-4013-4078-82f6-bc30b64eb646" srcIP="10.42.0.1:35066" resp=304
+I0206 09:37:25.609483       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="310.663µs" userAgent="" audit-ID="6427dbc6-4a51-4779-8791-14eeebf54d88" srcIP="10.42.0.1:35066" resp=304
+I0206 09:38:10.761882       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="447.727µs" userAgent="" audit-ID="25ad5654-da12-48af-b9e2-4d4e25f848b0" srcIP="10.42.0.1:35066" resp=304
+I0206 09:39:10.760344       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="335.455µs" userAgent="" audit-ID="1378bbb8-2fed-4c86-988f-0102aa26aac1" srcIP="10.42.0.1:35066" resp=304
+I0206 09:40:10.757580       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="486.999µs" userAgent="" audit-ID="54574c06-31cd-4d3d-9ec1-e1192af44d2e" srcIP="10.42.0.1:35066" resp=304
+I0206 09:41:10.760881       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="344.387µs" userAgent="" audit-ID="81d57cde-9ba3-46d5-b577-cc09db6d56c8" srcIP="10.42.0.1:35066" resp=304
+I0206 09:42:10.759765       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="522.08µs" userAgent="" audit-ID="f0add0d3-6a8c-48a5-beb2-2dabb93dca82" srcIP="10.42.0.1:35066" resp=304
+I0206 09:42:25.616967       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="288.325µs" userAgent="" audit-ID="e94dfdce-eb9b-4b37-a589-a589b243f8e2" srcIP="10.42.0.1:35066" resp=304
+I0206 09:43:10.762321       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="485.8µs" userAgent="" audit-ID="d193e506-5916-4fad-b8a4-285d42642509" srcIP="10.42.0.1:35066" resp=304
+I0206 09:44:10.761589       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="477.319µs" userAgent="" audit-ID="60ed8d5f-f3d7-49f8-a220-bed48a7b66c7" srcIP="10.42.0.1:35066" resp=304
+I0206 09:45:10.759089       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="546.052µs" userAgent="" audit-ID="f7097e34-baaa-4fa4-be5b-09f2bca7e087" srcIP="10.42.0.1:35066" resp=304
+I0206 09:46:10.757578       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="506.181µs" userAgent="" audit-ID="c27ef8f9-75c4-4b64-ba18-8803dc76d641" srcIP="10.42.0.1:35066" resp=304
+I0206 09:47:10.757243       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="477.191µs" userAgent="" audit-ID="51f6eac1-a084-432c-bf12-568a073208f3" srcIP="10.42.0.1:35066" resp=304
+I0206 09:47:25.630578       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="205.725µs" userAgent="" audit-ID="cdebe590-98a5-4d05-becf-a8d53269f636" srcIP="10.42.0.1:35066" resp=304
+I0206 09:48:10.757978       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="595.722µs" userAgent="" audit-ID="552970cf-662a-4542-a5fa-1e809f411fc9" srcIP="10.42.0.1:35066" resp=304
+I0206 09:49:10.757455       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="588.152µs" userAgent="" audit-ID="d070c53f-9599-4780-a6c6-992b16b2f6d5" srcIP="10.42.0.1:35066" resp=304
+I0206 09:50:10.757458       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="366.147µs" userAgent="" audit-ID="93b303b2-b3b4-4ef5-92a5-19a64485cd2c" srcIP="10.42.0.1:35066" resp=304
+I0206 09:51:10.761709       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="397.529µs" userAgent="" audit-ID="36f40b9f-23f5-444e-9842-0852189a5dff" srcIP="10.42.0.1:35066" resp=304
+I0206 09:52:10.758618       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="556.564µs" userAgent="" audit-ID="0218e03a-7c63-44e3-9e07-47208fe8e505" srcIP="10.42.0.1:35066" resp=304
+I0206 09:52:25.635392       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="196.905µs" userAgent="" audit-ID="af2535f6-5794-469b-8511-4c09b6862d5e" srcIP="10.42.0.1:35066" resp=304
+I0206 09:53:10.761324       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="377.039µs" userAgent="" audit-ID="41f64730-2f50-4812-b856-21a99179b236" srcIP="10.42.0.1:35066" resp=304
+I0206 09:54:10.759108       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="621.445µs" userAgent="" audit-ID="505f18d1-4564-4151-8a4d-7b603d9397ee" srcIP="10.42.0.1:35066" resp=304
+I0206 09:55:10.761700       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="492.812µs" userAgent="" audit-ID="86e77e5a-da32-425f-be29-47e6dfff4b34" srcIP="10.42.0.1:35066" resp=304
+I0206 09:56:10.761086       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="357.369µs" userAgent="" audit-ID="0c7dc6c8-6a5d-4f6a-a395-e73677041e1a" srcIP="10.42.0.1:35066" resp=304
+I0206 09:57:10.761369       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="559.403µs" userAgent="" audit-ID="1b7262fb-541e-4bab-a7d0-b4a05ee32845" srcIP="10.42.0.1:35066" resp=304
+I0206 09:57:25.625261       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="472.412µs" userAgent="" audit-ID="4e731ef1-6c9b-4e6f-b443-5a3dcbe30506" srcIP="10.42.0.1:35066" resp=304
+I0206 09:58:10.761221       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="539.893µs" userAgent="" audit-ID="07caf227-618c-4d21-b759-714343ad5d97" srcIP="10.42.0.1:35066" resp=304
+I0206 09:59:10.792859       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="424.62µs" userAgent="" audit-ID="589c9eb9-ce85-4a82-8c1b-e62b64bd865d" srcIP="10.42.0.1:35066" resp=304
+I0206 10:00:10.759029       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="436.47µs" userAgent="" audit-ID="ce24cec4-c889-48f6-b483-223720aa1ed7" srcIP="10.42.0.1:35066" resp=304
+I0206 10:01:10.762691       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="361.921µs" userAgent="" audit-ID="0255b2f0-f001-4cb8-becb-ff2c4771f09a" srcIP="10.42.0.1:35066" resp=304
+I0206 10:02:10.757213       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="485.063µs" userAgent="" audit-ID="8171c83f-77e0-418e-929e-517a877a8675" srcIP="10.42.0.1:35066" resp=304
+I0206 10:02:25.635154       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="248.841µs" userAgent="" audit-ID="3834537b-20ab-4036-a948-4e6a1dcd82e4" srcIP="10.42.0.1:35066" resp=304
+I0206 10:03:10.761012       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="305.403µs" userAgent="" audit-ID="9b6d1d15-b9ec-44d3-a57d-44acd08abb73" srcIP="10.42.0.1:35066" resp=304
+I0206 10:04:10.757356       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="442.494µs" userAgent="" audit-ID="392df2d0-ba69-40f6-9f80-e1dee296e2a0" srcIP="10.42.0.1:35066" resp=304
+I0206 10:05:10.761337       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="451.255µs" userAgent="" audit-ID="cfe22062-ff4d-4d56-b7ae-6fcf3110727b" srcIP="10.42.0.1:35066" resp=304
+I0206 10:06:10.757222       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="490.786µs" userAgent="" audit-ID="1e08be50-e2d4-4897-9731-497702e1fec6" srcIP="10.42.0.1:35066" resp=304
+I0206 10:07:10.760411       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="506.636µs" userAgent="" audit-ID="32b460fd-8b3e-498e-951e-d4a9c3d6c55f" srcIP="10.42.0.1:35066" resp=304
+I0206 10:07:25.653094       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="309.744µs" userAgent="" audit-ID="e26d28bc-b4c5-4c4b-b134-2de1a44b1f62" srcIP="10.42.0.1:35066" resp=304
+I0206 10:08:10.756995       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="332.415µs" userAgent="" audit-ID="da91e6b4-e275-412f-8e27-a00ea3863f17" srcIP="10.42.0.1:35066" resp=304
+I0206 10:09:10.759053       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="481.807µs" userAgent="" audit-ID="2159f9d9-8f12-4899-854a-fc2e0c47eb2c" srcIP="10.42.0.1:35066" resp=304
+I0206 10:10:10.760678       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="412.687µs" userAgent="" audit-ID="048e1118-1aa5-4695-a7b0-9fefc940d6b6" srcIP="10.42.0.1:35066" resp=304
+I0206 10:11:10.762399       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="557.889µs" userAgent="" audit-ID="0dc33835-7293-400e-b388-69c4d3955bdc" srcIP="10.42.0.1:35066" resp=304
+I0206 10:12:10.757347       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="433.906µs" userAgent="" audit-ID="14b8d873-1457-4e2b-9325-5a4722f3d399" srcIP="10.42.0.1:35066" resp=304
+I0206 10:12:25.662098       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="223.774µs" userAgent="" audit-ID="ce5c5de4-0567-4faa-88d2-cfd131d66902" srcIP="10.42.0.1:35066" resp=304
+I0206 10:13:10.761962       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="493.338µs" userAgent="" audit-ID="634547bb-358b-40db-82f1-3e795881df7c" srcIP="10.42.0.1:35066" resp=304
+I0206 10:14:10.758535       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="532.95µs" userAgent="" audit-ID="06d02d2c-1170-4d02-b1c7-6b6000c12a82" srcIP="10.42.0.1:35066" resp=304
+I0206 10:15:10.761068       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="597.51µs" userAgent="" audit-ID="0361f46c-1e61-4283-aaca-ae0898f2899f" srcIP="10.42.0.1:35066" resp=304
+I0206 10:16:10.757205       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="500.099µs" userAgent="" audit-ID="c7a17d49-7b92-4020-add4-8e8b1cfa815b" srcIP="10.42.0.1:35066" resp=304
+I0206 10:17:10.761038       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="417.798µs" userAgent="" audit-ID="13b9f0a2-8101-42b0-b76f-ca7183db8bf8" srcIP="10.42.0.1:35066" resp=304
+I0206 10:17:25.670721       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="279.376µs" userAgent="" audit-ID="9d86f7fb-275c-4987-8334-e7e96ef6ea8e" srcIP="10.42.0.1:35066" resp=304
+I0206 10:18:10.757297       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="482.23µs" userAgent="" audit-ID="bb3d2131-9d78-418a-b74f-ab32c9130ce5" srcIP="10.42.0.1:35066" resp=304
+I0206 10:19:10.757430       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="487.439µs" userAgent="" audit-ID="473b924e-f0c0-41a0-9ef1-36643674efcd" srcIP="10.42.0.1:35066" resp=304
+I0206 10:20:10.759995       1 httplog.go:134] "HTTP" verb="GET" URI="/apis" latency="400.919µs" userAgent="" audit-ID="d51fe51b-3325-4f8d-957f-79b90320f547" srcIP="10.42.0.1:35066" resp=304

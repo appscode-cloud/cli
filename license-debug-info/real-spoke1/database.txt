@@ -1,0 +1,192 @@
+
+
+===== Database status =====
+NAMESPACE   NAME                    VERSION   STATUS   AGE
+org1        mongodb.kubedb.com/mm   8.0.10    Ready    46h
+
+
+===== Database yamls =====
+apiVersion: v1
+items:
+- apiVersion: kubedb.com/v1
+  kind: MongoDB
+  metadata:
+    annotations:
+      app.kubernetes.io/cluster-tier: GeneralPurpose
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"kubedb.com/v1","kind":"MongoDB","metadata":{"annotations":{"app.kubernetes.io/cluster-tier":"GeneralPurpose","meta.helm.sh/release-name":"mm","meta.helm.sh/release-namespace":"org1"},"labels":{"app.kubernetes.io/instance":"mm","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/name":"mongodbs.kubedb.com"},"name":"mm","namespace":"org1"},"spec":{"deletionPolicy":"WipeOut","monitor":{"agent":"prometheus.io/operator","prometheus":{"exporter":{"args":["--compatible-mode"],"resources":{"limits":{"memory":"256Mi"},"requests":{"cpu":"100m","memory":"128Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsGroup":0,"runAsNonRoot":true,"runAsUser":999,"seccompProfile":{"type":"RuntimeDefault"}}},"serviceMonitor":{"interval":"30s","labels":{"release":"kube-prometheus-stack"}}}},"podTemplate":{"spec":{"containers":[{"name":"mongodb","resources":{"limits":{"cpu":"900m","memory":"1Gi"},"requests":{"cpu":"900m","memory":"1Gi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsGroup":0,"runAsNonRoot":true,"runAsUser":999,"seccompProfile":{"type":"RuntimeDefault"}}}],"initContainers":[{"name":"copy-config","resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"200m","memory":"256Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsGroup":0,"runAsNonRoot":true,"runAsUser":999,"seccompProfile":{"type":"RuntimeDefault"}}}],"nodeSelector":{"kubernetes.io/os":"linux"},"securityContext":{"fsGroup":999}}},"replicas":1,"storage":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"2Gi"}},"storageClassName":"local-path"},"storageType":"Durable","version":"8.0.10"}}
+      meta.helm.sh/release-name: mm
+      meta.helm.sh/release-namespace: org1
+    creationTimestamp: "2026-02-04T12:09:16Z"
+    finalizers:
+    - kubedb.com
+    generation: 2
+    labels:
+      app.kubernetes.io/instance: mm
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: mongodbs.kubedb.com
+    name: mm
+    namespace: org1
+    resourceVersion: "13659"
+    uid: 6d176ae0-adcb-444f-85a9-7d167f963030
+  spec:
+    allowedSchemas:
+      namespaces:
+        from: Same
+    authSecret:
+      activeFrom: "2026-02-04T12:09:17Z"
+      apiGroup: ""
+      kind: Secret
+      name: mm-auth
+    autoOps: {}
+    deletionPolicy: WipeOut
+    healthChecker:
+      failureThreshold: 1
+      periodSeconds: 10
+      timeoutSeconds: 10
+    monitor:
+      agent: prometheus.io/operator
+      prometheus:
+        exporter:
+          args:
+          - --compatible-mode
+          port: 56790
+          resources:
+            limits:
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            runAsGroup: 0
+            runAsNonRoot: true
+            runAsUser: 999
+            seccompProfile:
+              type: RuntimeDefault
+        serviceMonitor:
+          interval: 30s
+          labels:
+            release: kube-prometheus-stack
+    podTemplate:
+      controller: {}
+      metadata: {}
+      spec:
+        containers:
+        - livenessProbe:
+            exec:
+              command:
+              - bash
+              - -c
+              - "set -x; if [[ $(mongosh admin --host=localhost  --quiet --eval \"db.adminCommand('ping').ok\"
+                ) -eq \"1\" ]]; then \n          exit 0\n        fi\n        exit
+                1"
+            failureThreshold: 3
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          name: mongodb
+          readinessProbe:
+            exec:
+              command:
+              - bash
+              - -c
+              - "set -x; if [[ $(mongosh admin --host=localhost  --quiet --eval \"db.adminCommand('ping').ok\"
+                ) -eq \"1\" ]]; then \n          exit 0\n        fi\n        exit
+                1"
+            failureThreshold: 3
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          resources:
+            limits:
+              cpu: 900m
+              memory: 1Gi
+            requests:
+              cpu: 900m
+              memory: 1Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            runAsGroup: 0
+            runAsNonRoot: true
+            runAsUser: 999
+            seccompProfile:
+              type: RuntimeDefault
+        initContainers:
+        - name: copy-config
+          resources:
+            limits:
+              memory: 512Mi
+            requests:
+              cpu: 200m
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            runAsGroup: 0
+            runAsNonRoot: true
+            runAsUser: 999
+            seccompProfile:
+              type: RuntimeDefault
+        nodeSelector:
+          kubernetes.io/os: linux
+        podPlacementPolicy:
+          name: default
+        securityContext:
+          fsGroup: 999
+        serviceAccountName: mm
+    replicas: 1
+    sslMode: disabled
+    storage:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 2Gi
+      storageClassName: local-path
+    storageEngine: wiredTiger
+    storageType: Durable
+    version: 8.0.10
+  status:
+    conditions:
+    - lastTransitionTime: "2026-02-04T12:09:16Z"
+      message: 'The KubeDB operator has started the provisioning of MongoDB: org1/mm'
+      reason: DatabaseProvisioningStartedSuccessfully
+      status: "True"
+      type: ProvisioningStarted
+    - lastTransitionTime: "2026-02-04T12:12:01Z"
+      message: All desired replicas are ready.
+      reason: AllReplicasReady
+      status: "True"
+      type: ReplicaReady
+    - lastTransitionTime: "2026-02-04T12:13:36Z"
+      message: 'The MongoDB: org1/mm is accepting client requests.'
+      observedGeneration: 2
+      reason: DatabaseAcceptingConnectionRequest
+      status: "True"
+      type: AcceptingConnection
+    - lastTransitionTime: "2026-02-04T12:13:36Z"
+      message: 'The MongoDB: org1/mm is ready.'
+      observedGeneration: 2
+      reason: ReadinessCheckSucceeded
+      status: "True"
+      type: Ready
+    - lastTransitionTime: "2026-02-04T12:13:47Z"
+      message: 'The MongoDB: org1/mm is successfully provisioned.'
+      observedGeneration: 2
+      reason: DatabaseSuccessfullyProvisioned
+      status: "True"
+      type: Provisioned
+    observedGeneration: 2
+    phase: Ready
+kind: List
+metadata:
+  resourceVersion: ""

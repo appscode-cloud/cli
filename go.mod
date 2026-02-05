@@ -33,6 +33,7 @@ require (
 	kmodules.xyz/resource-metadata v0.40.2
 	kubedb.dev/apimachinery v0.60.0-rc.0.0.20251220111349-72d44c386702
 	kubeops.dev/installer v0.0.0-20250502231931-f9d6b5e4a0a3
+	open-cluster-management.io/api v1.0.0
 	sigs.k8s.io/controller-runtime v0.22.4
 	sigs.k8s.io/gateway-api v1.4.0
 	sigs.k8s.io/yaml v1.6.0
@@ -261,7 +262,6 @@ require (
 	kubeops.dev/sidekick v0.0.12 // indirect
 	kubestash.dev/apimachinery v0.22.0 // indirect
 	kubevault.dev/apimachinery v0.22.0 // indirect
-	open-cluster-management.io/api v1.0.0 // indirect
 	sigs.k8s.io/json v0.0.0-20250730193827-2d320260d730 // indirect
 	sigs.k8s.io/kustomize/api v0.20.1 // indirect
 	sigs.k8s.io/kustomize/kyaml v0.20.1 // indirect
