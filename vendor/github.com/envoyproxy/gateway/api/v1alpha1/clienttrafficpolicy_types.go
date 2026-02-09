@@ -7,7 +7,6 @@ package v1alpha1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	gwapiv1 "sigs.k8s.io/gateway-api/apis/v1"
 	gwapiv1a2 "sigs.k8s.io/gateway-api/apis/v1alpha2"
 )
 
@@ -56,8 +55,17 @@ type ClientTrafficPolicySpec struct {
 	// Note Proxy Protocol must be present when this field is set, else the connection
 	// is closed.
 	//
+	// Deprecated: Use ProxyProtocol instead.
+	//
 	// +optional
 	EnableProxyProtocol *bool `json:"enableProxyProtocol,omitempty"`
+	// ProxyProtocol configures the Proxy Protocol settings. When configured,
+	// the Proxy Protocol header will be interpreted and the Client Address
+	// will be added into the X-Forwarded-For header.
+	// If both EnableProxyProtocol and ProxyProtocol are set, ProxyProtocol takes precedence.
+	//
+	// +optional
+	ProxyProtocol *ProxyProtocolSettings `json:"proxyProtocol,omitempty"`
 	// ClientIPDetectionSettings provides configuration for determining the original client IP address for requests.
 	//
 	// +optional
@@ -101,6 +109,8 @@ type ClientTrafficPolicySpec struct {
 }
 
 // HeaderSettings provides configuration options for headers on the listener.
+//
+// +kubebuilder:validation:XValidation:rule="!(has(self.preserveXRequestID) && has(self.requestID))",message="preserveXRequestID and requestID cannot both be set."
 type HeaderSettings struct {
 	// EnableEnvoyHeaders configures Envoy Proxy to add the "X-Envoy-" headers to requests
 	// and responses.
@@ -131,16 +141,24 @@ type HeaderSettings struct {
 
 	// PreserveXRequestID configures Envoy to keep the X-Request-ID header if passed for a request that is edge
 	// (Edge request is the request from external clients to front Envoy) and not reset it, which is the current Envoy behaviour.
-	// It defaults to false.
+	// Defaults to false and cannot be combined with RequestID.
+	// Deprecated: use RequestID=Preserve instead
 	//
 	// +optional
 	PreserveXRequestID *bool `json:"preserveXRequestID,omitempty"`
+
+	// RequestID configures Envoy's behavior for handling the `X-Request-ID` header.
+	// Defaults to `Generate` and builds the `X-Request-ID` for every request and ignores pre-existing values from the edge.
+	// (An "edge request" refers to a request from an external client to the Envoy entrypoint.)
+	//
+	// +optional
+	RequestID *RequestIDAction `json:"requestID,omitempty"`
 
 	// EarlyRequestHeaders defines settings for early request header modification, before envoy performs
 	// routing, tracing and built-in header manipulation.
 	//
 	// +optional
-	EarlyRequestHeaders *gwapiv1.HTTPHeaderFilter `json:"earlyRequestHeaders,omitempty"`
+	EarlyRequestHeaders *HTTPHeaderFilter `json:"earlyRequestHeaders,omitempty"`
 }
 
 // WithUnderscoresAction configures the action to take when an HTTP header with underscores
@@ -158,6 +176,23 @@ const (
 	// is dropped before the filter chain is invoked and as such filters will not see
 	// dropped headers.
 	WithUnderscoresActionDropHeader WithUnderscoresAction = "DropHeader"
+)
+
+// RequestIDAction configures Envoy's behavior for handling the `X-Request-ID` header.
+//
+// +kubebuilder:validation:Enum=PreserveOrGenerate;Preserve;Generate;Disable
+type RequestIDAction string
+
+const (
+	// Preserve `X-Request-ID` if already present or generate if empty
+	RequestIDActionPreserveOrGenerate RequestIDAction = "PreserveOrGenerate"
+	// Preserve `X-Request-ID` if already present, do not generate when empty
+	RequestIDActionPreserve RequestIDAction = "Preserve"
+	// Always generate `X-Request-ID` header, do not preserve `X-Request-ID`
+	// header if it exists. This is the default behavior.
+	RequestIDActionGenerate RequestIDAction = "Generate"
+	// Do not preserve or generate `X-Request-ID` header
+	RequestIDActionDisable RequestIDAction = "Disable"
 )
 
 // XForwardedClientCert configures how Envoy Proxy handle the x-forwarded-client-cert (XFCC) HTTP header.
@@ -317,20 +352,24 @@ type HealthCheckSettings struct {
 	Path string `json:"path"`
 }
 
-const (
-	// PolicyConditionOverridden indicates whether the policy has
-	// completely attached to all the sections within the target or not.
+// ProxyProtocolSettings configures the Proxy Protocol settings. When configured,
+// the Proxy Protocol header will be interpreted and the Client Address
+// will be added into the X-Forwarded-For header.
+// If both EnableProxyProtocol and ProxyProtocol are set, ProxyProtocol takes precedence.
+//
+// +kubebuilder:validation:MinProperties=0
+type ProxyProtocolSettings struct {
+	// Optional allows requests without a Proxy Protocol header to be proxied.
+	// If set to true, the listener will accept requests without a Proxy Protocol header.
+	// If set to false, the listener will reject requests without a Proxy Protocol header.
+	// If not set, the default behavior is to reject requests without a Proxy Protocol header.
+	// Warning: Optional breaks conformance with the specification. Only enable if ALL traffic to the listener comes from a trusted source.
+	// For more information on security implications, see haproxy.org/download/2.1/doc/proxy-protocol.txt
 	//
-	// Possible reasons for this condition to be True are:
 	//
-	// * "Overridden"
-	//
-	PolicyConditionOverridden gwapiv1a2.PolicyConditionType = "Overridden"
-
-	// PolicyReasonOverridden is used with the "Overridden" condition when the policy
-	// has been overridden by another policy targeting a section within the same target.
-	PolicyReasonOverridden gwapiv1a2.PolicyConditionReason = "Overridden"
-)
+	// +optional
+	Optional *bool `json:"optional,omitempty"`
+}
 
 //+kubebuilder:object:root=true
 
