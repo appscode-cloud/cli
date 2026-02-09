@@ -3,7 +3,7 @@ module go.bytebuilders.dev/cli
 go 1.25.5
 
 require (
-	github.com/cert-manager/cert-manager v1.18.2
+	github.com/cert-manager/cert-manager v1.18.5
 	github.com/envoyproxy/gateway v1.3.3
 	github.com/fatih/color v1.18.0
 	github.com/fluxcd/helm-controller/api v1.2.0
