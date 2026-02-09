@@ -2018,6 +2018,7 @@ kubestash.dev/apimachinery/crds
 kubevault.dev/apimachinery/apis
 # open-cluster-management.io/api v1.0.0
 ## explicit; go 1.23.6
+open-cluster-management.io/api/cluster/v1
 open-cluster-management.io/api/work/v1
 # sigs.k8s.io/controller-runtime v0.22.4 => github.com/kmodules/controller-runtime v0.22.5-0.20251227114913-f011264689cd
 ## explicit; go 1.24.0

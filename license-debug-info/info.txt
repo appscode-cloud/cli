@@ -1,0 +1,49 @@
+
+
+===== License status =====
+ID                    PRODUCT    REQUESTER                                                CONTRACT   VALID   ROTATES
+5678393708850995250   kubedb     system:serviceaccount:kubedb:kubedb-kubedb-autoscaler    0          28d     13m
+1995419123776594989   kubedb     system:serviceaccount:kubedb:kubedb-kubedb-ops-manager   0          28d     13m
+2437633150122503557   kubedb     system:serviceaccount:kubedb:kubedb-kubedb-provisioner   0          28d     13m
+8737149402776739747   platform   system:serviceaccount:ace:ace                            0          28d     13m
+8525221360477846900   kubedb     system:serviceaccount:kubedb:kubedb-kubedb-ops-manager   0          28d     13m
+
+
+===== kube-system namespace =====
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: "2026-02-04T11:10:20Z"
+  labels:
+    kubernetes.io/metadata.name: kube-system
+  name: kube-system
+  resourceVersion: "9"
+  uid: 3296a985-5e4c-4a33-b378-a2ee3e5e2ea7
+spec:
+  finalizers:
+  - kubernetes
+status:
+  phase: Active
+
+
+===== License secret =====
+apiVersion: v1
+kind: Secret
+metadata:
+  annotations:
+    meta.helm.sh/release-name: license-proxyserver
+    meta.helm.sh/release-namespace: kubeops
+  creationTimestamp: "2026-02-04T11:13:44Z"
+  labels:
+    app.kubernetes.io/instance: license-proxyserver
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: license-proxyserver
+    app.kubernetes.io/version: v0.0.26
+    helm.sh/chart: license-proxyserver-v2026.1.15
+    helm.toolkit.fluxcd.io/name: license-proxyserver
+    helm.toolkit.fluxcd.io/namespace: kubeops
+  name: license-proxyserver-licenses
+  namespace: kubeops
+  resourceVersion: "1466"
+  uid: f7eb0b4d-b0e5-4840-ad0e-8f5b29eaaf30
+type: Opaque

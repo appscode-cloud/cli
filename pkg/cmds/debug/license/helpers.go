@@ -22,6 +22,8 @@ import (
 	"path"
 	"strings"
 
+	"go.bytebuilders.dev/cli/pkg/cmds/utils"
+
 	"gomodules.xyz/go-sh"
 )
 
@@ -32,24 +34,35 @@ const (
 	kubectlCommand = "kubectl"
 	defaultDir     = "license-debug-info"
 	defaultFile    = "info.txt"
+	databaseFile   = "database.txt"
 )
 
-func (g *licenseOpts) collectInfo() error {
+func (g *licenseOpts) collectInfo(s *spokeInfo) error {
+	fp := path.Join(g.rootPath, defaultFile)
+	if s != nil {
+		fp = path.Join(s.path, defaultFile)
+	}
 	out := []byte("\n\n===== License status =====\n")
 	args := []any{"get", "licensestatus"}
+	if s != nil {
+		args = append(args, "--kubeconfig", utils.DefaultPath)
+	}
 	o, err := sh.Command(kubectlCommand, args...).Output()
 	if err != nil {
 		return err
 	}
 	out = append(out, o...)
 
-	err = os.WriteFile(path.Join(g.rootPath, defaultFile), out, filePerm) // empty the file first, & write
+	err = os.WriteFile(fp, out, filePerm) // empty the file first, & write
 	if err != nil {
 		return err
 	}
 	// kube-system namespace
 	out = []byte("\n\n===== kube-system namespace =====\n")
 	args = []any{"get", "ns", "kube-system", "-o", "yaml"}
+	if s != nil {
+		args = append(args, "--kubeconfig", utils.DefaultPath)
+	}
 	o, err = sh.Command(kubectlCommand, args...).Output()
 	if err != nil {
 		return err
@@ -59,38 +72,50 @@ func (g *licenseOpts) collectInfo() error {
 	// license-proxyserver-licenses secret
 	out = append(out, []byte("\n\n===== License secret =====\n")...)
 	args = []any{"get", "secrets", "license-proxyserver-licenses", "-n", "kubeops", "-o", "yaml"}
+	if s != nil {
+		args = append(args, "--kubeconfig", utils.DefaultPath)
+	}
 	o, err = sh.Command(kubectlCommand, args...).Output()
 	if err != nil {
 		return err
 	}
 	out = append(out, o...)
-	err = g.writeContent(defaultFile, out)
+	err = g.writeContent(fp, out)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (g *licenseOpts) collectLogs(res, ns string) error {
+func (g *licenseOpts) collectLogs(s *spokeInfo, res, ns string) error {
+	parts := strings.Split(res, "/")
+	if len(parts) != 2 {
+		return fmt.Errorf("unexpected res: %s", parts)
+	}
+
+	fp := path.Join(g.rootPath, parts[1]+".log")
+	if s != nil {
+		fp = path.Join(s.path, parts[1]+".log")
+	}
+
 	args := []any{"logs", res, "-n", ns}
+	if s != nil {
+		args = append(args, "--kubeconfig", utils.DefaultPath)
+	}
 	out, err := sh.Command(kubectlCommand, args...).Output()
 	if err != nil {
 		return err
 	}
 
-	parts := strings.Split(res, "/")
-	if len(parts) != 2 {
-		return fmt.Errorf("unexpected res: %s", parts)
-	}
-	err = g.writeContent(parts[1]+".log", out)
+	err = g.writeContent(fp, out)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (g *licenseOpts) writeContent(fileName string, content []byte) error {
-	f, err := os.OpenFile(path.Join(g.rootPath, fileName), os.O_APPEND|os.O_CREATE|os.O_WRONLY, filePerm)
+func (g *licenseOpts) writeContent(fp string, content []byte) error {
+	f, err := os.OpenFile(fp, os.O_APPEND|os.O_CREATE|os.O_WRONLY, filePerm)
 	if err != nil {
 		return err
 	}

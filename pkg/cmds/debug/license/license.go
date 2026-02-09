@@ -21,13 +21,6 @@ import (
 	"os"
 	"path"
 
-	catalogapi "go.bytebuilders.dev/catalog/api/catalog/v1alpha1"
-	catgwapi "go.bytebuilders.dev/catalog/api/gateway/v1alpha1"
-
-	acmev1 "github.com/cert-manager/cert-manager/pkg/apis/acme/v1"
-	certv1 "github.com/cert-manager/cert-manager/pkg/apis/certmanager/v1"
-	egv1a1 "github.com/envoyproxy/gateway/api/v1alpha1"
-	flux "github.com/fluxcd/helm-controller/api/v2"
 	"github.com/spf13/cobra"
 	"k8s.io/apimachinery/pkg/runtime"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
@@ -37,28 +30,16 @@ import (
 	"k8s.io/klog/v2"
 	cmdutil "k8s.io/kubectl/pkg/cmd/util"
 	kubedbscheme "kubedb.dev/apimachinery/client/clientset/versioned/scheme"
+	ocmapi "open-cluster-management.io/api/cluster/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	gwapi "sigs.k8s.io/gateway-api/apis/v1"
-	gwapia3 "sigs.k8s.io/gateway-api/apis/v1alpha3"
-	gwapib1 "sigs.k8s.io/gateway-api/apis/v1beta1"
-	vgapi "voyagermesh.dev/gateway-api/apis/gateway/v1alpha1"
 )
 
 var scheme = runtime.NewScheme()
 
 func init() {
 	utilruntime.Must(clientgoscheme.AddToScheme(scheme))
-	utilruntime.Must(catalogapi.AddToScheme(scheme))
-	utilruntime.Must(catgwapi.AddToScheme(scheme))
 	utilruntime.Must(kubedbscheme.AddToScheme(scheme))
-	utilruntime.Must(gwapi.Install(scheme))
-	utilruntime.Must(gwapia3.Install(scheme))
-	utilruntime.Must(gwapib1.Install(scheme))
-	utilruntime.Must(vgapi.AddToScheme(scheme))
-	utilruntime.Must(egv1a1.AddToScheme(scheme))
-	utilruntime.Must(flux.AddToScheme(scheme))
-	utilruntime.Must(certv1.AddToScheme(scheme))
-	utilruntime.Must(acmev1.AddToScheme(scheme))
+	utilruntime.Must(ocmapi.AddToScheme(scheme))
 }
 
 func NewCmdLicense(f cmdutil.Factory) *cobra.Command {
@@ -69,7 +50,8 @@ func NewCmdLicense(f cmdutil.Factory) *cobra.Command {
 		DisableAutoGenTag: true,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			klog.Infof("The debug info will be generated in current directory under '%s' folder", defaultDir)
-			return opt.run()
+			_ = opt.run()
+			return opt.fun()
 		},
 	}
 	return cmd
@@ -112,13 +94,17 @@ func (g *licenseOpts) run() error {
 		return err
 	}
 
-	if err := g.collectInfo(); err != nil {
+	if err := g.collectInfo(nil); err != nil {
 		return err
 	}
-	if err := g.collectLogs("deploy/license-proxyserver", "kubeops"); err != nil {
+	if err := g.collectLogs(nil, "deploy/license-proxyserver", "kubeops"); err != nil {
 		return err
 	}
-	if err := g.collectLogs("sts/kubedb-kubedb-provisioner", "kubedb"); err != nil {
+	if err := g.collectLogs(nil, "sts/kubedb-kubedb-provisioner", "kubedb"); err != nil {
+		return err
+	}
+
+	if err := g.collectLogs(nil, "deploy/license-proxyserver-manager", "open-cluster-management-addon"); err != nil {
 		return err
 	}
 	return err

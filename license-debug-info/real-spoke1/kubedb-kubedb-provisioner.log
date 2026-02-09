@@ -1,0 +1,646 @@
+2026/02/04 12:59:37 maxprocs: Leaving GOMAXPROCS=24: CPU quota undefined
+W0204 12:59:37.791760       1 dialoptions.go:563] [core] Adjusting keepalive ping interval to minimum period of 10s
+I0204 12:59:37.828020       1 log.go:244] FLAG: --add-dir-header="false"
+I0204 12:59:37.828044       1 log.go:244] FLAG: --alsologtostderr="false"
+I0204 12:59:37.828049       1 log.go:244] FLAG: --burst="1000000"
+I0204 12:59:37.828053       1 log.go:244] FLAG: --default-seccomp-profile-type="RuntimeDefault"
+I0204 12:59:37.828057       1 log.go:244] FLAG: --enable-network-policy="false"
+I0204 12:59:37.828061       1 log.go:244] FLAG: --hdb.protTrace=""
+I0204 12:59:37.828065       1 log.go:244] FLAG: --hdb.sqlTrace=""
+I0204 12:59:37.828069       1 log.go:244] FLAG: --health-probe-bind-address=":8081"
+I0204 12:59:37.828072       1 log.go:244] FLAG: --help="false"
+I0204 12:59:37.828078       1 log.go:244] FLAG: --image-pull-secrets="***REDACTED***"
+I0204 12:59:37.828082       1 log.go:244] FLAG: --insecure-registries="[]"
+I0204 12:59:37.828085       1 log.go:244] FLAG: --kubeconfig=""
+I0204 12:59:37.828088       1 log.go:244] FLAG: --leader-elect="false"
+I0204 12:59:37.828092       1 log.go:244] FLAG: --license-file=""
+I0204 12:59:37.828095       1 log.go:244] FLAG: --log-backtrace-at=":0"
+I0204 12:59:37.828099       1 log.go:244] FLAG: --log-dir=""
+I0204 12:59:37.828103       1 log.go:244] FLAG: --log-file=""
+I0204 12:59:37.828107       1 log.go:244] FLAG: --log-file-max-size="1800"
+I0204 12:59:37.828111       1 log.go:244] FLAG: --log-flush-frequency="5s"
+I0204 12:59:37.828115       1 log.go:244] FLAG: --logtostderr="true"
+I0204 12:59:37.828119       1 log.go:244] FLAG: --master=""
+I0204 12:59:37.828122       1 log.go:244] FLAG: --max-concurrent-reconciles="2"
+I0204 12:59:37.828126       1 log.go:244] FLAG: --metrics-bind-address=":8080"
+I0204 12:59:37.828134       1 log.go:244] FLAG: --one-output="false"
+I0204 12:59:37.828158       1 log.go:244] FLAG: --qps="1e+06"
+I0204 12:59:37.828169       1 log.go:244] FLAG: --readiness-probe-interval="10s"
+I0204 12:59:37.828175       1 log.go:244] FLAG: --resync-period="10m0s"
+I0204 12:59:37.828178       1 log.go:244] FLAG: --shard-config=""
+I0204 12:59:37.828182       1 log.go:244] FLAG: --skip-headers="false"
+I0204 12:59:37.828186       1 log.go:244] FLAG: --skip-log-headers="false"
+I0204 12:59:37.828189       1 log.go:244] FLAG: --stderrthreshold="2"
+I0204 12:59:37.828193       1 log.go:244] FLAG: --use-kubeapiserver-fqdn-for-aks="true"
+I0204 12:59:37.828197       1 log.go:244] FLAG: --v="3"
+I0204 12:59:37.828202       1 log.go:244] FLAG: --vmodule=""
+I0204 12:59:37.829163       1 operator.go:39] Starting kubedb-provisioner...
+W0204 12:59:37.829192       1 client_config.go:667] Neither --kubeconfig nor --master was specified.  Using the inClusterConfig.  This might not work.
+I0204 12:59:37.845350       1 controller.go:78] Initializing PetSet watcher.....
+I0204 12:59:37.845409       1 controller.go:83] Initializing ManifestWork watcher.....
+I0204 12:59:37.845439       1 operator.go:387] "starting manager" logger="setup"
+I0204 12:59:37.845495       1 server.go:208] "Starting metrics server" logger="controller-runtime.metrics"
+I0204 12:59:37.845515       1 server.go:83] "starting server" name="health probe" addr="[::]:8081"
+I0204 12:59:37.845541       1 server.go:247] "Serving metrics server" logger="controller-runtime.metrics" bindAddress=":8080" secure=false
+I0204 12:59:37.845915       1 lib.go:234] Kubernetes version: &version.Info{Major:"1", Minor:"34", EmulationMajor:"1", EmulationMinor:"34", MinCompatibilityMajor:"1", MinCompatibilityMinor:"33", GitVersion:"v1.34.3+k3s1", GitCommit:"48ffa7b6893f21b919b3029d54c9d9838ae426a1", GitTreeState:"clean", BuildDate:"2025-12-19T18:40:57Z", GoVersion:"go1.24.11", Compiler:"gc", Platform:"linux/amd64"}
+I0204 12:59:37.846116       1 lib.go:296] Successfully verified license! Valid until: 04 Feb 26 13:59 UTC
+I0204 12:59:37.856243       1 controller.go:353] "Starting EventSource" controller="customresourcedefinition" controllerGroup="apiextensions.k8s.io" controllerKind="CustomResourceDefinition" source="kind source: *v1.CustomResourceDefinition"
+I0204 12:59:37.863163       1 reflector.go:358] "Starting reflector" logger="controller-runtime.cache" type="*v1.CustomResourceDefinition" resyncPeriod="9h50m22.35425088s" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:37.863174       1 reflector.go:404] "Listing and watching" logger="controller-runtime.cache" type="*v1.CustomResourceDefinition" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:38.618202       1 reflector.go:436] "Caches populated" logger="controller-runtime.cache" type="*v1.CustomResourceDefinition" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:38.664405       1 controller.go:286] "Starting Controller" controller="customresourcedefinition" controllerGroup="apiextensions.k8s.io" controllerKind="CustomResourceDefinition"
+I0204 12:59:38.664482       1 controller.go:289] "Starting workers" controller="customresourcedefinition" controllerGroup="apiextensions.k8s.io" controllerKind="CustomResourceDefinition" worker count=1
+I0204 12:59:38.673498       1 reflector.go:358] "Starting reflector" logger="controller-runtime.cache" type="*v1alpha1.ConnectCluster" resyncPeriod="10h29m18.67479694s" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:38.673512       1 controller.go:353] "Starting EventSource" controller="connectcluster" controllerGroup="kafka.kubedb.com" controllerKind="ConnectCluster" source="kind source: *v1.Secret"
+I0204 12:59:38.673520       1 reflector.go:404] "Listing and watching" logger="controller-runtime.cache" type="*v1alpha1.ConnectCluster" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:38.673554       1 controller.go:353] "Starting EventSource" controller="connectcluster" controllerGroup="kafka.kubedb.com" controllerKind="ConnectCluster" source="kind source: *v1.Service"
+I0204 12:59:38.673584       1 controller.go:353] "Starting EventSource" controller="connectcluster" controllerGroup="kafka.kubedb.com" controllerKind="ConnectCluster" source="kind source: *v1alpha1.ConnectCluster"
+I0204 12:59:38.673650       1 controller.go:353] "Starting EventSource" controller="connectcluster" controllerGroup="kafka.kubedb.com" controllerKind="ConnectCluster" source="kind source: *v1.PetSet"
+I0204 12:59:38.673744       1 reflector.go:358] "Starting reflector" logger="controller-runtime.cache" type="*v1.Secret" resyncPeriod="10h19m45.88647142s" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:38.673768       1 reflector.go:404] "Listing and watching" logger="controller-runtime.cache" type="*v1.Secret" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:38.673780       1 reflector.go:358] "Starting reflector" logger="controller-runtime.cache" type="*v1.Service" resyncPeriod="10h13m55.85845124s" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:38.673795       1 reflector.go:404] "Listing and watching" logger="controller-runtime.cache" type="*v1.Service" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:38.673889       1 reflector.go:358] "Starting reflector" logger="controller-runtime.cache" type="*v1.PetSet" resyncPeriod="10h7m51.552264912s" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:38.673899       1 reflector.go:404] "Listing and watching" logger="controller-runtime.cache" type="*v1.PetSet" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:38.675751       1 reflector.go:436] "Caches populated" logger="controller-runtime.cache" type="*v1.Service" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:38.676010       1 reflector.go:436] "Caches populated" logger="controller-runtime.cache" type="*v1alpha1.ConnectCluster" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:38.676337       1 reflector.go:436] "Caches populated" logger="controller-runtime.cache" type="*v1.PetSet" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:38.766355       1 reflector.go:436] "Caches populated" logger="controller-runtime.cache" type="*v1.Secret" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:38.773587       1 shared_informer.go:673] "Warning: resync period is smaller than resync check period and the informer has already started. Changing it to the resync check period" resyncPeriod="1h0m0s" resyncCheckPeriod="10h29m18.67479694s"
+I0204 12:59:38.774893       1 controller.go:286] "Starting Controller" controller="connectcluster" controllerGroup="kafka.kubedb.com" controllerKind="ConnectCluster"
+I0204 12:59:38.774910       1 controller.go:289] "Starting workers" controller="connectcluster" controllerGroup="kafka.kubedb.com" controllerKind="ConnectCluster" worker count=1
+I0204 12:59:38.784439       1 reflector.go:358] "Starting reflector" logger="controller-runtime.cache" type="*v1.Kafka" resyncPeriod="10h58m55.015509026s" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:38.784455       1 reflector.go:404] "Listing and watching" logger="controller-runtime.cache" type="*v1.Kafka" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:38.784498       1 controller.go:353] "Starting EventSource" controller="kafka" controllerGroup="kubedb.com" controllerKind="Kafka" source="kind source: *v1.Deployment"
+I0204 12:59:38.784514       1 controller.go:353] "Starting EventSource" controller="kafka" controllerGroup="kubedb.com" controllerKind="Kafka" source="kind source: *v1.Service"
+I0204 12:59:38.784532       1 controller.go:353] "Starting EventSource" controller="kafka" controllerGroup="kubedb.com" controllerKind="Kafka" source="kind source: *v1.Secret"
+I0204 12:59:38.784515       1 controller.go:353] "Starting EventSource" controller="kafka" controllerGroup="kubedb.com" controllerKind="Kafka" source="kind source: *v1.Kafka"
+I0204 12:59:38.784578       1 controller.go:353] "Starting EventSource" controller="kafka" controllerGroup="kubedb.com" controllerKind="Kafka" source="kind source: *v1.PetSet"
+I0204 12:59:38.784710       1 reflector.go:358] "Starting reflector" logger="controller-runtime.cache" type="*v1.Deployment" resyncPeriod="10h29m33.44662728s" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:38.784726       1 reflector.go:404] "Listing and watching" logger="controller-runtime.cache" type="*v1.Deployment" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:38.785972       1 reflector.go:436] "Caches populated" logger="controller-runtime.cache" type="*v1.Kafka" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:38.789773       1 reflector.go:436] "Caches populated" logger="controller-runtime.cache" type="*v1.Deployment" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:38.885378       1 shared_informer.go:673] "Warning: resync period is smaller than resync check period and the informer has already started. Changing it to the resync check period" resyncPeriod="1h0m0s" resyncCheckPeriod="10h58m55.015509026s"
+I0204 12:59:38.885536       1 controller.go:286] "Starting Controller" controller="kafka" controllerGroup="kubedb.com" controllerKind="Kafka"
+I0204 12:59:38.885556       1 controller.go:289] "Starting workers" controller="kafka" controllerGroup="kubedb.com" controllerKind="Kafka" worker count=1
+I0204 12:59:38.905683       1 run.go:33] Starting KubeDB controller
+I0204 12:59:38.905772       1 reflector.go:358] "Starting reflector" type="*v1.Pod" resyncPeriod="10m0s" reflector="k8s.io/client-go/informers/factory.go:160"
+I0204 12:59:38.905783       1 reflector.go:404] "Listing and watching" type="*v1.Pod" reflector="k8s.io/client-go/informers/factory.go:160"
+I0204 12:59:38.905783       1 reflector.go:358] "Starting reflector" type="*v1alpha1.ElasticsearchVersion" resyncPeriod="10m0s" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:38.905797       1 reflector.go:404] "Listing and watching" type="*v1alpha1.ElasticsearchVersion" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:38.905836       1 reflector.go:358] "Starting reflector" type="*v1.PetSet" resyncPeriod="10m0s" reflector="kubeops.dev/petset/client/informers/externalversions/factory.go:142"
+I0204 12:59:38.905847       1 reflector.go:404] "Listing and watching" type="*v1.PetSet" reflector="kubeops.dev/petset/client/informers/externalversions/factory.go:142"
+I0204 12:59:38.905846       1 reflector.go:358] "Starting reflector" type="*v1.Elasticsearch" resyncPeriod="10m0s" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:38.905861       1 reflector.go:404] "Listing and watching" type="*v1.Elasticsearch" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:38.905862       1 reflector.go:358] "Starting reflector" type="*v1.Node" resyncPeriod="10m0s" reflector="k8s.io/client-go/informers/factory.go:160"
+I0204 12:59:38.905875       1 reflector.go:404] "Listing and watching" type="*v1.Node" reflector="k8s.io/client-go/informers/factory.go:160"
+I0204 12:59:38.905773       1 reflector.go:358] "Starting reflector" type="*v1.PersistentVolumeClaim" resyncPeriod="10m0s" reflector="k8s.io/client-go/informers/factory.go:160"
+I0204 12:59:38.905895       1 reflector.go:358] "Starting reflector" type="*v1.Secret" resyncPeriod="10m0s" reflector="k8s.io/client-go/informers/factory.go:160"
+I0204 12:59:38.905911       1 reflector.go:404] "Listing and watching" type="*v1.Secret" reflector="k8s.io/client-go/informers/factory.go:160"
+I0204 12:59:38.905940       1 reflector.go:358] "Starting reflector" type="*v1.Namespace" resyncPeriod="10m0s" reflector="k8s.io/client-go/informers/factory.go:160"
+I0204 12:59:38.905952       1 reflector.go:404] "Listing and watching" type="*v1.Namespace" reflector="k8s.io/client-go/informers/factory.go:160"
+I0204 12:59:38.905991       1 reflector.go:404] "Listing and watching" type="*v1.PersistentVolumeClaim" reflector="k8s.io/client-go/informers/factory.go:160"
+I0204 12:59:38.907380       1 reflector.go:436] "Caches populated" type="*v1.Node" reflector="k8s.io/client-go/informers/factory.go:160"
+I0204 12:59:38.907587       1 reflector.go:436] "Caches populated" type="*v1.Namespace" reflector="k8s.io/client-go/informers/factory.go:160"
+I0204 12:59:38.907593       1 reflector.go:436] "Caches populated" type="*v1.Elasticsearch" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:38.907806       1 reflector.go:436] "Caches populated" type="*v1.PersistentVolumeClaim" reflector="k8s.io/client-go/informers/factory.go:160"
+I0204 12:59:38.908578       1 reflector.go:436] "Caches populated" type="*v1.PetSet" reflector="kubeops.dev/petset/client/informers/externalversions/factory.go:142"
+I0204 12:59:38.911834       1 reflector.go:436] "Caches populated" type="*v1alpha1.ElasticsearchVersion" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:38.916041       1 reflector.go:436] "Caches populated" type="*v1.Pod" reflector="k8s.io/client-go/informers/factory.go:160"
+I0204 12:59:39.003837       1 reflector.go:436] "Caches populated" type="*v1.Secret" reflector="k8s.io/client-go/informers/factory.go:160"
+I0204 12:59:39.005965       1 util.go:292] Looking for the Stash operator.......
+I0204 12:59:39.015068       1 reflector.go:358] "Starting reflector" logger="controller-runtime.cache" type="*v1alpha1.RestProxy" resyncPeriod="9h38m59.638500649s" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:39.015084       1 reflector.go:404] "Listing and watching" logger="controller-runtime.cache" type="*v1alpha1.RestProxy" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:39.015130       1 controller.go:353] "Starting EventSource" controller="restproxy" controllerGroup="kafka.kubedb.com" controllerKind="RestProxy" source="kind source: *v1.PetSet"
+I0204 12:59:39.015162       1 controller.go:353] "Starting EventSource" controller="restproxy" controllerGroup="kafka.kubedb.com" controllerKind="RestProxy" source="kind source: *v1.Service"
+I0204 12:59:39.015167       1 controller.go:353] "Starting EventSource" controller="restproxy" controllerGroup="kafka.kubedb.com" controllerKind="RestProxy" source="kind source: *v1alpha1.RestProxy"
+I0204 12:59:39.015147       1 controller.go:353] "Starting EventSource" controller="restproxy" controllerGroup="kafka.kubedb.com" controllerKind="RestProxy" source="kind source: *v1.Secret"
+I0204 12:59:39.015731       1 reflector.go:436] "Caches populated" logger="controller-runtime.cache" type="*v1alpha1.RestProxy" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:39.115427       1 shared_informer.go:673] "Warning: resync period is smaller than resync check period and the informer has already started. Changing it to the resync check period" resyncPeriod="1h0m0s" resyncCheckPeriod="9h38m59.638500649s"
+I0204 12:59:39.115717       1 controller.go:286] "Starting Controller" controller="restproxy" controllerGroup="kafka.kubedb.com" controllerKind="RestProxy"
+I0204 12:59:39.115741       1 controller.go:289] "Starting workers" controller="restproxy" controllerGroup="kafka.kubedb.com" controllerKind="RestProxy" worker count=1
+I0204 12:59:39.125835       1 run.go:33] Starting KubeDB controller
+I0204 12:59:39.125939       1 reflector.go:358] "Starting reflector" type="*v1.Job" resyncPeriod="10m0s" reflector="k8s.io/client-go/informers/factory.go:160"
+I0204 12:59:39.125953       1 reflector.go:404] "Listing and watching" type="*v1.Job" reflector="k8s.io/client-go/informers/factory.go:160"
+I0204 12:59:39.125992       1 reflector.go:358] "Starting reflector" type="*v1alpha1.MySQLArchiver" resyncPeriod="10m0s" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.126009       1 reflector.go:404] "Listing and watching" type="*v1alpha1.MySQLArchiver" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.126012       1 reflector.go:358] "Starting reflector" type="*v1.MySQL" resyncPeriod="10m0s" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.126025       1 reflector.go:404] "Listing and watching" type="*v1.MySQL" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.127306       1 reflector.go:436] "Caches populated" type="*v1.Job" reflector="k8s.io/client-go/informers/factory.go:160"
+I0204 12:59:39.127594       1 reflector.go:436] "Caches populated" type="*v1.MySQL" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.127902       1 reflector.go:436] "Caches populated" type="*v1alpha1.MySQLArchiver" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.226732       1 util.go:292] Looking for the Stash operator.......
+I0204 12:59:39.235251       1 reflector.go:358] "Starting reflector" logger="controller-runtime.cache" type="*v1alpha1.ElasticsearchDashboard" resyncPeriod="9h0m53.307168935s" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:39.235268       1 reflector.go:404] "Listing and watching" logger="controller-runtime.cache" type="*v1alpha1.ElasticsearchDashboard" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:39.235296       1 controller.go:353] "Starting EventSource" controller="elasticsearchdashboard" controllerGroup="elasticsearch.kubedb.com" controllerKind="ElasticsearchDashboard" source="kind source: *v1.Elasticsearch"
+I0204 12:59:39.235312       1 controller.go:353] "Starting EventSource" controller="elasticsearchdashboard" controllerGroup="elasticsearch.kubedb.com" controllerKind="ElasticsearchDashboard" source="kind source: *v1.Deployment"
+I0204 12:59:39.235316       1 controller.go:353] "Starting EventSource" controller="elasticsearchdashboard" controllerGroup="elasticsearch.kubedb.com" controllerKind="ElasticsearchDashboard" source="kind source: *v1.Service"
+I0204 12:59:39.235327       1 controller.go:353] "Starting EventSource" controller="elasticsearchdashboard" controllerGroup="elasticsearch.kubedb.com" controllerKind="ElasticsearchDashboard" source="kind source: *v1alpha1.ElasticsearchDashboard"
+I0204 12:59:39.235369       1 controller.go:353] "Starting EventSource" controller="elasticsearchdashboard" controllerGroup="elasticsearch.kubedb.com" controllerKind="ElasticsearchDashboard" source="kind source: *v1.Secret"
+I0204 12:59:39.235462       1 reflector.go:358] "Starting reflector" logger="controller-runtime.cache" type="*v1.Elasticsearch" resyncPeriod="9h44m41.21802954s" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:39.235473       1 reflector.go:404] "Listing and watching" logger="controller-runtime.cache" type="*v1.Elasticsearch" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:39.236101       1 reflector.go:436] "Caches populated" logger="controller-runtime.cache" type="*v1.Elasticsearch" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:39.236133       1 reflector.go:436] "Caches populated" logger="controller-runtime.cache" type="*v1alpha1.ElasticsearchDashboard" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:39.335751       1 shared_informer.go:673] "Warning: resync period is smaller than resync check period and the informer has already started. Changing it to the resync check period" resyncPeriod="1h0m0s" resyncCheckPeriod="9h0m53.307168935s"
+I0204 12:59:39.336075       1 controller.go:286] "Starting Controller" controller="elasticsearchdashboard" controllerGroup="elasticsearch.kubedb.com" controllerKind="ElasticsearchDashboard"
+I0204 12:59:39.336105       1 controller.go:289] "Starting workers" controller="elasticsearchdashboard" controllerGroup="elasticsearch.kubedb.com" controllerKind="ElasticsearchDashboard" worker count=1
+I0204 12:59:39.339182       1 util.go:310] Looking for the KubeStash operator.......
+I0204 12:59:39.345152       1 controller.go:353] "Starting EventSource" controller="RestoreSession.core.kubestash.com" controllerGroup="core.kubestash.com" controllerKind="RestoreSession" source="kind source: *v1alpha1.RestoreSession"
+I0204 12:59:39.345316       1 reflector.go:358] "Starting reflector" logger="controller-runtime.cache" type="*v1alpha1.RestoreSession" resyncPeriod="10h14m54.851448675s" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:39.345328       1 reflector.go:404] "Listing and watching" logger="controller-runtime.cache" type="*v1alpha1.RestoreSession" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:39.346293       1 reflector.go:436] "Caches populated" logger="controller-runtime.cache" type="*v1alpha1.RestoreSession" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:39.350417       1 run.go:33] Starting KubeDB controller
+I0204 12:59:39.350479       1 reflector.go:358] "Starting reflector" type="*v1.Redis" resyncPeriod="10m0s" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.350488       1 reflector.go:404] "Listing and watching" type="*v1.Redis" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.351601       1 reflector.go:436] "Caches populated" type="*v1.Redis" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.446067       1 controller.go:286] "Starting Controller" controller="RestoreSession.core.kubestash.com" controllerGroup="core.kubestash.com" controllerKind="RestoreSession"
+I0204 12:59:39.446088       1 controller.go:289] "Starting workers" controller="RestoreSession.core.kubestash.com" controllerGroup="core.kubestash.com" controllerKind="RestoreSession" worker count=1
+I0204 12:59:39.451310       1 util.go:292] Looking for the Stash operator.......
+I0204 12:59:39.458658       1 run.go:33] Starting KubeDB controller
+I0204 12:59:39.458720       1 reflector.go:358] "Starting reflector" type="*v1.MariaDB" resyncPeriod="10m0s" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.458727       1 reflector.go:404] "Listing and watching" type="*v1.MariaDB" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.458778       1 reflector.go:358] "Starting reflector" type="*v1alpha1.MariaDBArchiver" resyncPeriod="10m0s" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.458798       1 reflector.go:404] "Listing and watching" type="*v1alpha1.MariaDBArchiver" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.459603       1 reflector.go:436] "Caches populated" type="*v1.MariaDB" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.459844       1 reflector.go:436] "Caches populated" type="*v1alpha1.MariaDBArchiver" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.559746       1 util.go:292] Looking for the Stash operator.......
+I0204 12:59:39.567042       1 controller.go:353] "Starting EventSource" controller="schemaregistry" controllerGroup="kafka.kubedb.com" controllerKind="SchemaRegistry" source="kind source: *v1.PetSet"
+I0204 12:59:39.567065       1 controller.go:353] "Starting EventSource" controller="schemaregistry" controllerGroup="kafka.kubedb.com" controllerKind="SchemaRegistry" source="kind source: *v1.Secret"
+I0204 12:59:39.567079       1 controller.go:353] "Starting EventSource" controller="schemaregistry" controllerGroup="kafka.kubedb.com" controllerKind="SchemaRegistry" source="kind source: *v1.Service"
+I0204 12:59:39.567105       1 controller.go:353] "Starting EventSource" controller="schemaregistry" controllerGroup="kafka.kubedb.com" controllerKind="SchemaRegistry" source="kind source: *v1alpha1.SchemaRegistry"
+I0204 12:59:39.567068       1 reflector.go:358] "Starting reflector" logger="controller-runtime.cache" type="*v1alpha1.SchemaRegistry" resyncPeriod="10h0m16.649691633s" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:39.567181       1 reflector.go:404] "Listing and watching" logger="controller-runtime.cache" type="*v1alpha1.SchemaRegistry" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:39.568340       1 reflector.go:436] "Caches populated" logger="controller-runtime.cache" type="*v1alpha1.SchemaRegistry" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:39.667610       1 shared_informer.go:673] "Warning: resync period is smaller than resync check period and the informer has already started. Changing it to the resync check period" resyncPeriod="1h0m0s" resyncCheckPeriod="10h0m16.649691633s"
+I0204 12:59:39.667806       1 controller.go:286] "Starting Controller" controller="schemaregistry" controllerGroup="kafka.kubedb.com" controllerKind="SchemaRegistry"
+I0204 12:59:39.667842       1 controller.go:289] "Starting workers" controller="schemaregistry" controllerGroup="kafka.kubedb.com" controllerKind="SchemaRegistry" worker count=1
+I0204 12:59:39.675192       1 run.go:33] Starting KubeDB controller
+I0204 12:59:39.675263       1 reflector.go:358] "Starting reflector" type="*v1.Postgres" resyncPeriod="10m0s" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.675272       1 reflector.go:404] "Listing and watching" type="*v1.Postgres" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.675300       1 reflector.go:358] "Starting reflector" type="*v1alpha1.PostgresArchiver" resyncPeriod="10m0s" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.675323       1 reflector.go:404] "Listing and watching" type="*v1alpha1.PostgresArchiver" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.676453       1 reflector.go:436] "Caches populated" type="*v1.Postgres" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.676558       1 reflector.go:436] "Caches populated" type="*v1alpha1.PostgresArchiver" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.776002       1 util.go:292] Looking for the Stash operator.......
+I0204 12:59:39.802436       1 run.go:33] Starting KubeDB controller
+I0204 12:59:39.802515       1 reflector.go:358] "Starting reflector" type="*v1alpha1.MongoDBArchiver" resyncPeriod="10m0s" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.802527       1 reflector.go:404] "Listing and watching" type="*v1alpha1.MongoDBArchiver" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.802534       1 reflector.go:358] "Starting reflector" type="*v1.MongoDB" resyncPeriod="10m0s" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.802550       1 reflector.go:404] "Listing and watching" type="*v1.MongoDB" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+E0204 12:59:39.802615       1 workqueue.go:282] mongodb requeue on secret change failed for org1/mm, err: <nil>, key exists in indexer: false
+I0204 12:59:39.803769       1 reflector.go:436] "Caches populated" type="*v1alpha1.MongoDBArchiver" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.804343       1 reflector.go:436] "Caches populated" type="*v1.MongoDB" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.903193       1 util.go:292] Looking for the Stash operator.......
+I0204 12:59:39.911055       1 run.go:33] Starting KubeDB controller
+I0204 12:59:39.911154       1 reflector.go:358] "Starting reflector" type="*v1.RedisSentinel" resyncPeriod="10m0s" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.911164       1 reflector.go:404] "Listing and watching" type="*v1.RedisSentinel" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.912334       1 reflector.go:358] "Starting reflector" logger="controller-runtime.cache" type="*v1alpha1.MongoDBArchiver" resyncPeriod="10h57m24.157543632s" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:39.912364       1 reflector.go:436] "Caches populated" type="*v1.RedisSentinel" reflector="kubedb.dev/apimachinery/client/informers/externalversions/factory.go:152"
+I0204 12:59:39.912367       1 reflector.go:404] "Listing and watching" logger="controller-runtime.cache" type="*v1alpha1.MongoDBArchiver" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:39.913850       1 reflector.go:436] "Caches populated" logger="controller-runtime.cache" type="*v1alpha1.MongoDBArchiver" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:40.012129       1 util.go:292] Looking for the Stash operator.......
+I0204 12:59:40.014340       1 controller.go:353] "Starting EventSource" controller="connector" controllerGroup="kafka.kubedb.com" controllerKind="Connector" source="kind source: *v1.Secret"
+I0204 12:59:40.014361       1 controller.go:353] "Starting EventSource" controller="connector" controllerGroup="kafka.kubedb.com" controllerKind="Connector" source="kind source: *v1alpha1.Connector"
+I0204 12:59:40.018968       1 reflector.go:358] "Starting reflector" logger="controller-runtime.cache" type="*v1alpha1.Connector" resyncPeriod="10h14m8.987590925s" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:40.018988       1 reflector.go:404] "Listing and watching" logger="controller-runtime.cache" type="*v1alpha1.Connector" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:40.019104       1 reflector.go:358] "Starting reflector" logger="controller-runtime.cache" type="*v1alpha1.MongoDBVersion" resyncPeriod="9h28m58.039181761s" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:40.019118       1 reflector.go:404] "Listing and watching" logger="controller-runtime.cache" type="*v1alpha1.MongoDBVersion" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:40.020083       1 reflector.go:436] "Caches populated" logger="controller-runtime.cache" type="*v1alpha1.Connector" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:40.021316       1 reflector.go:436] "Caches populated" logger="controller-runtime.cache" type="*v1alpha1.MongoDBVersion" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:40.119344       1 shared_informer.go:673] "Warning: resync period is smaller than resync check period and the informer has already started. Changing it to the resync check period" resyncPeriod="1h0m0s" resyncCheckPeriod="10h14m8.987590925s"
+I0204 12:59:40.119506       1 reflector.go:358] "Starting reflector" logger="controller-runtime.cache" type="*v1.StorageClass" resyncPeriod="10h26m50.194830003s" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:40.119523       1 reflector.go:404] "Listing and watching" logger="controller-runtime.cache" type="*v1.StorageClass" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:40.120756       1 reflector.go:436] "Caches populated" logger="controller-runtime.cache" type="*v1.StorageClass" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:40.220393       1 controller.go:286] "Starting Controller" controller="connector" controllerGroup="kafka.kubedb.com" controllerKind="Connector"
+I0204 12:59:40.220425       1 controller.go:289] "Starting workers" controller="connector" controllerGroup="kafka.kubedb.com" controllerKind="Connector" worker count=1
+I0204 12:59:41.251511       1 reflector.go:358] "Starting reflector" logger="controller-runtime.cache" type="*v1.StatefulSet" resyncPeriod="9h18m13.655346486s" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:41.251527       1 reflector.go:404] "Listing and watching" logger="controller-runtime.cache" type="*v1.StatefulSet" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:41.253020       1 reflector.go:436] "Caches populated" logger="controller-runtime.cache" type="*v1.StatefulSet" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:49.912827       1 reflector.go:358] "Starting reflector" logger="controller-runtime.cache" type="*v1.MongoDB" resyncPeriod="9h31m48.670892865s" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:49.912851       1 reflector.go:404] "Listing and watching" logger="controller-runtime.cache" type="*v1.MongoDB" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 12:59:49.914127       1 reflector.go:436] "Caches populated" logger="controller-runtime.cache" type="*v1.MongoDB" reflector="sigs.k8s.io/controller-runtime/pkg/cache/internal/informers.go:114"
+I0204 13:37:46.588522       1 elasticsearch.go:78] Patching Elasticsearch kubedb/test-elasticsearch-hbzhp2 with {"metadata":{"finalizers":["kubedb.com"]}}.
+I0204 13:37:46.603122       1 warnings.go:110] "Warning: metadata.finalizers: \"kubedb.com\": prefer a domain-qualified finalizer name including a path (/) to avoid accidental conflicts with other finalizer writers"
+I0204 13:37:46.633198       1 elasticsearch.go:264] Elasticsearch kubedb/test-elasticsearch-hbzhp2 is halting...
+I0204 13:37:46.633226       1 dormant.go:137] deleting AppBindings of Elasticsearch kubedb/test-elasticsearch-hbzhp2.
+I0204 13:37:46.635272       1 dormant.go:150] deleting PodDisruptionBudget of Elasticsearch kubedb/test-elasticsearch-hbzhp2.
+I0204 13:37:46.637247       1 dormant.go:162] deleting PetSets of Elasticsearch kubedb/test-elasticsearch-hbzhp2.
+I0204 13:37:46.639227       1 dormant.go:175] deleting RoleBindings of Elasticsearch kubedb/test-elasticsearch-hbzhp2.
+I0204 13:37:46.641493       1 dormant.go:187] deleting Roles of Elasticsearch kubedb/test-elasticsearch-hbzhp2.
+I0204 13:37:46.643576       1 dormant.go:199] deleting ServiceAccounts of Elasticsearch kubedb/test-elasticsearch-hbzhp2.
+I0204 13:37:46.645472       1 dormant.go:213] deleting Services of Elasticsearch kubedb/test-elasticsearch-hbzhp2.
+I0204 13:37:46.647182       1 dormant.go:231] deleting Monitoring resources of Elasticsearch kubedb/test-elasticsearch-hbzhp2.
+I0204 13:37:46.647198       1 dormant.go:42] waiting for pods for Elasticsearch kubedb/test-elasticsearch-hbzhp2 to be deleted
+I0204 13:37:46.648961       1 dormant.go:47] waiting for services for Elasticsearch kubedb/test-elasticsearch-hbzhp2 to be deleted
+I0204 13:37:46.651536       1 dormant.go:72] waiting for petsets for Elasticsearch kubedb/test-elasticsearch-hbzhp2 to be deleted
+I0204 13:37:46.653126       1 elasticsearch.go:271] Elasticsearch kubedb/test-elasticsearch-hbzhp2 is Halted.
+I0204 13:37:46.682906       1 elasticsearch.go:264] Elasticsearch kubedb/test-elasticsearch-hbzhp2 is halting...
+I0204 13:37:46.682932       1 dormant.go:137] deleting AppBindings of Elasticsearch kubedb/test-elasticsearch-hbzhp2.
+I0204 13:37:46.735945       1 dormant.go:150] deleting PodDisruptionBudget of Elasticsearch kubedb/test-elasticsearch-hbzhp2.
+I0204 13:37:46.738163       1 dormant.go:162] deleting PetSets of Elasticsearch kubedb/test-elasticsearch-hbzhp2.
+I0204 13:37:46.740074       1 dormant.go:175] deleting RoleBindings of Elasticsearch kubedb/test-elasticsearch-hbzhp2.
+I0204 13:37:46.742012       1 dormant.go:187] deleting Roles of Elasticsearch kubedb/test-elasticsearch-hbzhp2.
+I0204 13:37:46.743854       1 dormant.go:199] deleting ServiceAccounts of Elasticsearch kubedb/test-elasticsearch-hbzhp2.
+I0204 13:37:46.745592       1 dormant.go:213] deleting Services of Elasticsearch kubedb/test-elasticsearch-hbzhp2.
+I0204 13:37:46.747293       1 dormant.go:231] deleting Monitoring resources of Elasticsearch kubedb/test-elasticsearch-hbzhp2.
+I0204 13:37:46.747304       1 dormant.go:42] waiting for pods for Elasticsearch kubedb/test-elasticsearch-hbzhp2 to be deleted
+I0204 13:37:46.748950       1 dormant.go:47] waiting for services for Elasticsearch kubedb/test-elasticsearch-hbzhp2 to be deleted
+I0204 13:37:46.752021       1 dormant.go:72] waiting for petsets for Elasticsearch kubedb/test-elasticsearch-hbzhp2 to be deleted
+I0204 13:37:46.753615       1 elasticsearch.go:271] Elasticsearch kubedb/test-elasticsearch-hbzhp2 is Halted.
+I0204 13:37:48.982470       1 elasticsearch.go:78] Patching Elasticsearch kubedb/test-elasticsearch-hbzhp2 with {"metadata":{"finalizers":null}}.
+I0204 13:37:51.818311       1 mariadb.go:78] Patching MariaDB kubedb/test-mariadb-p87rht with {"metadata":{"finalizers":["kubedb.com"]}}.
+I0204 13:37:51.829852       1 warnings.go:110] "Warning: metadata.finalizers: \"kubedb.com\": prefer a domain-qualified finalizer name including a path (/) to avoid accidental conflicts with other finalizer writers"
+I0204 13:37:51.880581       1 workqueue.go:173] MariaDB kubedb/test-mariadb-p87rht Phase changed from  to Provisioning. 
+I0204 13:37:51.885642       1 mariadb.go:274] Halting MariaDB kubedb/test-mariadb-p87rht
+I0204 13:37:51.885675       1 dormant.go:103] deleting AppBindings of MariaDB kubedb/test-mariadb-p87rht.
+I0204 13:37:51.890156       1 dormant.go:116] deleting PodDisruptionBudget of MariaDB kubedb/test-mariadb-p87rht.
+I0204 13:37:51.893811       1 dormant.go:126] deleting PetSets of MariaDB kubedb/test-mariadb-p87rht.
+I0204 13:37:51.897506       1 dormant.go:139] deleting Deployments of MariaDB kubedb/test-mariadb-p87rht.
+I0204 13:37:51.901436       1 dormant.go:152] deleting RoleBindings of MariaDB kubedb/test-mariadb-p87rht.
+I0204 13:37:51.904593       1 dormant.go:163] deleting Roles of MariaDB kubedb/test-mariadb-p87rht.
+I0204 13:37:51.907654       1 dormant.go:174] deleting ServiceAccounts of MariaDB kubedb/test-mariadb-p87rht.
+I0204 13:37:51.911250       1 dormant.go:188] deleting Services of MariaDB kubedb/test-mariadb-p87rht.
+I0204 13:37:51.916409       1 dormant.go:206] deleting Monitoring resources of MariaDB kubedb/test-mariadb-p87rht.
+I0204 13:37:51.916431       1 dormant.go:43] waiting for pods for MariaDB kubedb/test-mariadb-p87rht to be deleted
+I0204 13:37:51.919677       1 dormant.go:48] waiting for services for MariaDB kubedb/test-mariadb-p87rht to be deleted
+I0204 13:37:51.923347       1 dormant.go:69] waiting for RBACs for MariaDB kubedb/test-mariadb-p87rht to be deleted
+I0204 13:37:51.926077       1 dormant.go:78] waiting for petsets for MariaDB kubedb/test-mariadb-p87rht to be deleted
+I0204 13:37:51.928697       1 dormant.go:88] waiting for deployments for MariaDB kubedb/test-mariadb-p87rht to be deleted
+I0204 13:37:51.932432       1 mariadb.go:281] update status of MariaDB kubedb/test-mariadb-p87rht to Halted.
+I0204 13:37:51.962777       1 workqueue.go:173] MariaDB kubedb/test-mariadb-p87rht Phase changed from Provisioning to Halted. &Condition{ObservedGeneration:1,Type:AcceptingConnection,Status:False,Severity:,LastTransitionTime:2026-02-04 13:37:51 +0000 UTC,Reason:DatabaseHaltedSuccessfully,Message:The MariaDB: kubedb/test-mariadb-p87rht is not accepting client requests.,}
+I0204 13:37:51.965793       1 mariadb.go:274] Halting MariaDB kubedb/test-mariadb-p87rht
+I0204 13:37:51.965811       1 dormant.go:103] deleting AppBindings of MariaDB kubedb/test-mariadb-p87rht.
+I0204 13:37:51.989930       1 dormant.go:116] deleting PodDisruptionBudget of MariaDB kubedb/test-mariadb-p87rht.
+I0204 13:37:51.993599       1 dormant.go:126] deleting PetSets of MariaDB kubedb/test-mariadb-p87rht.
+I0204 13:37:51.998089       1 dormant.go:139] deleting Deployments of MariaDB kubedb/test-mariadb-p87rht.
+I0204 13:37:52.001964       1 dormant.go:152] deleting RoleBindings of MariaDB kubedb/test-mariadb-p87rht.
+I0204 13:37:52.005106       1 dormant.go:163] deleting Roles of MariaDB kubedb/test-mariadb-p87rht.
+I0204 13:37:52.007547       1 dormant.go:174] deleting ServiceAccounts of MariaDB kubedb/test-mariadb-p87rht.
+I0204 13:37:52.011901       1 dormant.go:188] deleting Services of MariaDB kubedb/test-mariadb-p87rht.
+I0204 13:37:52.014768       1 dormant.go:206] deleting Monitoring resources of MariaDB kubedb/test-mariadb-p87rht.
+I0204 13:37:52.014783       1 dormant.go:43] waiting for pods for MariaDB kubedb/test-mariadb-p87rht to be deleted
+I0204 13:37:52.020005       1 dormant.go:48] waiting for services for MariaDB kubedb/test-mariadb-p87rht to be deleted
+I0204 13:37:52.021832       1 dormant.go:69] waiting for RBACs for MariaDB kubedb/test-mariadb-p87rht to be deleted
+I0204 13:37:52.023388       1 dormant.go:78] waiting for petsets for MariaDB kubedb/test-mariadb-p87rht to be deleted
+I0204 13:37:52.024867       1 dormant.go:88] waiting for deployments for MariaDB kubedb/test-mariadb-p87rht to be deleted
+I0204 13:37:52.026124       1 mariadb.go:281] update status of MariaDB kubedb/test-mariadb-p87rht to Halted.
+I0204 13:37:54.005905       1 mariadb.go:78] Patching MariaDB kubedb/test-mariadb-p87rht with {"metadata":{"finalizers":null}}.
+I0204 13:37:56.652184       1 mongodb.go:78] Patching MongoDB kubedb/test-mongodb-klux5v with {"metadata":{"finalizers":["kubedb.com"]}}.
+I0204 13:37:56.665833       1 warnings.go:110] "Warning: metadata.finalizers: \"kubedb.com\": prefer a domain-qualified finalizer name including a path (/) to avoid accidental conflicts with other finalizer writers"
+I0204 13:37:56.698860       1 workqueue.go:162] Mongodb kubedb/test-mongodb-klux5v Phase changed from  to Provisioning. 
+I0204 13:37:56.702954       1 dormant.go:216] Halting MongoDB kubedb/test-mongodb-klux5v
+I0204 13:37:56.702997       1 dormant.go:96] deleting AppBindings of MongoDB kubedb/test-mongodb-klux5v.
+I0204 13:37:56.704851       1 dormant.go:121] deleting PetSets of MongoDB kubedb/test-mongodb-klux5v.
+I0204 13:37:56.706616       1 dormant.go:134] deleting Deployments of MongoDB kubedb/test-mongodb-klux5v.
+I0204 13:37:56.767720       1 dormant.go:147] deleting RoleBindings of MongoDB kubedb/test-mongodb-klux5v.
+I0204 13:37:56.770226       1 dormant.go:158] deleting Roles of MongoDB kubedb/test-mongodb-klux5v.
+I0204 13:37:56.772302       1 dormant.go:169] deleting ServiceAccounts of MongoDB kubedb/test-mongodb-klux5v.
+I0204 13:37:56.774095       1 dormant.go:183] deleting Services of MongoDB kubedb/test-mongodb-klux5v.
+I0204 13:37:56.775627       1 dormant.go:202] deleting Monitoring resources of MongoDB kubedb/test-mongodb-klux5v.
+I0204 13:37:56.775636       1 dormant.go:50] waiting for pods for Mongodb kubedb/test-mongodb-klux5v to be deleted
+I0204 13:37:56.777112       1 dormant.go:55] waiting for services for Mongodb kubedb/test-mongodb-klux5v to be deleted
+I0204 13:37:56.778640       1 dormant.go:72] waiting for RBACs for Mongodb kubedb/test-mongodb-klux5v to be deleted
+I0204 13:37:56.779912       1 dormant.go:81] waiting for petsets for Mongodb kubedb/test-mongodb-klux5v to be deleted
+I0204 13:37:56.781258       1 dormant.go:223] update status of MongoDB kubedb/test-mongodb-klux5v to Halted.
+I0204 13:37:56.805277       1 workqueue.go:162] Mongodb kubedb/test-mongodb-klux5v Phase changed from Provisioning to Halted. &Condition{ObservedGeneration:1,Type:AcceptingConnection,Status:False,Severity:,LastTransitionTime:2026-02-04 13:37:56 +0000 UTC,Reason:DatabaseHaltedSuccessfully,Message:The MongoDB: kubedb/test-mongodb-klux5v is not accepting client requests.,}
+I0204 13:37:56.809273       1 dormant.go:216] Halting MongoDB kubedb/test-mongodb-klux5v
+I0204 13:37:56.809297       1 dormant.go:96] deleting AppBindings of MongoDB kubedb/test-mongodb-klux5v.
+I0204 13:37:56.811318       1 dormant.go:121] deleting PetSets of MongoDB kubedb/test-mongodb-klux5v.
+I0204 13:37:56.813493       1 dormant.go:134] deleting Deployments of MongoDB kubedb/test-mongodb-klux5v.
+I0204 13:37:56.868575       1 dormant.go:147] deleting RoleBindings of MongoDB kubedb/test-mongodb-klux5v.
+I0204 13:37:56.870969       1 dormant.go:158] deleting Roles of MongoDB kubedb/test-mongodb-klux5v.
+I0204 13:37:56.872745       1 dormant.go:169] deleting ServiceAccounts of MongoDB kubedb/test-mongodb-klux5v.
+I0204 13:37:56.874542       1 dormant.go:183] deleting Services of MongoDB kubedb/test-mongodb-klux5v.
+I0204 13:37:56.876180       1 dormant.go:202] deleting Monitoring resources of MongoDB kubedb/test-mongodb-klux5v.
+I0204 13:37:56.876192       1 dormant.go:50] waiting for pods for Mongodb kubedb/test-mongodb-klux5v to be deleted
+I0204 13:37:56.877671       1 dormant.go:55] waiting for services for Mongodb kubedb/test-mongodb-klux5v to be deleted
+I0204 13:37:56.878825       1 dormant.go:72] waiting for RBACs for Mongodb kubedb/test-mongodb-klux5v to be deleted
+I0204 13:37:56.880071       1 dormant.go:81] waiting for petsets for Mongodb kubedb/test-mongodb-klux5v to be deleted
+I0204 13:37:56.881455       1 dormant.go:223] update status of MongoDB kubedb/test-mongodb-klux5v to Halted.
+I0204 13:37:59.147521       1 mongodb.go:78] Patching MongoDB kubedb/test-mongodb-klux5v with {"metadata":{"finalizers":null}}.
+I0204 13:38:01.688586       1 mysql.go:78] Patching MySQL kubedb/test-mysql-4ckftr with {"metadata":{"finalizers":["kubedb.com"]}}.
+I0204 13:38:01.702523       1 warnings.go:110] "Warning: metadata.finalizers: \"kubedb.com\": prefer a domain-qualified finalizer name including a path (/) to avoid accidental conflicts with other finalizer writers"
+I0204 13:38:01.737906       1 workqueue.go:172] MySQL kubedb/test-mysql-4ckftr Phase changed from  to Provisioning. 
+I0204 13:38:01.741867       1 mysql.go:258] Halting MySQL kubedb/test-mysql-4ckftr
+I0204 13:38:01.741888       1 dormant.go:137] deleting AppBindings of MySQL kubedb/test-mysql-4ckftr.
+I0204 13:38:01.744524       1 dormant.go:150] deleting PodDisruptionBudget of MySQL kubedb/test-mysql-4ckftr.
+I0204 13:38:01.746450       1 dormant.go:158] deleting PetSets of MySQL kubedb/test-mysql-4ckftr.
+I0204 13:38:01.748440       1 dormant.go:171] deleting RoleBindings of MySQL kubedb/test-mysql-4ckftr.
+I0204 13:38:01.749800       1 dormant.go:182] deleting Roles of MySQL kubedb/test-mysql-4ckftr.
+I0204 13:38:01.751201       1 dormant.go:193] deleting ServiceAccounts of MySQL kubedb/test-mysql-4ckftr.
+I0204 13:38:01.752671       1 dormant.go:207] deleting Services of MySQL kubedb/test-mysql-4ckftr.
+I0204 13:38:01.753986       1 dormant.go:225] deleting Monitoring resources of MySQL kubedb/test-mysql-4ckftr.
+I0204 13:38:01.753994       1 dormant.go:41] waiting for pods for MySQL kubedb/test-mysql-4ckftr to be deleted
+I0204 13:38:01.755396       1 dormant.go:46] waiting for services for MySQL kubedb/test-mysql-4ckftr to be deleted
+I0204 13:38:01.758489       1 dormant.go:71] waiting for PetSets for MySQL kubedb/test-mysql-4ckftr to be deleted
+I0204 13:38:01.760404       1 mysql.go:265] update status of MySQL kubedb/test-mysql-4ckftr to Halted.
+I0204 13:38:01.785127       1 workqueue.go:172] MySQL kubedb/test-mysql-4ckftr Phase changed from Provisioning to Halted. &Condition{ObservedGeneration:1,Type:AcceptingConnection,Status:False,Severity:,LastTransitionTime:2026-02-04 13:38:01 +0000 UTC,Reason:DatabaseHaltedSuccessfully,Message:The MySQL: kubedb/test-mysql-4ckftr is not accepting client requests.,}
+I0204 13:38:01.788055       1 mysql.go:258] Halting MySQL kubedb/test-mysql-4ckftr
+I0204 13:38:01.788076       1 dormant.go:137] deleting AppBindings of MySQL kubedb/test-mysql-4ckftr.
+I0204 13:38:01.845305       1 dormant.go:150] deleting PodDisruptionBudget of MySQL kubedb/test-mysql-4ckftr.
+I0204 13:38:01.847952       1 dormant.go:158] deleting PetSets of MySQL kubedb/test-mysql-4ckftr.
+I0204 13:38:01.850765       1 dormant.go:171] deleting RoleBindings of MySQL kubedb/test-mysql-4ckftr.
+I0204 13:38:01.853136       1 dormant.go:182] deleting Roles of MySQL kubedb/test-mysql-4ckftr.
+I0204 13:38:01.855075       1 dormant.go:193] deleting ServiceAccounts of MySQL kubedb/test-mysql-4ckftr.
+I0204 13:38:01.856732       1 dormant.go:207] deleting Services of MySQL kubedb/test-mysql-4ckftr.
+I0204 13:38:01.858024       1 dormant.go:225] deleting Monitoring resources of MySQL kubedb/test-mysql-4ckftr.
+I0204 13:38:01.858032       1 dormant.go:41] waiting for pods for MySQL kubedb/test-mysql-4ckftr to be deleted
+I0204 13:38:01.859857       1 dormant.go:46] waiting for services for MySQL kubedb/test-mysql-4ckftr to be deleted
+I0204 13:38:01.863593       1 dormant.go:71] waiting for PetSets for MySQL kubedb/test-mysql-4ckftr to be deleted
+I0204 13:38:01.865018       1 mysql.go:265] update status of MySQL kubedb/test-mysql-4ckftr to Halted.
+I0204 13:38:04.178127       1 clusterrolebinding.go:37] Creating ClusterRoleBinding kubedb:mysqlversion-reader.
+I0204 13:38:04.183382       1 mysql.go:78] Patching MySQL kubedb/test-mysql-4ckftr with {"metadata":{"finalizers":null}}.
+I0204 13:38:06.838683       1 postgres.go:78] Patching Postgres kubedb/test-postgres-mcyc2p with {"metadata":{"finalizers":["kubedb.com"]}}.
+I0204 13:38:06.850418       1 warnings.go:110] "Warning: metadata.finalizers: \"kubedb.com\": prefer a domain-qualified finalizer name including a path (/) to avoid accidental conflicts with other finalizer writers"
+I0204 13:38:06.886830       1 postgres.go:280] Halting Postgres kubedb/test-postgres-mcyc2p
+I0204 13:38:06.886861       1 dormant.go:165] deleting AppBindings of Postgres kubedb/test-postgres-mcyc2p.
+I0204 13:38:06.890465       1 dormant.go:182] deleting PetSets of Postgres kubedb/test-postgres-mcyc2p.
+I0204 13:38:06.941168       1 dormant.go:194] deleting RoleBindings of Postgres kubedb/test-postgres-mcyc2p.
+I0204 13:38:06.943405       1 dormant.go:205] deleting Roles of Postgres kubedb/test-postgres-mcyc2p.
+I0204 13:38:06.945486       1 dormant.go:216] deleting ServiceAccounts of Postgres kubedb/test-postgres-mcyc2p.
+I0204 13:38:06.947573       1 dormant.go:228] deleting Services of Postgres kubedb/test-postgres-mcyc2p.
+I0204 13:38:06.949705       1 dormant.go:247] deleting Monitoring resources of Postgres kubedb/test-postgres-mcyc2p.
+I0204 13:38:06.949718       1 dormant.go:46] waiting for pods for Postgres kubedb/test-postgres-mcyc2p to be deleted
+I0204 13:38:06.951690       1 dormant.go:52] waiting for services for Postgres kubedb/test-postgres-mcyc2p to be deleted
+I0204 13:38:06.957618       1 dormant.go:87] waiting for petsets for Postgres kubedb/test-postgres-mcyc2p to be deleted
+I0204 13:38:06.959210       1 postgres.go:287] update status of Postgres kubedb/test-postgres-mcyc2p to Halted.
+I0204 13:38:06.984031       1 postgres.go:280] Halting Postgres kubedb/test-postgres-mcyc2p
+I0204 13:38:06.984053       1 dormant.go:165] deleting AppBindings of Postgres kubedb/test-postgres-mcyc2p.
+I0204 13:38:06.991624       1 dormant.go:182] deleting PetSets of Postgres kubedb/test-postgres-mcyc2p.
+I0204 13:38:07.041809       1 dormant.go:194] deleting RoleBindings of Postgres kubedb/test-postgres-mcyc2p.
+I0204 13:38:07.044433       1 dormant.go:205] deleting Roles of Postgres kubedb/test-postgres-mcyc2p.
+I0204 13:38:07.046608       1 dormant.go:216] deleting ServiceAccounts of Postgres kubedb/test-postgres-mcyc2p.
+I0204 13:38:07.048939       1 dormant.go:228] deleting Services of Postgres kubedb/test-postgres-mcyc2p.
+I0204 13:38:07.050966       1 dormant.go:247] deleting Monitoring resources of Postgres kubedb/test-postgres-mcyc2p.
+I0204 13:38:07.050979       1 dormant.go:46] waiting for pods for Postgres kubedb/test-postgres-mcyc2p to be deleted
+I0204 13:38:07.052294       1 dormant.go:52] waiting for services for Postgres kubedb/test-postgres-mcyc2p to be deleted
+I0204 13:38:07.057889       1 dormant.go:87] waiting for petsets for Postgres kubedb/test-postgres-mcyc2p to be deleted
+I0204 13:38:07.060126       1 postgres.go:287] update status of Postgres kubedb/test-postgres-mcyc2p to Halted.
+I0204 13:38:09.331983       1 postgres.go:78] Patching Postgres kubedb/test-postgres-mcyc2p with {"metadata":{"finalizers":null}}.
+I0204 13:38:12.174411       1 redis.go:78] Patching Redis kubedb/test-redis-7yh0e6 with {"metadata":{"finalizers":["kubedb.com"]}}.
+I0204 13:38:12.186065       1 warnings.go:110] "Warning: metadata.finalizers: \"kubedb.com\": prefer a domain-qualified finalizer name including a path (/) to avoid accidental conflicts with other finalizer writers"
+I0204 13:38:12.217631       1 redis.go:280] Halting Redis kubedb/test-redis-7yh0e6
+I0204 13:38:12.217654       1 dormant.go:154] deleting AppBindings of Redis kubedb/test-redis-7yh0e6.
+I0204 13:38:12.219119       1 dormant.go:167] deleting PodDisruptionBudget of Redis kubedb/test-redis-7yh0e6.
+I0204 13:38:12.220737       1 dormant.go:180] deleting PetSets of Redis kubedb/test-redis-7yh0e6.
+I0204 13:38:12.277944       1 dormant.go:193] deleting Deployments of Redis kubedb/test-redis-7yh0e6.
+I0204 13:38:12.281044       1 dormant.go:206] deleting RoleBindings of Redis kubedb/test-redis-7yh0e6.
+I0204 13:38:12.283557       1 dormant.go:217] deleting Roles of Redis kubedb/test-redis-7yh0e6.
+I0204 13:38:12.285690       1 dormant.go:228] deleting ServiceAccounts of Redis kubedb/test-redis-7yh0e6.
+I0204 13:38:12.287645       1 dormant.go:242] deleting Services of Redis kubedb/test-redis-7yh0e6.
+I0204 13:38:12.289869       1 dormant.go:260] deleting Monitoring resources of Redis kubedb/test-redis-7yh0e6.
+I0204 13:38:12.289894       1 dormant.go:43] waiting for pods for Redis kubedb/test-redis-7yh0e6 to be deleted
+I0204 13:38:12.298863       1 dormant.go:48] waiting for services for Redis kubedb/test-redis-7yh0e6 to be deleted
+I0204 13:38:12.302104       1 dormant.go:74] waiting for petsets for Redis kubedb/test-redis-7yh0e6 to be deleted
+I0204 13:38:12.304746       1 redis.go:287] update status of Redis kubedb/test-redis-7yh0e6 to Halted.
+I0204 13:38:12.328985       1 redis.go:280] Halting Redis kubedb/test-redis-7yh0e6
+I0204 13:38:12.329003       1 dormant.go:154] deleting AppBindings of Redis kubedb/test-redis-7yh0e6.
+I0204 13:38:12.330740       1 dormant.go:167] deleting PodDisruptionBudget of Redis kubedb/test-redis-7yh0e6.
+I0204 13:38:12.332281       1 dormant.go:180] deleting PetSets of Redis kubedb/test-redis-7yh0e6.
+I0204 13:38:12.378082       1 dormant.go:193] deleting Deployments of Redis kubedb/test-redis-7yh0e6.
+I0204 13:38:12.381374       1 dormant.go:206] deleting RoleBindings of Redis kubedb/test-redis-7yh0e6.
+I0204 13:38:12.384348       1 dormant.go:217] deleting Roles of Redis kubedb/test-redis-7yh0e6.
+I0204 13:38:12.386832       1 dormant.go:228] deleting ServiceAccounts of Redis kubedb/test-redis-7yh0e6.
+I0204 13:38:12.389492       1 dormant.go:242] deleting Services of Redis kubedb/test-redis-7yh0e6.
+I0204 13:38:12.391838       1 dormant.go:260] deleting Monitoring resources of Redis kubedb/test-redis-7yh0e6.
+I0204 13:38:12.391852       1 dormant.go:43] waiting for pods for Redis kubedb/test-redis-7yh0e6 to be deleted
+I0204 13:38:12.398973       1 dormant.go:48] waiting for services for Redis kubedb/test-redis-7yh0e6 to be deleted
+I0204 13:38:12.401592       1 dormant.go:74] waiting for petsets for Redis kubedb/test-redis-7yh0e6 to be deleted
+I0204 13:38:12.403345       1 redis.go:287] update status of Redis kubedb/test-redis-7yh0e6 to Halted.
+I0204 13:38:22.809529       1 clusterrolebinding.go:37] Creating ClusterRoleBinding kubedb:redis-sentinel-reader.
+I0204 13:38:22.814041       1 redis.go:78] Patching Redis kubedb/test-redis-7yh0e6 with {"metadata":{"finalizers":null}}.
+I0204 13:40:28.106463       1 elasticsearch.go:78] Patching Elasticsearch kubedb/test-elasticsearch-1le0dw with {"metadata":{"finalizers":["kubedb.com"]}}.
+I0204 13:40:28.123380       1 warnings.go:110] "Warning: metadata.finalizers: \"kubedb.com\": prefer a domain-qualified finalizer name including a path (/) to avoid accidental conflicts with other finalizer writers"
+I0204 13:40:28.150836       1 elasticsearch.go:264] Elasticsearch kubedb/test-elasticsearch-1le0dw is halting...
+I0204 13:40:28.150855       1 dormant.go:137] deleting AppBindings of Elasticsearch kubedb/test-elasticsearch-1le0dw.
+I0204 13:40:28.152652       1 dormant.go:150] deleting PodDisruptionBudget of Elasticsearch kubedb/test-elasticsearch-1le0dw.
+I0204 13:40:28.154663       1 dormant.go:162] deleting PetSets of Elasticsearch kubedb/test-elasticsearch-1le0dw.
+I0204 13:40:28.212071       1 dormant.go:175] deleting RoleBindings of Elasticsearch kubedb/test-elasticsearch-1le0dw.
+I0204 13:40:28.214506       1 dormant.go:187] deleting Roles of Elasticsearch kubedb/test-elasticsearch-1le0dw.
+I0204 13:40:28.216908       1 dormant.go:199] deleting ServiceAccounts of Elasticsearch kubedb/test-elasticsearch-1le0dw.
+I0204 13:40:28.219086       1 dormant.go:213] deleting Services of Elasticsearch kubedb/test-elasticsearch-1le0dw.
+I0204 13:40:28.221349       1 dormant.go:231] deleting Monitoring resources of Elasticsearch kubedb/test-elasticsearch-1le0dw.
+I0204 13:40:28.221371       1 dormant.go:42] waiting for pods for Elasticsearch kubedb/test-elasticsearch-1le0dw to be deleted
+I0204 13:40:28.223034       1 dormant.go:47] waiting for services for Elasticsearch kubedb/test-elasticsearch-1le0dw to be deleted
+I0204 13:40:28.226067       1 dormant.go:72] waiting for petsets for Elasticsearch kubedb/test-elasticsearch-1le0dw to be deleted
+I0204 13:40:28.227580       1 elasticsearch.go:271] Elasticsearch kubedb/test-elasticsearch-1le0dw is Halted.
+I0204 13:40:28.250798       1 elasticsearch.go:264] Elasticsearch kubedb/test-elasticsearch-1le0dw is halting...
+I0204 13:40:28.250817       1 dormant.go:137] deleting AppBindings of Elasticsearch kubedb/test-elasticsearch-1le0dw.
+I0204 13:40:28.253712       1 dormant.go:150] deleting PodDisruptionBudget of Elasticsearch kubedb/test-elasticsearch-1le0dw.
+I0204 13:40:28.255680       1 dormant.go:162] deleting PetSets of Elasticsearch kubedb/test-elasticsearch-1le0dw.
+I0204 13:40:28.312910       1 dormant.go:175] deleting RoleBindings of Elasticsearch kubedb/test-elasticsearch-1le0dw.
+I0204 13:40:28.316248       1 dormant.go:187] deleting Roles of Elasticsearch kubedb/test-elasticsearch-1le0dw.
+I0204 13:40:28.318598       1 dormant.go:199] deleting ServiceAccounts of Elasticsearch kubedb/test-elasticsearch-1le0dw.
+I0204 13:40:28.321267       1 dormant.go:213] deleting Services of Elasticsearch kubedb/test-elasticsearch-1le0dw.
+I0204 13:40:28.323445       1 dormant.go:231] deleting Monitoring resources of Elasticsearch kubedb/test-elasticsearch-1le0dw.
+I0204 13:40:28.323455       1 dormant.go:42] waiting for pods for Elasticsearch kubedb/test-elasticsearch-1le0dw to be deleted
+I0204 13:40:28.326239       1 dormant.go:47] waiting for services for Elasticsearch kubedb/test-elasticsearch-1le0dw to be deleted
+I0204 13:40:28.329770       1 dormant.go:72] waiting for petsets for Elasticsearch kubedb/test-elasticsearch-1le0dw to be deleted
+I0204 13:40:28.331539       1 elasticsearch.go:271] Elasticsearch kubedb/test-elasticsearch-1le0dw is Halted.
+I0204 13:40:30.596778       1 elasticsearch.go:78] Patching Elasticsearch kubedb/test-elasticsearch-1le0dw with {"metadata":{"finalizers":null}}.
+I0204 13:40:33.440383       1 mariadb.go:78] Patching MariaDB kubedb/test-mariadb-ap5b8l with {"metadata":{"finalizers":["kubedb.com"]}}.
+I0204 13:40:33.466738       1 warnings.go:110] "Warning: metadata.finalizers: \"kubedb.com\": prefer a domain-qualified finalizer name including a path (/) to avoid accidental conflicts with other finalizer writers"
+I0204 13:40:33.511283       1 workqueue.go:173] MariaDB kubedb/test-mariadb-ap5b8l Phase changed from  to Provisioning. 
+I0204 13:40:33.518460       1 mariadb.go:274] Halting MariaDB kubedb/test-mariadb-ap5b8l
+I0204 13:40:33.518494       1 dormant.go:103] deleting AppBindings of MariaDB kubedb/test-mariadb-ap5b8l.
+I0204 13:40:33.521577       1 dormant.go:116] deleting PodDisruptionBudget of MariaDB kubedb/test-mariadb-ap5b8l.
+I0204 13:40:33.526015       1 dormant.go:126] deleting PetSets of MariaDB kubedb/test-mariadb-ap5b8l.
+I0204 13:40:33.527916       1 dormant.go:139] deleting Deployments of MariaDB kubedb/test-mariadb-ap5b8l.
+I0204 13:40:33.529849       1 dormant.go:152] deleting RoleBindings of MariaDB kubedb/test-mariadb-ap5b8l.
+I0204 13:40:33.531724       1 dormant.go:163] deleting Roles of MariaDB kubedb/test-mariadb-ap5b8l.
+I0204 13:40:33.533360       1 dormant.go:174] deleting ServiceAccounts of MariaDB kubedb/test-mariadb-ap5b8l.
+I0204 13:40:33.534922       1 dormant.go:188] deleting Services of MariaDB kubedb/test-mariadb-ap5b8l.
+I0204 13:40:33.536363       1 dormant.go:206] deleting Monitoring resources of MariaDB kubedb/test-mariadb-ap5b8l.
+I0204 13:40:33.536371       1 dormant.go:43] waiting for pods for MariaDB kubedb/test-mariadb-ap5b8l to be deleted
+I0204 13:40:33.585481       1 dormant.go:48] waiting for services for MariaDB kubedb/test-mariadb-ap5b8l to be deleted
+I0204 13:40:33.588190       1 dormant.go:69] waiting for RBACs for MariaDB kubedb/test-mariadb-ap5b8l to be deleted
+I0204 13:40:33.590900       1 dormant.go:78] waiting for petsets for MariaDB kubedb/test-mariadb-ap5b8l to be deleted
+I0204 13:40:33.592848       1 dormant.go:88] waiting for deployments for MariaDB kubedb/test-mariadb-ap5b8l to be deleted
+I0204 13:40:33.594913       1 mariadb.go:281] update status of MariaDB kubedb/test-mariadb-ap5b8l to Halted.
+I0204 13:40:33.617978       1 workqueue.go:173] MariaDB kubedb/test-mariadb-ap5b8l Phase changed from Provisioning to Halted. &Condition{ObservedGeneration:1,Type:AcceptingConnection,Status:False,Severity:,LastTransitionTime:2026-02-04 13:40:33 +0000 UTC,Reason:DatabaseHaltedSuccessfully,Message:The MariaDB: kubedb/test-mariadb-ap5b8l is not accepting client requests.,}
+I0204 13:40:33.620361       1 mariadb.go:274] Halting MariaDB kubedb/test-mariadb-ap5b8l
+I0204 13:40:33.620376       1 dormant.go:103] deleting AppBindings of MariaDB kubedb/test-mariadb-ap5b8l.
+I0204 13:40:33.623109       1 dormant.go:116] deleting PodDisruptionBudget of MariaDB kubedb/test-mariadb-ap5b8l.
+I0204 13:40:33.626638       1 dormant.go:126] deleting PetSets of MariaDB kubedb/test-mariadb-ap5b8l.
+I0204 13:40:33.628431       1 dormant.go:139] deleting Deployments of MariaDB kubedb/test-mariadb-ap5b8l.
+I0204 13:40:33.630026       1 dormant.go:152] deleting RoleBindings of MariaDB kubedb/test-mariadb-ap5b8l.
+I0204 13:40:33.632514       1 dormant.go:163] deleting Roles of MariaDB kubedb/test-mariadb-ap5b8l.
+I0204 13:40:33.634120       1 dormant.go:174] deleting ServiceAccounts of MariaDB kubedb/test-mariadb-ap5b8l.
+I0204 13:40:33.636063       1 dormant.go:188] deleting Services of MariaDB kubedb/test-mariadb-ap5b8l.
+I0204 13:40:33.637984       1 dormant.go:206] deleting Monitoring resources of MariaDB kubedb/test-mariadb-ap5b8l.
+I0204 13:40:33.637992       1 dormant.go:43] waiting for pods for MariaDB kubedb/test-mariadb-ap5b8l to be deleted
+I0204 13:40:33.685684       1 dormant.go:48] waiting for services for MariaDB kubedb/test-mariadb-ap5b8l to be deleted
+I0204 13:40:33.688250       1 dormant.go:69] waiting for RBACs for MariaDB kubedb/test-mariadb-ap5b8l to be deleted
+I0204 13:40:33.690690       1 dormant.go:78] waiting for petsets for MariaDB kubedb/test-mariadb-ap5b8l to be deleted
+I0204 13:40:33.693017       1 dormant.go:88] waiting for deployments for MariaDB kubedb/test-mariadb-ap5b8l to be deleted
+I0204 13:40:33.695262       1 mariadb.go:281] update status of MariaDB kubedb/test-mariadb-ap5b8l to Halted.
+I0204 13:40:35.725871       1 mariadb.go:78] Patching MariaDB kubedb/test-mariadb-ap5b8l with {"metadata":{"finalizers":null}}.
+I0204 13:40:38.371120       1 mongodb.go:78] Patching MongoDB kubedb/test-mongodb-4o1a93 with {"metadata":{"finalizers":["kubedb.com"]}}.
+I0204 13:40:38.383547       1 warnings.go:110] "Warning: metadata.finalizers: \"kubedb.com\": prefer a domain-qualified finalizer name including a path (/) to avoid accidental conflicts with other finalizer writers"
+I0204 13:40:38.418758       1 workqueue.go:162] Mongodb kubedb/test-mongodb-4o1a93 Phase changed from  to Provisioning. 
+I0204 13:40:38.422432       1 dormant.go:216] Halting MongoDB kubedb/test-mongodb-4o1a93
+I0204 13:40:38.422452       1 dormant.go:96] deleting AppBindings of MongoDB kubedb/test-mongodb-4o1a93.
+I0204 13:40:38.424534       1 dormant.go:121] deleting PetSets of MongoDB kubedb/test-mongodb-4o1a93.
+I0204 13:40:38.426126       1 dormant.go:134] deleting Deployments of MongoDB kubedb/test-mongodb-4o1a93.
+I0204 13:40:38.427571       1 dormant.go:147] deleting RoleBindings of MongoDB kubedb/test-mongodb-4o1a93.
+I0204 13:40:38.429718       1 dormant.go:158] deleting Roles of MongoDB kubedb/test-mongodb-4o1a93.
+I0204 13:40:38.431606       1 dormant.go:169] deleting ServiceAccounts of MongoDB kubedb/test-mongodb-4o1a93.
+I0204 13:40:38.433221       1 dormant.go:183] deleting Services of MongoDB kubedb/test-mongodb-4o1a93.
+I0204 13:40:38.434940       1 dormant.go:202] deleting Monitoring resources of MongoDB kubedb/test-mongodb-4o1a93.
+I0204 13:40:38.434954       1 dormant.go:50] waiting for pods for Mongodb kubedb/test-mongodb-4o1a93 to be deleted
+I0204 13:40:38.519398       1 dormant.go:55] waiting for services for Mongodb kubedb/test-mongodb-4o1a93 to be deleted
+I0204 13:40:38.522054       1 dormant.go:72] waiting for RBACs for Mongodb kubedb/test-mongodb-4o1a93 to be deleted
+I0204 13:40:38.524020       1 dormant.go:81] waiting for petsets for Mongodb kubedb/test-mongodb-4o1a93 to be deleted
+I0204 13:40:38.525531       1 dormant.go:223] update status of MongoDB kubedb/test-mongodb-4o1a93 to Halted.
+I0204 13:40:38.549295       1 workqueue.go:162] Mongodb kubedb/test-mongodb-4o1a93 Phase changed from Provisioning to Halted. &Condition{ObservedGeneration:1,Type:AcceptingConnection,Status:False,Severity:,LastTransitionTime:2026-02-04 13:40:38 +0000 UTC,Reason:DatabaseHaltedSuccessfully,Message:The MongoDB: kubedb/test-mongodb-4o1a93 is not accepting client requests.,}
+I0204 13:40:38.552907       1 dormant.go:216] Halting MongoDB kubedb/test-mongodb-4o1a93
+I0204 13:40:38.552924       1 dormant.go:96] deleting AppBindings of MongoDB kubedb/test-mongodb-4o1a93.
+I0204 13:40:38.554652       1 dormant.go:121] deleting PetSets of MongoDB kubedb/test-mongodb-4o1a93.
+I0204 13:40:38.556223       1 dormant.go:134] deleting Deployments of MongoDB kubedb/test-mongodb-4o1a93.
+I0204 13:40:38.557683       1 dormant.go:147] deleting RoleBindings of MongoDB kubedb/test-mongodb-4o1a93.
+I0204 13:40:38.559119       1 dormant.go:158] deleting Roles of MongoDB kubedb/test-mongodb-4o1a93.
+I0204 13:40:38.560542       1 dormant.go:169] deleting ServiceAccounts of MongoDB kubedb/test-mongodb-4o1a93.
+I0204 13:40:38.561954       1 dormant.go:183] deleting Services of MongoDB kubedb/test-mongodb-4o1a93.
+I0204 13:40:38.563295       1 dormant.go:202] deleting Monitoring resources of MongoDB kubedb/test-mongodb-4o1a93.
+I0204 13:40:38.563303       1 dormant.go:50] waiting for pods for Mongodb kubedb/test-mongodb-4o1a93 to be deleted
+I0204 13:40:38.619909       1 dormant.go:55] waiting for services for Mongodb kubedb/test-mongodb-4o1a93 to be deleted
+I0204 13:40:38.622415       1 dormant.go:72] waiting for RBACs for Mongodb kubedb/test-mongodb-4o1a93 to be deleted
+I0204 13:40:38.624522       1 dormant.go:81] waiting for petsets for Mongodb kubedb/test-mongodb-4o1a93 to be deleted
+I0204 13:40:38.626787       1 dormant.go:223] update status of MongoDB kubedb/test-mongodb-4o1a93 to Halted.
+I0204 13:40:40.863600       1 mongodb.go:78] Patching MongoDB kubedb/test-mongodb-4o1a93 with {"metadata":{"finalizers":null}}.
+I0204 13:40:43.504335       1 mysql.go:78] Patching MySQL kubedb/test-mysql-fc1p3o with {"metadata":{"finalizers":["kubedb.com"]}}.
+I0204 13:40:43.516809       1 warnings.go:110] "Warning: metadata.finalizers: \"kubedb.com\": prefer a domain-qualified finalizer name including a path (/) to avoid accidental conflicts with other finalizer writers"
+I0204 13:40:43.547849       1 workqueue.go:172] MySQL kubedb/test-mysql-fc1p3o Phase changed from  to Provisioning. 
+I0204 13:40:43.551200       1 mysql.go:258] Halting MySQL kubedb/test-mysql-fc1p3o
+I0204 13:40:43.551222       1 dormant.go:137] deleting AppBindings of MySQL kubedb/test-mysql-fc1p3o.
+I0204 13:40:43.553335       1 dormant.go:150] deleting PodDisruptionBudget of MySQL kubedb/test-mysql-fc1p3o.
+I0204 13:40:43.555559       1 dormant.go:158] deleting PetSets of MySQL kubedb/test-mysql-fc1p3o.
+I0204 13:40:43.557322       1 dormant.go:171] deleting RoleBindings of MySQL kubedb/test-mysql-fc1p3o.
+I0204 13:40:43.558800       1 dormant.go:182] deleting Roles of MySQL kubedb/test-mysql-fc1p3o.
+I0204 13:40:43.560268       1 dormant.go:193] deleting ServiceAccounts of MySQL kubedb/test-mysql-fc1p3o.
+I0204 13:40:43.561958       1 dormant.go:207] deleting Services of MySQL kubedb/test-mysql-fc1p3o.
+I0204 13:40:43.563388       1 dormant.go:225] deleting Monitoring resources of MySQL kubedb/test-mysql-fc1p3o.
+I0204 13:40:43.563402       1 dormant.go:41] waiting for pods for MySQL kubedb/test-mysql-fc1p3o to be deleted
+I0204 13:40:43.564949       1 dormant.go:46] waiting for services for MySQL kubedb/test-mysql-fc1p3o to be deleted
+I0204 13:40:43.567629       1 dormant.go:71] waiting for PetSets for MySQL kubedb/test-mysql-fc1p3o to be deleted
+I0204 13:40:43.569688       1 mysql.go:265] update status of MySQL kubedb/test-mysql-fc1p3o to Halted.
+I0204 13:40:43.592965       1 workqueue.go:172] MySQL kubedb/test-mysql-fc1p3o Phase changed from Provisioning to Halted. &Condition{ObservedGeneration:1,Type:AcceptingConnection,Status:False,Severity:,LastTransitionTime:2026-02-04 13:40:43 +0000 UTC,Reason:DatabaseHaltedSuccessfully,Message:The MySQL: kubedb/test-mysql-fc1p3o is not accepting client requests.,}
+I0204 13:40:43.596349       1 mysql.go:258] Halting MySQL kubedb/test-mysql-fc1p3o
+I0204 13:40:43.596370       1 dormant.go:137] deleting AppBindings of MySQL kubedb/test-mysql-fc1p3o.
+I0204 13:40:43.654531       1 dormant.go:150] deleting PodDisruptionBudget of MySQL kubedb/test-mysql-fc1p3o.
+I0204 13:40:43.656907       1 dormant.go:158] deleting PetSets of MySQL kubedb/test-mysql-fc1p3o.
+I0204 13:40:43.659257       1 dormant.go:171] deleting RoleBindings of MySQL kubedb/test-mysql-fc1p3o.
+I0204 13:40:43.661713       1 dormant.go:182] deleting Roles of MySQL kubedb/test-mysql-fc1p3o.
+I0204 13:40:43.663673       1 dormant.go:193] deleting ServiceAccounts of MySQL kubedb/test-mysql-fc1p3o.
+I0204 13:40:43.665526       1 dormant.go:207] deleting Services of MySQL kubedb/test-mysql-fc1p3o.
+I0204 13:40:43.667424       1 dormant.go:225] deleting Monitoring resources of MySQL kubedb/test-mysql-fc1p3o.
+I0204 13:40:43.667437       1 dormant.go:41] waiting for pods for MySQL kubedb/test-mysql-fc1p3o to be deleted
+I0204 13:40:43.669179       1 dormant.go:46] waiting for services for MySQL kubedb/test-mysql-fc1p3o to be deleted
+I0204 13:40:43.672005       1 dormant.go:71] waiting for PetSets for MySQL kubedb/test-mysql-fc1p3o to be deleted
+I0204 13:40:43.673904       1 mysql.go:265] update status of MySQL kubedb/test-mysql-fc1p3o to Halted.
+I0204 13:40:45.998729       1 clusterrolebinding.go:37] Creating ClusterRoleBinding kubedb:mysqlversion-reader.
+I0204 13:40:46.003664       1 mysql.go:78] Patching MySQL kubedb/test-mysql-fc1p3o with {"metadata":{"finalizers":null}}.
+I0204 13:40:48.655583       1 postgres.go:78] Patching Postgres kubedb/test-postgres-rrukku with {"metadata":{"finalizers":["kubedb.com"]}}.
+I0204 13:40:48.667491       1 warnings.go:110] "Warning: metadata.finalizers: \"kubedb.com\": prefer a domain-qualified finalizer name including a path (/) to avoid accidental conflicts with other finalizer writers"
+I0204 13:40:48.702981       1 postgres.go:280] Halting Postgres kubedb/test-postgres-rrukku
+I0204 13:40:48.703005       1 dormant.go:165] deleting AppBindings of Postgres kubedb/test-postgres-rrukku.
+I0204 13:40:48.708293       1 dormant.go:182] deleting PetSets of Postgres kubedb/test-postgres-rrukku.
+I0204 13:40:48.711056       1 dormant.go:194] deleting RoleBindings of Postgres kubedb/test-postgres-rrukku.
+I0204 13:40:48.712764       1 dormant.go:205] deleting Roles of Postgres kubedb/test-postgres-rrukku.
+I0204 13:40:48.714370       1 dormant.go:216] deleting ServiceAccounts of Postgres kubedb/test-postgres-rrukku.
+I0204 13:40:48.715973       1 dormant.go:228] deleting Services of Postgres kubedb/test-postgres-rrukku.
+I0204 13:40:48.717552       1 dormant.go:247] deleting Monitoring resources of Postgres kubedb/test-postgres-rrukku.
+I0204 13:40:48.717560       1 dormant.go:46] waiting for pods for Postgres kubedb/test-postgres-rrukku to be deleted
+I0204 13:40:48.718908       1 dormant.go:52] waiting for services for Postgres kubedb/test-postgres-rrukku to be deleted
+I0204 13:40:48.724178       1 dormant.go:87] waiting for petsets for Postgres kubedb/test-postgres-rrukku to be deleted
+I0204 13:40:48.725696       1 postgres.go:287] update status of Postgres kubedb/test-postgres-rrukku to Halted.
+I0204 13:40:48.754563       1 postgres.go:280] Halting Postgres kubedb/test-postgres-rrukku
+I0204 13:40:48.754599       1 dormant.go:165] deleting AppBindings of Postgres kubedb/test-postgres-rrukku.
+I0204 13:40:48.808494       1 dormant.go:182] deleting PetSets of Postgres kubedb/test-postgres-rrukku.
+I0204 13:40:48.811787       1 dormant.go:194] deleting RoleBindings of Postgres kubedb/test-postgres-rrukku.
+I0204 13:40:48.814372       1 dormant.go:205] deleting Roles of Postgres kubedb/test-postgres-rrukku.
+I0204 13:40:48.815934       1 dormant.go:216] deleting ServiceAccounts of Postgres kubedb/test-postgres-rrukku.
+I0204 13:40:48.817520       1 dormant.go:228] deleting Services of Postgres kubedb/test-postgres-rrukku.
+I0204 13:40:48.819762       1 dormant.go:247] deleting Monitoring resources of Postgres kubedb/test-postgres-rrukku.
+I0204 13:40:48.819772       1 dormant.go:46] waiting for pods for Postgres kubedb/test-postgres-rrukku to be deleted
+I0204 13:40:48.821609       1 dormant.go:52] waiting for services for Postgres kubedb/test-postgres-rrukku to be deleted
+I0204 13:40:48.826867       1 dormant.go:87] waiting for petsets for Postgres kubedb/test-postgres-rrukku to be deleted
+I0204 13:40:48.828175       1 postgres.go:287] update status of Postgres kubedb/test-postgres-rrukku to Halted.
+I0204 13:40:51.148527       1 postgres.go:78] Patching Postgres kubedb/test-postgres-rrukku with {"metadata":{"finalizers":null}}.
+I0204 13:40:53.787214       1 redis.go:78] Patching Redis kubedb/test-redis-n5s5pl with {"metadata":{"finalizers":["kubedb.com"]}}.
+I0204 13:40:53.797995       1 warnings.go:110] "Warning: metadata.finalizers: \"kubedb.com\": prefer a domain-qualified finalizer name including a path (/) to avoid accidental conflicts with other finalizer writers"
+I0204 13:40:53.829822       1 redis.go:280] Halting Redis kubedb/test-redis-n5s5pl
+I0204 13:40:53.829844       1 dormant.go:154] deleting AppBindings of Redis kubedb/test-redis-n5s5pl.
+I0204 13:40:53.832641       1 dormant.go:167] deleting PodDisruptionBudget of Redis kubedb/test-redis-n5s5pl.
+I0204 13:40:53.834812       1 dormant.go:180] deleting PetSets of Redis kubedb/test-redis-n5s5pl.
+I0204 13:40:53.836826       1 dormant.go:193] deleting Deployments of Redis kubedb/test-redis-n5s5pl.
+I0204 13:40:53.838731       1 dormant.go:206] deleting RoleBindings of Redis kubedb/test-redis-n5s5pl.
+I0204 13:40:53.840543       1 dormant.go:217] deleting Roles of Redis kubedb/test-redis-n5s5pl.
+I0204 13:40:53.842200       1 dormant.go:228] deleting ServiceAccounts of Redis kubedb/test-redis-n5s5pl.
+I0204 13:40:53.843642       1 dormant.go:242] deleting Services of Redis kubedb/test-redis-n5s5pl.
+I0204 13:40:53.845314       1 dormant.go:260] deleting Monitoring resources of Redis kubedb/test-redis-n5s5pl.
+I0204 13:40:53.845324       1 dormant.go:43] waiting for pods for Redis kubedb/test-redis-n5s5pl to be deleted
+I0204 13:40:53.875908       1 dormant.go:48] waiting for services for Redis kubedb/test-redis-n5s5pl to be deleted
+I0204 13:40:53.879958       1 dormant.go:74] waiting for petsets for Redis kubedb/test-redis-n5s5pl to be deleted
+I0204 13:40:53.882314       1 redis.go:287] update status of Redis kubedb/test-redis-n5s5pl to Halted.
+I0204 13:40:53.906667       1 redis.go:280] Halting Redis kubedb/test-redis-n5s5pl
+I0204 13:40:53.906683       1 dormant.go:154] deleting AppBindings of Redis kubedb/test-redis-n5s5pl.
+I0204 13:40:53.933526       1 dormant.go:167] deleting PodDisruptionBudget of Redis kubedb/test-redis-n5s5pl.
+I0204 13:40:53.935700       1 dormant.go:180] deleting PetSets of Redis kubedb/test-redis-n5s5pl.
+I0204 13:40:53.937422       1 dormant.go:193] deleting Deployments of Redis kubedb/test-redis-n5s5pl.
+I0204 13:40:53.939305       1 dormant.go:206] deleting RoleBindings of Redis kubedb/test-redis-n5s5pl.
+I0204 13:40:53.941221       1 dormant.go:217] deleting Roles of Redis kubedb/test-redis-n5s5pl.
+I0204 13:40:53.943179       1 dormant.go:228] deleting ServiceAccounts of Redis kubedb/test-redis-n5s5pl.
+I0204 13:40:53.945181       1 dormant.go:242] deleting Services of Redis kubedb/test-redis-n5s5pl.
+I0204 13:40:53.946956       1 dormant.go:260] deleting Monitoring resources of Redis kubedb/test-redis-n5s5pl.
+I0204 13:40:53.946968       1 dormant.go:43] waiting for pods for Redis kubedb/test-redis-n5s5pl to be deleted
+I0204 13:40:53.976041       1 dormant.go:48] waiting for services for Redis kubedb/test-redis-n5s5pl to be deleted
+I0204 13:40:54.048872       1 dormant.go:74] waiting for petsets for Redis kubedb/test-redis-n5s5pl to be deleted
+I0204 13:40:54.050456       1 redis.go:287] update status of Redis kubedb/test-redis-n5s5pl to Halted.
+I0204 13:40:56.281373       1 clusterrolebinding.go:37] Creating ClusterRoleBinding kubedb:redis-sentinel-reader.
+I0204 13:40:56.286785       1 redis.go:78] Patching Redis kubedb/test-redis-n5s5pl with {"metadata":{"finalizers":null}}.
+I0204 13:59:37.851026       1 lib.go:296] Successfully verified license! Valid until: 04 Feb 26 14:54 UTC
+I0204 14:59:37.849940       1 lib.go:296] Successfully verified license! Valid until: 04 Feb 26 15:49 UTC
+I0204 15:59:37.850386       1 lib.go:296] Successfully verified license! Valid until: 04 Feb 26 16:44 UTC
+I0204 16:59:37.851370       1 lib.go:296] Successfully verified license! Valid until: 04 Feb 26 17:39 UTC
+I0204 17:59:37.850971       1 lib.go:296] Successfully verified license! Valid until: 04 Feb 26 18:34 UTC
+I0204 18:59:37.851283       1 lib.go:296] Successfully verified license! Valid until: 04 Feb 26 19:29 UTC
+I0204 19:59:37.850417       1 lib.go:296] Successfully verified license! Valid until: 04 Feb 26 20:23 UTC
+I0204 20:59:37.852064       1 lib.go:296] Successfully verified license! Valid until: 04 Feb 26 21:18 UTC
+I0204 21:59:37.850652       1 lib.go:296] Successfully verified license! Valid until: 04 Feb 26 22:13 UTC
+I0204 22:59:37.850948       1 lib.go:296] Successfully verified license! Valid until: 04 Feb 26 23:08 UTC
+I0204 23:59:37.851223       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 00:58 UTC
+I0205 00:59:37.851340       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 01:53 UTC
+I0205 01:59:37.851396       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 02:48 UTC
+I0205 02:59:37.851686       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 03:43 UTC
+I0205 03:59:37.851297       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 04:38 UTC
+I0205 04:59:37.851299       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 05:33 UTC
+I0205 05:59:37.849022       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 06:28 UTC
+I0205 06:59:37.851059       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 07:23 UTC
+I0205 07:59:37.851760       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 08:18 UTC
+I0205 08:59:37.852895       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 09:13 UTC
+I0205 09:59:37.851069       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 10:08 UTC
+I0205 10:59:37.851444       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 11:57 UTC
+I0205 11:59:37.851769       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 12:34 UTC
+I0205 12:59:37.851354       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 13:28 UTC
+I0205 13:59:37.850584       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 14:23 UTC
+I0205 14:59:37.849454       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 15:18 UTC
+I0205 15:59:37.850464       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 16:13 UTC
+I0205 16:59:37.851264       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 17:08 UTC
+I0205 17:59:37.851200       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 18:58 UTC
+I0205 18:59:37.852624       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 19:53 UTC
+I0205 19:59:37.850872       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 20:48 UTC
+I0205 20:59:37.850739       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 21:43 UTC
+I0205 21:59:37.850178       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 22:38 UTC
+I0205 22:59:37.851092       1 lib.go:296] Successfully verified license! Valid until: 05 Feb 26 23:33 UTC
+I0205 23:59:37.852051       1 lib.go:296] Successfully verified license! Valid until: 06 Feb 26 00:28 UTC
+I0206 00:59:37.851560       1 lib.go:296] Successfully verified license! Valid until: 06 Feb 26 01:22 UTC
+I0206 01:59:37.848305       1 lib.go:296] Successfully verified license! Valid until: 06 Feb 26 02:17 UTC
+I0206 02:59:37.851313       1 lib.go:296] Successfully verified license! Valid until: 06 Feb 26 03:12 UTC
+I0206 03:59:37.851494       1 lib.go:296] Successfully verified license! Valid until: 06 Feb 26 04:07 UTC
+I0206 04:59:37.851603       1 lib.go:296] Successfully verified license! Valid until: 06 Feb 26 05:57 UTC
+I0206 05:59:37.850089       1 lib.go:296] Successfully verified license! Valid until: 06 Feb 26 06:52 UTC
+I0206 06:59:37.851675       1 lib.go:296] Successfully verified license! Valid until: 06 Feb 26 07:47 UTC
+I0206 07:59:37.851474       1 lib.go:296] Successfully verified license! Valid until: 06 Feb 26 08:42 UTC
+I0206 08:59:37.851163       1 lib.go:296] Successfully verified license! Valid until: 06 Feb 26 09:37 UTC
+I0206 09:59:37.850387       1 lib.go:296] Successfully verified license! Valid until: 06 Feb 26 10:32 UTC
