@@ -21,6 +21,7 @@ import (
 	core "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"kmodules.xyz/resource-metadata/apis/shared"
 )
 
 const (
@@ -43,7 +44,7 @@ type VoyagerGateway struct {
 	Spec              VoyagerGatewaySpec `json:"spec,omitempty"`
 }
 
-// VoyagerGatewaySpec is the schema for Operator Operator values file
+// VoyagerGatewaySpec is the schema for Operator values file
 type VoyagerGatewaySpec struct {
 	Global                  *VoyagerGatewayGlobal    `json:"global,omitempty"`
 	PodDisruptionBudget     *PodDisruptionBudgetSpec `json:"podDisruptionBudget,omitempty"`
@@ -54,14 +55,18 @@ type VoyagerGatewaySpec struct {
 	CreateNamespace         *bool                    `json:"createNamespace,omitempty"`
 	KubernetesClusterDomain *string                  `json:"kubernetesClusterDomain,omitempty"`
 	Certgen                 *CertgenSpec             `json:"certgen,omitempty"`
+	Tester                  *TesterSpec              `json:"tester,omitempty"`
 	TopologyInjector        *TopologyInjectorSpec    `json:"topologyInjector"`
 	GatewayConverter        *VoyagerGatewayConverter `json:"gateway-converter,omitempty"`
+	CRDManager              *CRDManagerConverter     `json:"crd-manager,omitempty"`
 }
 
 type VoyagerGatewayGlobal struct {
 	ImageRegistry    string   `json:"imageRegistry"`
 	ImagePullSecrets []string `json:"imagePullSecrets"`
 	Images           Images   `json:"images"`
+	// +optional
+	Distro shared.DistroSpec `json:"distro"`
 }
 
 type Images struct {
@@ -80,6 +85,8 @@ type PodDisruptionBudgetSpec struct {
 }
 
 type DeploymentSpec struct {
+	// +optional
+	Annotations       map[string]string       `json:"annotations"`
 	EnvoyGateway      *EnvoyGatewayDeployment `json:"envoyGateway,omitempty"`
 	Ports             []Port                  `json:"ports,omitempty"`
 	PriorityClassName *string                 `json:"priorityClassName"`
@@ -90,6 +97,7 @@ type DeploymentSpec struct {
 type ServiceSpec struct {
 	TrafficDistribution string            `json:"trafficDistribution"`
 	Annotations         map[string]string `json:"annotations"`
+	Type                string            `json:"type"`
 }
 type HPASpec struct {
 	Enabled     bool                                         `json:"enabled"`
@@ -150,6 +158,12 @@ type GatewayControllerSpec struct {
 
 type GatewayProviderSpec struct {
 	Type string `json:"type"`
+	// +optional
+	Kubernetes GatewayProviderKubernetesSpec `json:"kubernetes"`
+}
+
+type GatewayProviderKubernetesSpec struct {
+	CleanupOffshootResources bool `json:"cleanupOffshootResources"`
 }
 
 type LoggingSpec struct {
@@ -182,21 +196,52 @@ type CertgenJobSpec struct {
 	Tolerations []core.Toleration `json:"tolerations"`
 	// +optional
 	NodeSelector map[string]string `json:"nodeSelector"`
+	// +optional
+	Pod CertgenJobPodSpec `json:"pod"`
 }
 
-type CertgenRbacMetadata struct {
+type CertgenJobPodSpec struct {
+	// +optional
 	Annotations map[string]string `json:"annotations"`
-	Labels      map[string]string `json:"labels"`
+	// +optional
+	Labels map[string]string `json:"labels"`
+}
+type CertgenRbacMetadata struct {
+	// +optional
+	Annotations map[string]string `json:"annotations"`
+	// +optional
+	Labels map[string]string `json:"labels"`
+}
+type TesterSpec struct {
+	ImageDetails `json:",inline,omitempty"`
+	// +optional
+	Resources       core.ResourceRequirements `json:"resources"`
+	SecurityContext *core.SecurityContext     `json:"securityContext,omitempty"`
+	// +optional
+	Pod TesterPodSpec `json:"pod"`
+}
+type TesterPodSpec struct {
+	PodTemplateSpec `json:",inline,omitempty"`
+	// SecurityContext holds pod-level security attributes and common container settings.
+	// Optional: Defaults to empty.  See type description for default values of each field.
+	// +optional
+	SecurityContext *core.PodSecurityContext `json:"securityContext"`
 }
 
 type TopologyInjectorSpec struct {
-	Enabled     bool              `json:"enabled"`
+	Enabled bool `json:"enabled"`
+	// +optional
 	Annotations map[string]string `json:"annotations"`
 }
 
 type VoyagerGatewayConverter struct {
 	Enabled               bool `json:"enabled"`
 	*GatewayConverterSpec `json:",inline,omitempty"`
+}
+
+type CRDManagerConverter struct {
+	Enabled         bool `json:"enabled"`
+	*CrdManagerSpec `json:",inline,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object

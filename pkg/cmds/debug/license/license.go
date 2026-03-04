@@ -39,7 +39,7 @@ var scheme = runtime.NewScheme()
 func init() {
 	utilruntime.Must(clientgoscheme.AddToScheme(scheme))
 	utilruntime.Must(kubedbscheme.AddToScheme(scheme))
-	utilruntime.Must(ocmapi.AddToScheme(scheme))
+	utilruntime.Must(ocmapi.Install(scheme))
 }
 
 func NewCmdLicense(f cmdutil.Factory) *cobra.Command {
