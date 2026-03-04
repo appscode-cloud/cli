@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"os"
 	"path"
+	"slices"
 
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -37,7 +38,7 @@ type RouteSpec struct {
 }
 
 type Route struct {
-	Spec RouteSpec `json:"spec,omitempty" yaml:"spec,omitempty"`
+	Spec RouteSpec `json:"spec" yaml:"spec,omitempty"`
 }
 
 func (g *gatewayOpts) collectRoutes() error {
@@ -69,13 +70,7 @@ func (g *gatewayOpts) collectRoutes() error {
 			}
 
 			// ---- b) Filter by parentRefs ----
-			keep := false
-			for _, pr := range rt.Spec.ParentRefs {
-				if g.matchesGateway(pr) {
-					keep = true
-					break
-				}
-			}
+			keep := slices.ContainsFunc(rt.Spec.ParentRefs, g.matchesGateway)
 			if !keep {
 				continue // not attached to our gateway
 			}

@@ -32,12 +32,12 @@ import (
 )
 
 type Binding struct {
-	Spec   BindingSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
-	Status BindingStatus `json:"status,omitempty" yaml:"status,omitempty"`
+	Spec   BindingSpec   `json:"spec" yaml:"spec,omitempty"`
+	Status BindingStatus `json:"status" yaml:"status,omitempty"`
 }
 
 type BindingSpec struct {
-	SourceRef SourceRef `json:"sourceRef,omitempty" yaml:"sourceRef,omitempty"`
+	SourceRef SourceRef `json:"sourceRef" yaml:"sourceRef,omitempty"`
 }
 
 type SourceRef struct {

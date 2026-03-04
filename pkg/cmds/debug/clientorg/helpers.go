@@ -101,11 +101,11 @@ func makeArgYaml(resource, namespace string) []any {
 }
 
 func getNSHeader(ns string) []byte {
-	return []byte(fmt.Sprintf("\n\n===== %v =====\n", ns))
+	return fmt.Appendf(nil, "\n\n===== %v =====\n", ns)
 }
 
 func getResourceHeader(res string) []byte {
-	return []byte(fmt.Sprintf("# %s :\n", res))
+	return fmt.Appendf(nil, "# %s :\n", res)
 }
 
 func (g *clientOrgOpts) collectAllResources() error {

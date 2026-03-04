@@ -19,6 +19,7 @@ package v1alpha1
 import (
 	core "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"kmodules.xyz/resource-metadata/apis/shared"
 )
 
 const (
@@ -80,7 +81,27 @@ type PetsetSpec struct {
 	Apiserver  SupervisorApiserver `json:"apiserver"`
 	Monitoring Monitoring          `json:"monitoring"`
 	// +optional
-	NetworkPolicy NetworkPolicy `json:"networkPolicy"`
+	NetworkPolicy NetworkPolicySpec `json:"networkPolicy"`
+	// +optional
+	Features PetsetFeatures `json:"features"`
+	// +optional
+	Distro shared.DistroSpec `json:"distro"`
+	// +optional
+	MaxConcurrentReconciles int `json:"maxConcurrentReconciles"`
+}
+
+type PetsetFeatures struct {
+	// +optional
+	Ocm OCMSpec `json:"ocm"`
+}
+type OCMSpec struct {
+	Enabled   bool         `json:"enabled"`
+	Placement OCMPlacement `json:"placement"`
+}
+
+type OCMPlacement struct {
+	Create bool   `json:"create"`
+	Name   string `json:"name"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
