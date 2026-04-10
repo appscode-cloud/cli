@@ -408,6 +408,8 @@ github.com/klauspost/cpuid/v2 v2.2.11 h1:0OwqZRYI2rFrjS4kvkDnqJkKHdHaRnCm68/DY4O
 github.com/klauspost/cpuid/v2 v2.2.11/go.mod h1:hqwkgyIinND0mEev00jJYCxPNVRVXFQeu1XKlok6oO0=
 github.com/klauspost/crc32 v1.3.0 h1:sSmTt3gUt81RP655XGZPElI0PelVTZ6YwCRnPSupoFM=
 github.com/klauspost/crc32 v1.3.0/go.mod h1:D7kQaZhnkX/Y0tstFGf8VUzv2UofNGqCjnC3zdHB0Hw=
+github.com/kmodules/apiserver v0.34.4-0.20251227112449-07fa35efc6fc h1:R5bKc1c8Qu7z+7+O0xNWxIPjCYuaHUVZ+dSfeCZEd+c=
+github.com/kmodules/apiserver v0.34.4-0.20251227112449-07fa35efc6fc/go.mod h1:QPnnahMO5C2m3lm6fPW3+JmyQbvHZQ8uudAu/493P2w=
 github.com/kmodules/controller-runtime v0.22.5-0.20251227114913-f011264689cd h1:cpLV7Pr+pSo3kDYY4HsLZfbdF1WPQuPTP+Jo3hyoWzw=
 github.com/kmodules/controller-runtime v0.22.5-0.20251227114913-f011264689cd/go.mod h1:+QX1XUpTXN4mLoblf4tqr5CQcyHPAki2HLXqQMY6vh8=
 github.com/konsorten/go-windows-terminal-sequences v1.0.1/go.mod h1:T0+1ngSBFLxvqU3pZ+m/2kptfBszLMUkC4ZK/EgS/cQ=
