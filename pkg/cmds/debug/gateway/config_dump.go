@@ -78,7 +78,8 @@ func (g *gatewayOpts) forwardToPort(podMeta metav1.ObjectMeta, resource string, 
 			Namespace: podMeta.Namespace,
 			Name:      podMeta.Name,
 			Remote:    *port,
-		})
+		},
+	)
 	if err := tunnel.ForwardPort(); err != nil {
 		return nil, err
 	}
