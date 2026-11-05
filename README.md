@@ -6,7 +6,7 @@
 
 ### Build from source
 
-Requires Go and `make` (Docker is used by the build harness).
+Requires Go (see `go.mod` for the version) and `make` (Docker is used by the build harness).
 
 ```bash
 git clone git@github.com:appscode-cloud/cli.git
@@ -67,7 +67,7 @@ Global flags, available on every command:
 | `ACE_USERNAME` | User name for basic authentication.                      |
 | `ACE_PASSWORD` | Password for basic authentication.                       |
 
-Credentials from the environment take precedence over those stored in the selected context.
+Credentials from the environment override the token stored in the selected context. `ACE_TOKEN` also supplies the default for `ace auth login --token` (likewise `ACE_USERNAME` and `ACE_PASSWORD` for `--username` and `--password`).
 
 ## Commands
 
@@ -80,7 +80,7 @@ Credentials from the environment take precedence over those stored in the select
 | `ace installer`          | ACE installer commands.                                  |
 | `ace expose`             | Expose databases.                                        |
 | `ace debug`              | Debugging utilities.                                     |
-| `ace version`            | Print version information.                               |
+| `ace version`            | Print version information.                              |
 | `ace completion`         | Generate a shell completion script.                      |
 
 Run `ace <command> --help` for the full list of flags.
