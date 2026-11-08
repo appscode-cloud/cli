@@ -58,7 +58,7 @@ type Clients struct {
 func NewClients(endpoint, organization string, cred Credentials) *Clients {
 	baseURL := strings.TrimSuffix(endpoint, "/") + "/api/v2"
 	hc := http.DefaultClient
-	opts := []connect.ClientOption{connect.WithInterceptors(credentialsInterceptor(cred))}
+	opts := []connect.ClientOption{connect.WithInterceptors(credentialsInterceptor(cred), errorInfoInterceptor(endpoint))}
 	return &Clients{
 		Organization: organization,
 		Users:        userv2connect.NewUserServiceClient(hc, baseURL, opts...),
