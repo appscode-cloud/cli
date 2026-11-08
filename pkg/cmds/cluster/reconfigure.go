@@ -17,32 +17,33 @@ limitations under the License.
 package cluster
 
 import (
-	"errors"
+	"context"
 	"fmt"
-	"sync"
 
+	clusterv2 "go.bytebuilders.dev/b3/apis/gen/go/akp/cluster/v2"
+	"go.bytebuilders.dev/cli/pkg/akp"
 	"go.bytebuilders.dev/cli/pkg/config"
-	"go.bytebuilders.dev/cli/pkg/printer"
-	ace "go.bytebuilders.dev/client"
-	clustermodel "go.bytebuilders.dev/resource-model/apis/cluster"
 
-	"github.com/rs/xid"
+	"connectrpc.com/connect"
 	"github.com/spf13/cobra"
 )
 
 func newCmdReconfigure(f *config.Factory) *cobra.Command {
-	opts := clustermodel.ReconfigureOptions{}
+	req := &clusterv2.ReconfigureClusterRequest{
+		Cluster:    &clusterv2.ClusterRef{},
+		Components: &clusterv2.ComponentOptions{},
+	}
 	cmd := &cobra.Command{
 		Use:               "reconfigure",
 		Short:             "Re-install cluster components to fix common issues",
 		DisableAutoGenTag: true,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if !opts.Components.AllFeatures {
-				opts.Components.FeatureSets = defaultFeatureSet
+			if !req.Components.AllFeatures {
+				req.Components.FeatureSets = defaultFeatureSets()
 			}
-			err := reconfigureCluster(f, opts)
+			err := reconfigureCluster(cmd, f, req)
 			if err != nil {
-				if errors.Is(err, ace.ErrNotFound) {
+				if akp.IsNotFound(err) {
 					fmt.Println("Provided cluster does not exist. Please provide a valid cluster name.")
 					return nil
 				}
@@ -51,42 +52,18 @@ func newCmdReconfigure(f *config.Factory) *cobra.Command {
 			return nil
 		},
 	}
-	cmd.Flags().StringVar(&opts.BasicInfo.Name, "name", "", "Name of the cluster to get")
-	cmd.Flags().BoolVar(&opts.Components.FluxCD, "install-fluxcd", true, "Specify whether to install FluxCD or not (default true).")
-	cmd.Flags().BoolVar(&opts.Components.AllFeatures, "all-features", false, "Install all features")
+	cmd.Flags().StringVar(&req.Cluster.Name, "name", "", "Name of the cluster to get")
+	cmd.Flags().BoolVar(&req.Components.FluxCd, "install-fluxcd", true, "Specify whether to install FluxCD or not (default true).")
+	cmd.Flags().BoolVar(&req.Components.AllFeatures, "all-features", false, "Install all features")
 	return cmd
 }
 
-func reconfigureCluster(f *config.Factory, opts clustermodel.ReconfigureOptions) error {
+func reconfigureCluster(cmd *cobra.Command, f *config.Factory, req *clusterv2.ReconfigureClusterRequest) error {
 	fmt.Println("Reconfiguring cluster......")
-	c, err := f.Client()
-	if err != nil {
+	return runOperation(cmd, f, "reconfigure", func(ctx context.Context, c *akp.Clients, owner string, op *clusterv2.OperationOptions) error {
+		req.Cluster.Owner = owner
+		req.Operation = op
+		_, err := c.Lifecycle.ReconfigureCluster(ctx, connect.NewRequest(req))
 		return err
-	}
-
-	nc, err := c.NewNatsConnection("ace-cli")
-	if err != nil {
-		return err
-	}
-	defer nc.Close() // nolint:errcheck
-
-	responseID := xid.New().String()
-	wg := sync.WaitGroup{}
-	wg.Add(1)
-	done := f.Canceller()
-	go func() {
-		err := printer.PrintNATSJobSteps(&wg, nc, responseID, done)
-		if err != nil {
-			fmt.Println("Failed to log reconfigure steps. Reason: ", err)
-		}
-	}()
-
-	_, err = c.ReconfigureCluster(opts, responseID)
-	if err != nil {
-		close(done)
-		return err
-	}
-	wg.Wait()
-
-	return nil
+	})
 }

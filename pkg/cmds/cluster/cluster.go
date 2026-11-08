@@ -17,9 +17,9 @@ limitations under the License.
 package cluster
 
 import (
+	clusterv2 "go.bytebuilders.dev/b3/apis/gen/go/akp/cluster/v2"
 	"go.bytebuilders.dev/cli/pkg/config"
 	"go.bytebuilders.dev/cli/pkg/printer"
-	clustermodel "go.bytebuilders.dev/resource-model/apis/cluster"
 
 	"github.com/spf13/cobra"
 )
@@ -42,9 +42,11 @@ func NewCmdCluster(f *config.Factory) *cobra.Command {
 	return cmd
 }
 
-var defaultFeatureSet = []clustermodel.FeatureSet{
-	{
-		Name:     "opscenter-core",
-		Features: []string{"kube-ui-server"},
-	},
+func defaultFeatureSets() []*clusterv2.FeatureSet {
+	return []*clusterv2.FeatureSet{
+		{
+			Name:     "opscenter-core",
+			Features: []string{"kube-ui-server"},
+		},
+	}
 }

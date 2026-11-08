@@ -17,20 +17,19 @@ limitations under the License.
 package cluster
 
 import (
-	"errors"
 	"fmt"
 	"os"
 
+	clusterv2 "go.bytebuilders.dev/b3/apis/gen/go/akp/cluster/v2"
+	"go.bytebuilders.dev/cli/pkg/akp"
 	"go.bytebuilders.dev/cli/pkg/config"
-	ace "go.bytebuilders.dev/client"
-	clustermodel "go.bytebuilders.dev/resource-model/apis/cluster"
-	"go.bytebuilders.dev/resource-model/apis/cluster/v1alpha1"
 
+	"connectrpc.com/connect"
 	"github.com/spf13/cobra"
 )
 
 func newCmdConnect(f *config.Factory) *cobra.Command {
-	opts := clustermodel.ConnectOptions{}
+	req := &clusterv2.ConnectClusterRequest{Cluster: &clusterv2.ClusterRef{}}
 	var kubeConfigPath string
 	cmd := &cobra.Command{
 		Use:               "connect",
@@ -42,11 +41,11 @@ func newCmdConnect(f *config.Factory) *cobra.Command {
 				if err != nil {
 					return fmt.Errorf("failed to read Kubeconfig file. Reason: %w", err)
 				}
-				opts.KubeConfig = string(data)
+				req.Kubeconfig = string(data)
 			}
-			_, err := connectCluster(f, opts)
+			err := connectCluster(cmd, f, req)
 			if err != nil {
-				if errors.Is(err, ace.ErrNotFound) {
+				if akp.IsNotFound(err) {
 					fmt.Println("Provided cluster does not exist. Please provide a valid cluster name.")
 					return nil
 				}
@@ -56,16 +55,21 @@ func newCmdConnect(f *config.Factory) *cobra.Command {
 			return nil
 		},
 	}
-	cmd.Flags().StringVar(&opts.Name, "name", "", "Name of the cluster to get")
-	cmd.Flags().StringVar(&opts.Credential, "credential", "", "Name of the credential to use to connect with the cluster")
+	cmd.Flags().StringVar(&req.Cluster.Name, "name", "", "Name of the cluster to get")
+	cmd.Flags().StringVar(&req.Credential, "credential", "", "Name of the credential to use to connect with the cluster")
 	cmd.Flags().StringVar(&kubeConfigPath, "kubeconfig", "", "Path of the kubeconfig file")
 	return cmd
 }
 
-func connectCluster(f *config.Factory, opts clustermodel.ConnectOptions) (*v1alpha1.ClusterInfo, error) {
-	c, err := f.Client()
+func connectCluster(cmd *cobra.Command, f *config.Factory, req *clusterv2.ConnectClusterRequest) error {
+	c, err := f.Clients()
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return c.ConnectCluster(opts)
+	req.Cluster.Owner, err = c.Owner(cmd.Context())
+	if err != nil {
+		return err
+	}
+	_, err = c.Lifecycle.ConnectCluster(cmd.Context(), connect.NewRequest(req))
+	return err
 }

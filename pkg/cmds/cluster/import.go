@@ -17,21 +17,25 @@ limitations under the License.
 package cluster
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"strings"
-	"sync"
 
+	clusterv2 "go.bytebuilders.dev/b3/apis/gen/go/akp/cluster/v2"
+	"go.bytebuilders.dev/cli/pkg/akp"
 	"go.bytebuilders.dev/cli/pkg/config"
-	"go.bytebuilders.dev/cli/pkg/printer"
-	clustermodel "go.bytebuilders.dev/resource-model/apis/cluster"
 
-	"github.com/rs/xid"
+	"connectrpc.com/connect"
 	"github.com/spf13/cobra"
 )
 
 func newCmdImport(f *config.Factory) *cobra.Command {
-	opts := clustermodel.ImportOptions{}
+	req := &clusterv2.ImportClusterRequest{
+		Names:      &clusterv2.ClusterNames{},
+		Provider:   &clusterv2.ProviderOptions{},
+		Components: &clusterv2.ComponentOptions{},
+	}
 	var featureSet map[string]string
 	var kubeConfigPath string
 	cmd := &cobra.Command{
@@ -44,81 +48,49 @@ func newCmdImport(f *config.Factory) *cobra.Command {
 				if err != nil {
 					return fmt.Errorf("failed to read Kubeconfig file. Reason: %w", err)
 				}
-				opts.Provider.KubeConfig = string(data)
+				req.Provider.Kubeconfig = string(data)
 			}
 
-			opts.Components.FeatureSets = getFeatureSetsInfo(featureSet)
+			req.Components.FeatureSets = getFeatureSetsInfo(featureSet)
 
-			err := importCluster(f, opts)
+			err := importCluster(cmd, f, req)
 			if err != nil {
 				return fmt.Errorf("failed to import cluster. Reason: %w", err)
 			}
 			return nil
 		},
 	}
-	cmd.Flags().StringVar(&opts.Provider.Name, "provider", "", "Name of the cluster provider")
-	cmd.Flags().StringVar(&opts.Provider.Credential, "credential", "", "Name of the credential with access to the provider APIs")
-	cmd.Flags().StringVar(&opts.Provider.ClusterID, "id", "", "Provider specific cluster ID")
-	cmd.Flags().StringVar(&opts.Provider.Project, "project", "", "Project where the cluster belong (use for GKE)")
-	cmd.Flags().StringVar(&opts.Provider.Region, "region", "", "Region or location of the cluster")
-	cmd.Flags().StringVar(&opts.Provider.ResourceGroup, "resource-group", "", "Resource group of the cluster (use for AKS)")
-	cmd.Flags().StringVar(&kubeConfigPath, "kubeconfig", "", "Path of the kubeconfig file")
+	addProviderFlags(cmd, req.Provider, &kubeConfigPath)
 
-	cmd.Flags().StringVar(&opts.BasicInfo.DisplayName, "display-name", "", "Display name of the cluster")
-	cmd.Flags().StringVar(&opts.BasicInfo.Name, "name", "", "Unique name across all imported clusters of all provider")
-	cmd.Flags().BoolVar(&opts.Components.FluxCD, "install-fluxcd", true, "Specify whether to install FluxCD or not (default true).")
-	cmd.Flags().BoolVar(&opts.Components.AllFeatures, "all-features", false, "Install all features")
+	cmd.Flags().StringVar(&req.Names.DisplayName, "display-name", "", "Display name of the cluster")
+	cmd.Flags().StringVar(&req.Names.Name, "name", "", "Unique name across all imported clusters of all provider")
+	cmd.Flags().BoolVar(&req.Components.FluxCd, "install-fluxcd", true, "Specify whether to install FluxCD or not (default true).")
+	cmd.Flags().BoolVar(&req.Components.AllFeatures, "all-features", false, "Install all features")
 	cmd.Flags().StringToStringVar(&featureSet, "featureset", featureSet, "List of features")
 	return cmd
 }
 
-func importCluster(f *config.Factory, opts clustermodel.ImportOptions) error {
+func importCluster(cmd *cobra.Command, f *config.Factory, req *clusterv2.ImportClusterRequest) error {
 	fmt.Println("Importing cluster......")
-	c, err := f.Client()
-	if err != nil {
+	return runOperation(cmd, f, "the import", func(ctx context.Context, c *akp.Clients, owner string, op *clusterv2.OperationOptions) error {
+		req.Owner = owner
+		req.Operation = op
+		_, err := c.Lifecycle.ImportCluster(ctx, connect.NewRequest(req))
 		return err
-	}
-	nc, err := c.NewNatsConnection("ace-cli")
-	if err != nil {
-		return err
-	}
-	defer nc.Close() // nolint:errcheck
-
-	responseID := xid.New().String()
-	wg := sync.WaitGroup{}
-	wg.Add(1)
-	done := f.Canceller()
-	go func() {
-		err := printer.PrintNATSJobSteps(&wg, nc, responseID, done)
-		if err != nil {
-			fmt.Println("Failed to log the import steps. Reason: ", err)
-		}
-	}()
-
-	_, err = c.ImportCluster(opts, responseID)
-	if err != nil {
-		close(done)
-		return err
-	}
-	wg.Wait()
-
-	return nil
+	})
 }
 
-func getFeatureSetsInfo(featureSets map[string]string) []clustermodel.FeatureSet {
-	var desiredFeatureSets []clustermodel.FeatureSet
+func getFeatureSetsInfo(featureSets map[string]string) []*clusterv2.FeatureSet {
 	if len(featureSets) == 0 {
-		return defaultFeatureSet
+		return defaultFeatureSets()
 	}
 
+	desiredFeatureSets := make([]*clusterv2.FeatureSet, 0, len(featureSets))
 	for key, val := range featureSets {
-		featureSet := clustermodel.FeatureSet{
+		desiredFeatureSets = append(desiredFeatureSets, &clusterv2.FeatureSet{
 			Name:     key,
 			Features: strings.Split(val, ","),
-		}
-
-		desiredFeatureSets = append(desiredFeatureSets, featureSet)
+		})
 	}
-
 	return desiredFeatureSets
 }

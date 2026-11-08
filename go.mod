@@ -1,8 +1,9 @@
 module go.bytebuilders.dev/cli
 
-go 1.25.6
+go 1.26.0
 
 require (
+	connectrpc.com/connect v1.21.1
 	github.com/cert-manager/cert-manager v1.19.4
 	github.com/envoyproxy/gateway v1.6.3
 	github.com/fatih/color v1.18.0
@@ -12,16 +13,17 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/rs/xid v1.6.0
 	github.com/spf13/cobra v1.10.1
+	go.bytebuilders.dev/b3/apis v0.0.0-20261108144657-26f26fba1316
 	go.bytebuilders.dev/catalog v0.0.19
 	go.bytebuilders.dev/client v0.0.4
 	go.bytebuilders.dev/license-verifier v0.15.0
-	go.bytebuilders.dev/resource-model v0.3.0
 	gocloud.dev v0.41.0
 	gomodules.xyz/blobfs v0.2.2
 	gomodules.xyz/go-sh v0.2.0
 	gomodules.xyz/logs v0.0.7
 	gomodules.xyz/pointer v0.1.0
 	gomodules.xyz/x v0.0.17
+	google.golang.org/protobuf v1.36.12
 	k8s.io/api v0.34.3
 	k8s.io/apimachinery v0.34.3
 	k8s.io/cli-runtime v0.34.3
@@ -41,6 +43,7 @@ require (
 )
 
 require (
+	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.11-20260415201107-50325440f8f2.1 // indirect
 	cel.dev/expr v0.24.0 // indirect
 	cloud.google.com/go v0.120.0 // indirect
 	cloud.google.com/go/auth v0.17.0 // indirect
@@ -203,6 +206,7 @@ require (
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	github.com/zeebo/errs v1.4.0 // indirect
 	github.com/zeebo/xxh3 v1.0.2 // indirect
+	go.bytebuilders.dev/resource-model v0.3.0 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
 	go.opentelemetry.io/contrib/detectors/gcp v1.36.0 // indirect
@@ -239,7 +243,6 @@ require (
 	google.golang.org/genproto/googleapis/api v0.0.0-20250825161204-c5933d9347a5 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20251103181224-f26f9409b101 // indirect
 	google.golang.org/grpc v1.76.0 // indirect
-	google.golang.org/protobuf v1.36.10 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.13.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
@@ -278,3 +281,5 @@ replace github.com/Masterminds/sprig/v3 => github.com/gomodules/sprig/v3 v3.2.3-
 replace sigs.k8s.io/controller-runtime => github.com/kmodules/controller-runtime v0.22.5-0.20251227114913-f011264689cd
 
 replace k8s.io/apiserver => github.com/kmodules/apiserver v0.34.4-0.20251227112449-07fa35efc6fc
+
+replace go.bytebuilders.dev/b3/apis => github.com/appscode-cloud/b3/apis v0.0.0-20261108144657-26f26fba1316

@@ -18,55 +18,66 @@ package cluster
 
 import (
 	"fmt"
+	"strings"
 
+	clusterv2 "go.bytebuilders.dev/b3/apis/gen/go/akp/cluster/v2"
 	"go.bytebuilders.dev/cli/pkg/config"
 	"go.bytebuilders.dev/cli/pkg/printer"
-	clustermodel "go.bytebuilders.dev/resource-model/apis/cluster"
-	"go.bytebuilders.dev/resource-model/apis/cluster/v1alpha1"
 
+	"connectrpc.com/connect"
 	"github.com/spf13/cobra"
 )
 
 func newCmdList(f *config.Factory) *cobra.Command {
-	listOptions := clustermodel.ListOptions{}
+	var provider string
 	cmd := &cobra.Command{
 		Use:               "list",
 		Short:             "List cluster managed by ACE platform",
 		DisableAutoGenTag: true,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			clusters, err := listClusters(f, listOptions)
+			clusters, err := listClusters(cmd, f, provider)
 			if err != nil {
 				return fmt.Errorf("failed to list clusters. Reason: %w", err)
 			}
-			if len(clusters.Items) == 0 {
+			if len(clusters) == 0 {
 				fmt.Println("No cluster found.")
 				return nil
 			}
-			return printer.PrintClusterList(clusters.Items)
+			return printer.PrintClusterList(clusters)
 		},
 	}
-	cmd.Flags().StringVar(&listOptions.Provider, "provider", "", "List cluster only for this provider")
+	cmd.Flags().StringVar(&provider, "provider", "", "List cluster only for this provider")
 	return cmd
 }
 
-func listClusters(f *config.Factory, opts clustermodel.ListOptions) (*v1alpha1.ClusterInfoList, error) {
-	c, err := f.Client()
+func listClusters(cmd *cobra.Command, f *config.Factory, provider string) ([]*clusterv2.Cluster, error) {
+	ctx := cmd.Context()
+	c, err := f.Clients()
+	if err != nil {
+		return nil, err
+	}
+	owner, err := c.Owner(ctx)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.Clusters.ListClusters(ctx, connect.NewRequest(&clusterv2.ListClustersRequest{Owner: owner}))
 	if err != nil {
 		return nil, err
 	}
 
-	clusters, err := c.ListClusters(opts)
-	if err != nil {
-		return nil, err
-	}
-	for i := range clusters.Items {
-		cluster, err := c.GetCluster(clustermodel.GetOptions{
-			Name: clusters.Items[i].Spec.Name,
-		})
+	var clusters []*clusterv2.Cluster
+	for _, cluster := range resp.Msg.GetClusters() {
+		// The API lists every provider's clusters.
+		if provider != "" && !strings.EqualFold(cluster.GetProvider(), provider) {
+			continue
+		}
+		// The list carries stored records; the live status is asked per cluster.
+		live, err := c.ClusterStatus(ctx, owner, cluster.GetName())
 		if err != nil {
 			return nil, err
 		}
-		clusters.Items[i].Status = cluster.Status
+		cluster.Status = live.GetStatus()
+		clusters = append(clusters, cluster)
 	}
 	return clusters, nil
 }

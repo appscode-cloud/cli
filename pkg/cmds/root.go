@@ -21,6 +21,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"go.bytebuilders.dev/cli/pkg/akp"
 	"go.bytebuilders.dev/cli/pkg/cmds/auth"
 	"go.bytebuilders.dev/cli/pkg/cmds/cloud_swap"
 	"go.bytebuilders.dev/cli/pkg/cmds/cluster"
@@ -29,7 +30,6 @@ import (
 	"go.bytebuilders.dev/cli/pkg/cmds/expose"
 	"go.bytebuilders.dev/cli/pkg/cmds/installer"
 	"go.bytebuilders.dev/cli/pkg/config"
-	ace "go.bytebuilders.dev/client"
 
 	"github.com/spf13/cobra"
 	v "gomodules.xyz/x/version"
@@ -46,7 +46,7 @@ func NewRootCmd() *cobra.Command {
 	rootCmd.PersistentFlags().StringVar(&config.Organization, "org", "", "Use this organization for instead of auto-detecting current one")
 
 	f := &config.Factory{
-		Client:    aceClient,
+		Clients:   akpClients,
 		Canceller: canceller,
 	}
 	rootCmd.AddCommand(cmdconfig.NewCmdConfig())
@@ -65,32 +65,23 @@ func NewRootCmd() *cobra.Command {
 	return rootCmd
 }
 
-func aceClient() (*ace.Client, error) {
+func akpClients() (*akp.Clients, error) {
 	cfg, err := config.GetContext()
 	if err != nil {
 		return nil, err
 	}
-	client := ace.NewClient(cfg.Endpoint)
-	if config.Organization != "" {
-		client = client.WithOrganization(config.Organization)
-	}
-
-	if cfg.Token != "" {
-		client = client.WithAccessToken(cfg.Token)
-	}
-
-	if cred := auth.GetBasicAuthCredFromEnv(); cred != nil {
-		client = client.WithBasicAuth(cred.Username, cred.Password)
+	cred := akp.Credentials{
+		Token:   cfg.Token,
+		Cookies: cfg.Cookies,
 	}
 	if token := auth.GetAuthTokenFromEnv(); token != "" {
-		client = client.WithAccessToken(token)
+		cred.Token = token
 	}
-
-	if cfg.Cookies != nil {
-		client = client.WithCookies(cfg.Cookies)
+	if basic := auth.GetBasicAuthCredFromEnv(); basic != nil {
+		cred.Username = basic.Username
+		cred.Password = basic.Password
 	}
-
-	return client, err
+	return akp.NewClients(cfg.Endpoint, config.Organization, cred), nil
 }
 
 func canceller() chan os.Signal {
