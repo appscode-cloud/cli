@@ -17,21 +17,21 @@ limitations under the License.
 package printer
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 	"text/tabwriter"
 
-	"go.bytebuilders.dev/resource-model/apis/cluster/v1alpha1"
+	clusterv2 "go.bytebuilders.dev/b3/apis/gen/go/akp/cluster/v2"
 
+	"google.golang.org/protobuf/encoding/protojson"
 	"sigs.k8s.io/yaml"
 )
 
 var OutputFormat string
 
 type clusterPrinter interface {
-	printCluster(cluster *v1alpha1.ClusterInfo) error
-	printClusterList(clusters []v1alpha1.ClusterInfo) error
+	printCluster(cluster *clusterv2.Cluster) error
+	printClusterList(clusters []*clusterv2.Cluster) error
 }
 
 func newPrinter() clusterPrinter {
@@ -47,38 +47,37 @@ func newPrinter() clusterPrinter {
 	return printer
 }
 
-func PrintCluster(cluster *v1alpha1.ClusterInfo) error {
+func PrintCluster(cluster *clusterv2.Cluster) error {
 	printer := newPrinter()
 	return printer.printCluster(cluster)
 }
 
-func PrintClusterList(clusters []v1alpha1.ClusterInfo) error {
+func PrintClusterList(clusters []*clusterv2.Cluster) error {
 	printer := newPrinter()
 	return printer.printClusterList(clusters)
 }
 
 type tablePrinter struct{}
 
-func (p *tablePrinter) printCluster(cluster *v1alpha1.ClusterInfo) error {
-	w := tabwriter.NewWriter(os.Stdout, 0, 0, 5, ' ', 0)
-	_, _ = fmt.Fprintln(w, "NAME\tDISPLAY_NAME\tPROVIDER\tPHASE")
-	_, _ = fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", cluster.Spec.Name, cluster.Spec.DisplayName, cluster.Spec.Provider, cluster.Status.Phase)
-	return w.Flush()
+func (p *tablePrinter) printCluster(cluster *clusterv2.Cluster) error {
+	return p.printClusterList([]*clusterv2.Cluster{cluster})
 }
 
-func (p *tablePrinter) printClusterList(clusters []v1alpha1.ClusterInfo) error {
+func (p *tablePrinter) printClusterList(clusters []*clusterv2.Cluster) error {
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 5, ' ', 0)
 	_, _ = fmt.Fprintln(w, "NAME\tDISPLAY_NAME\tPROVIDER\tPHASE")
-	for i := range clusters {
-		_, _ = fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", clusters[i].Spec.Name, clusters[i].Spec.DisplayName, clusters[i].Spec.Provider, clusters[i].Status.Phase)
+	for _, c := range clusters {
+		_, _ = fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", c.GetName(), c.GetDisplayName(), c.GetProvider(), c.GetStatus().GetPhase())
 	}
 	return w.Flush()
 }
 
+var jsonOptions = protojson.MarshalOptions{Indent: " "}
+
 type jsonPrinter struct{}
 
-func (p *jsonPrinter) printCluster(cluster *v1alpha1.ClusterInfo) error {
-	data, err := json.MarshalIndent(cluster, "", " ")
+func (p *jsonPrinter) printCluster(cluster *clusterv2.Cluster) error {
+	data, err := jsonOptions.Marshal(cluster)
 	if err != nil {
 		return err
 	}
@@ -86,21 +85,23 @@ func (p *jsonPrinter) printCluster(cluster *v1alpha1.ClusterInfo) error {
 	return nil
 }
 
-func (p *jsonPrinter) printClusterList(clusters []v1alpha1.ClusterInfo) error {
-	for i := range clusters {
-		data, err := json.MarshalIndent(clusters[i], "", " ")
-		if err != nil {
+func (p *jsonPrinter) printClusterList(clusters []*clusterv2.Cluster) error {
+	for _, c := range clusters {
+		if err := p.printCluster(c); err != nil {
 			return err
 		}
-		fmt.Println(string(data))
 	}
 	return nil
 }
 
 type yamlPrinter struct{}
 
-func (p *yamlPrinter) printCluster(cluster *v1alpha1.ClusterInfo) error {
-	data, err := yaml.Marshal(cluster)
+func (p *yamlPrinter) printCluster(cluster *clusterv2.Cluster) error {
+	data, err := protojson.Marshal(cluster)
+	if err != nil {
+		return err
+	}
+	data, err = yaml.JSONToYAML(data)
 	if err != nil {
 		return err
 	}
@@ -108,13 +109,11 @@ func (p *yamlPrinter) printCluster(cluster *v1alpha1.ClusterInfo) error {
 	return nil
 }
 
-func (p *yamlPrinter) printClusterList(clusters []v1alpha1.ClusterInfo) error {
-	for i := range clusters {
-		data, err := yaml.Marshal(clusters[i])
-		if err != nil {
+func (p *yamlPrinter) printClusterList(clusters []*clusterv2.Cluster) error {
+	for _, c := range clusters {
+		if err := p.printCluster(c); err != nil {
 			return err
 		}
-		fmt.Println(string(data))
 	}
 	return nil
 }

@@ -19,10 +19,10 @@ package config
 import (
 	"os"
 
-	ace "go.bytebuilders.dev/client"
+	"go.bytebuilders.dev/cli/pkg/akp"
 )
 
 type Factory struct {
-	Client    func() (*ace.Client, error)
+	Clients   func() (*akp.Clients, error)
 	Canceller func() chan os.Signal
 }

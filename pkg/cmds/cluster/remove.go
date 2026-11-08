@@ -17,32 +17,33 @@ limitations under the License.
 package cluster
 
 import (
-	"errors"
+	"context"
 	"fmt"
-	"sync"
 
+	clusterv2 "go.bytebuilders.dev/b3/apis/gen/go/akp/cluster/v2"
+	"go.bytebuilders.dev/cli/pkg/akp"
 	"go.bytebuilders.dev/cli/pkg/config"
-	"go.bytebuilders.dev/cli/pkg/printer"
-	ace "go.bytebuilders.dev/client"
-	clustermodel "go.bytebuilders.dev/resource-model/apis/cluster"
 
-	"github.com/rs/xid"
+	"connectrpc.com/connect"
 	"github.com/spf13/cobra"
 )
 
 func newCmdRemove(f *config.Factory) *cobra.Command {
-	opts := clustermodel.RemovalOptions{}
+	req := &clusterv2.RemoveClusterRequest{
+		Cluster:    &clusterv2.ClusterRef{},
+		Components: &clusterv2.ComponentOptions{},
+	}
 	cmd := &cobra.Command{
 		Use:               "remove",
 		Short:             "Remove a cluster from ACE platform",
 		DisableAutoGenTag: true,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if !opts.Components.AllFeatures {
-				opts.Components.FeatureSets = defaultFeatureSet
+			if !req.Components.AllFeatures {
+				req.Components.FeatureSets = defaultFeatureSets()
 			}
-			err := removeCluster(f, opts)
+			err := removeCluster(cmd, f, req)
 			if err != nil {
-				if errors.Is(err, ace.ErrNotFound) {
+				if akp.IsNotFound(err) {
 					fmt.Println("Cluster has been removed already.")
 					return nil
 				}
@@ -51,42 +52,18 @@ func newCmdRemove(f *config.Factory) *cobra.Command {
 			return nil
 		},
 	}
-	cmd.Flags().StringVar(&opts.Name, "name", "", "Name of the cluster to get")
-	cmd.Flags().BoolVar(&opts.Components.FluxCD, "remove-fluxcd", true, "Specify whether to remove FluxCD or not (default true).")
-	cmd.Flags().BoolVar(&opts.Components.AllFeatures, "all-features", false, "Remove all features")
+	cmd.Flags().StringVar(&req.Cluster.Name, "name", "", "Name of the cluster to get")
+	cmd.Flags().BoolVar(&req.Components.FluxCd, "remove-fluxcd", true, "Specify whether to remove FluxCD or not (default true).")
+	cmd.Flags().BoolVar(&req.Components.AllFeatures, "all-features", false, "Remove all features")
 	return cmd
 }
 
-func removeCluster(f *config.Factory, opts clustermodel.RemovalOptions) error {
+func removeCluster(cmd *cobra.Command, f *config.Factory, req *clusterv2.RemoveClusterRequest) error {
 	fmt.Println("Removing cluster......")
-	c, err := f.Client()
-	if err != nil {
+	return runOperation(cmd, f, "removal", func(ctx context.Context, c *akp.Clients, owner string, op *clusterv2.OperationOptions) error {
+		req.Cluster.Owner = owner
+		req.Operation = op
+		_, err := c.Lifecycle.RemoveCluster(ctx, connect.NewRequest(req))
 		return err
-	}
-
-	nc, err := c.NewNatsConnection("ace-cli")
-	if err != nil {
-		return err
-	}
-	defer nc.Close() // nolint:errcheck
-
-	responseID := xid.New().String()
-	wg := sync.WaitGroup{}
-	wg.Add(1)
-	done := f.Canceller()
-	go func() {
-		err := printer.PrintNATSJobSteps(&wg, nc, responseID, done)
-		if err != nil {
-			fmt.Println("Failed to log removal steps. Reason: ", err)
-		}
-	}()
-
-	err = c.RemoveCluster(opts, responseID)
-	if err != nil {
-		close(done)
-		return err
-	}
-	wg.Wait()
-
-	return nil
+	})
 }

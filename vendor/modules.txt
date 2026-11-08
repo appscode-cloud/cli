@@ -1,3 +1,6 @@
+# buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.11-20260415201107-50325440f8f2.1
+## explicit; go 1.23
+buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate
 # cel.dev/expr v0.24.0
 ## explicit; go 1.22.0
 cel.dev/expr
@@ -52,6 +55,10 @@ cloud.google.com/go/storage/experimental
 cloud.google.com/go/storage/internal
 cloud.google.com/go/storage/internal/apiv2
 cloud.google.com/go/storage/internal/apiv2/storagepb
+# connectrpc.com/connect v1.21.1
+## explicit; go 1.26.0
+connectrpc.com/connect
+connectrpc.com/connect/internal/gen/connectext/grpc/status/v1
 # filippo.io/edwards25519 v1.1.1
 ## explicit; go 1.20
 filippo.io/edwards25519
@@ -928,6 +935,13 @@ github.com/zeebo/errs
 # github.com/zeebo/xxh3 v1.0.2
 ## explicit; go 1.17
 github.com/zeebo/xxh3
+# go.bytebuilders.dev/b3/apis v0.0.0-20261108173727-9aab4bbcfac7 => github.com/appscode-cloud/b3/apis v0.0.0-20261108173727-9aab4bbcfac7
+## explicit; go 1.26.0
+go.bytebuilders.dev/b3/apis/gen/go/akp/cluster/v2
+go.bytebuilders.dev/b3/apis/gen/go/akp/cluster/v2/clusterv2connect
+go.bytebuilders.dev/b3/apis/gen/go/akp/ocm/v2
+go.bytebuilders.dev/b3/apis/gen/go/akp/user/v2
+go.bytebuilders.dev/b3/apis/gen/go/akp/user/v2/userv2connect
 # go.bytebuilders.dev/catalog v0.0.19
 ## explicit; go 1.25.6
 go.bytebuilders.dev/catalog/api/catalog/v1alpha1
@@ -1382,7 +1396,7 @@ google.golang.org/grpc/xds
 google.golang.org/grpc/xds/bootstrap
 google.golang.org/grpc/xds/csds
 google.golang.org/grpc/xds/googledirectpath
-# google.golang.org/protobuf v1.36.10
+# google.golang.org/protobuf v1.36.12
 ## explicit; go 1.23
 google.golang.org/protobuf/encoding/protodelim
 google.golang.org/protobuf/encoding/protojson
@@ -2219,3 +2233,4 @@ x-helm.dev/apimachinery/crds
 # github.com/Masterminds/sprig/v3 => github.com/gomodules/sprig/v3 v3.2.3-0.20220405051441-0a8a99bac1b8
 # sigs.k8s.io/controller-runtime => github.com/kmodules/controller-runtime v0.22.5-0.20251227114913-f011264689cd
 # k8s.io/apiserver => github.com/kmodules/apiserver v0.34.4-0.20251227112449-07fa35efc6fc
+# go.bytebuilders.dev/b3/apis => github.com/appscode-cloud/b3/apis v0.0.0-20261108173727-9aab4bbcfac7

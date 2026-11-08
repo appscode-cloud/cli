@@ -20,17 +20,17 @@ import (
 	"fmt"
 	"os"
 
+	clusterv2 "go.bytebuilders.dev/b3/apis/gen/go/akp/cluster/v2"
 	"go.bytebuilders.dev/cli/pkg/config"
 	"go.bytebuilders.dev/cli/pkg/printer"
-	clustermodel "go.bytebuilders.dev/resource-model/apis/cluster"
-	"go.bytebuilders.dev/resource-model/apis/cluster/v1alpha1"
 
+	"connectrpc.com/connect"
 	"github.com/spf13/cobra"
 	rsapi "kmodules.xyz/resource-metadata/apis/meta/v1alpha1"
 )
 
 func newCmdCheck(f *config.Factory) *cobra.Command {
-	opts := clustermodel.CheckOptions{}
+	provider := &clusterv2.ProviderOptions{}
 	var kubeConfigPath string
 	cmd := &cobra.Command{
 		Use:               "check",
@@ -42,33 +42,48 @@ func newCmdCheck(f *config.Factory) *cobra.Command {
 				if err != nil {
 					return fmt.Errorf("failed to read Kubeconfig file. Reason: %w", err)
 				}
-				opts.Provider.KubeConfig = string(data)
+				provider.Kubeconfig = string(data)
 			}
-			cluster, err := checkClusterExistence(f, opts)
+			cluster, err := checkClusterExistence(cmd, f, provider)
 			if err != nil {
 				return fmt.Errorf("failed to check cluster existence. Reason: %w", err)
 			}
-			if cluster.Status.Phase == rsapi.ClusterPhaseNotImported {
+			if cluster.GetStatus().GetPhase() == string(rsapi.ClusterPhaseNotImported) {
 				fmt.Println("Cluster hasn't been imported yet.")
 				return nil
 			}
 			return printer.PrintCluster(cluster)
 		},
 	}
-	cmd.Flags().StringVar(&opts.Provider.Name, "provider", "", "Name of the cluster provider")
-	cmd.Flags().StringVar(&opts.Provider.Credential, "credential", "", "Name of the credential with access to the provider APIs")
-	cmd.Flags().StringVar(&opts.Provider.ClusterID, "id", "", "Provider specific cluster ID")
-	cmd.Flags().StringVar(&opts.Provider.Project, "project", "", "Project where the cluster belong (use for GKE)")
-	cmd.Flags().StringVar(&opts.Provider.Region, "region", "", "Region or location of the cluster")
-	cmd.Flags().StringVar(&opts.Provider.ResourceGroup, "resource-group", "", "Resource group of the cluster (use for AKS)")
-	cmd.Flags().StringVar(&kubeConfigPath, "kubeconfig", "", "Path of the kubeconfig file")
+	addProviderFlags(cmd, provider, &kubeConfigPath)
 	return cmd
 }
 
-func checkClusterExistence(f *config.Factory, opts clustermodel.CheckOptions) (*v1alpha1.ClusterInfo, error) {
-	c, err := f.Client()
+func addProviderFlags(cmd *cobra.Command, provider *clusterv2.ProviderOptions, kubeConfigPath *string) {
+	cmd.Flags().StringVar(&provider.Name, "provider", "", "Name of the cluster provider")
+	cmd.Flags().StringVar(&provider.Credential, "credential", "", "Name of the credential with access to the provider APIs")
+	cmd.Flags().StringVar(&provider.ClusterId, "id", "", "Provider specific cluster ID")
+	cmd.Flags().StringVar(&provider.Project, "project", "", "Project where the cluster belong (use for GKE)")
+	cmd.Flags().StringVar(&provider.Region, "region", "", "Region or location of the cluster")
+	cmd.Flags().StringVar(&provider.ResourceGroup, "resource-group", "", "Resource group of the cluster (use for AKS)")
+	cmd.Flags().StringVar(kubeConfigPath, "kubeconfig", "", "Path of the kubeconfig file")
+}
+
+func checkClusterExistence(cmd *cobra.Command, f *config.Factory, provider *clusterv2.ProviderOptions) (*clusterv2.Cluster, error) {
+	c, err := f.Clients()
 	if err != nil {
 		return nil, err
 	}
-	return c.CheckClusterExistence(opts)
+	owner, err := c.Owner(cmd.Context())
+	if err != nil {
+		return nil, err
+	}
+	resp, err := c.Lifecycle.CheckCluster(cmd.Context(), connect.NewRequest(&clusterv2.CheckClusterRequest{
+		Owner:    owner,
+		Provider: provider,
+	}))
+	if err != nil {
+		return nil, err
+	}
+	return resp.Msg.GetCluster(), nil
 }
