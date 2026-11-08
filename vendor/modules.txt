@@ -935,7 +935,7 @@ github.com/zeebo/errs
 # github.com/zeebo/xxh3 v1.0.2
 ## explicit; go 1.17
 github.com/zeebo/xxh3
-# go.bytebuilders.dev/b3/apis v0.0.0-20261108144657-26f26fba1316 => github.com/appscode-cloud/b3/apis v0.0.0-20261108144657-26f26fba1316
+# go.bytebuilders.dev/b3/apis v0.0.0-20261108173727-9aab4bbcfac7 => github.com/appscode-cloud/b3/apis v0.0.0-20261108173727-9aab4bbcfac7
 ## explicit; go 1.26.0
 go.bytebuilders.dev/b3/apis/gen/go/akp/cluster/v2
 go.bytebuilders.dev/b3/apis/gen/go/akp/cluster/v2/clusterv2connect
@@ -2233,4 +2233,4 @@ x-helm.dev/apimachinery/crds
 # github.com/Masterminds/sprig/v3 => github.com/gomodules/sprig/v3 v3.2.3-0.20220405051441-0a8a99bac1b8
 # sigs.k8s.io/controller-runtime => github.com/kmodules/controller-runtime v0.22.5-0.20251227114913-f011264689cd
 # k8s.io/apiserver => github.com/kmodules/apiserver v0.34.4-0.20251227112449-07fa35efc6fc
-# go.bytebuilders.dev/b3/apis => github.com/appscode-cloud/b3/apis v0.0.0-20261108144657-26f26fba1316
+# go.bytebuilders.dev/b3/apis => github.com/appscode-cloud/b3/apis v0.0.0-20261108173727-9aab4bbcfac7

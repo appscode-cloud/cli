@@ -769,8 +769,10 @@ type GetClusterStatusResponse struct {
 	ClusterSetName string `protobuf:"bytes,2,opt,name=cluster_set_name,json=clusterSetName,proto3" json:"cluster_set_name,omitempty"`
 	// is_capi_cluster_upgradeable is set for a Cluster API cluster with a newer version available.
 	IsCapiClusterUpgradeable bool `protobuf:"varint,3,opt,name=is_capi_cluster_upgradeable,json=isCapiClusterUpgradeable,proto3" json:"is_capi_cluster_upgradeable,omitempty"`
-	unknownFields            protoimpl.UnknownFields
-	sizeCache                protoimpl.SizeCache
+	// cluster_api is set for a cluster Cluster API manages, as the cluster reports it.
+	ClusterApi    *ClusterAPIInfo `protobuf:"bytes,4,opt,name=cluster_api,json=clusterApi,proto3" json:"cluster_api,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetClusterStatusResponse) Reset() {
@@ -822,6 +824,13 @@ func (x *GetClusterStatusResponse) GetIsCapiClusterUpgradeable() bool {
 		return x.IsCapiClusterUpgradeable
 	}
 	return false
+}
+
+func (x *GetClusterStatusResponse) GetClusterApi() *ClusterAPIInfo {
+	if x != nil {
+		return x.ClusterApi
+	}
+	return nil
 }
 
 type ListUpgradeableVersionsRequest struct {
@@ -3526,11 +3535,13 @@ const file_akp_cluster_v2_lifecycle_proto_rawDesc = "" +
 	"\acluster\x18\x01 \x01(\v2\x1a.akp.cluster.v2.ClusterRefB\x06\xbaH\x03\xc8\x01\x01R\acluster\"\x17\n" +
 	"\x15ForgetClusterResponse\"W\n" +
 	"\x17GetClusterStatusRequest\x12<\n" +
-	"\acluster\x18\x01 \x01(\v2\x1a.akp.cluster.v2.ClusterRefB\x06\xbaH\x03\xc8\x01\x01R\acluster\"\xb6\x01\n" +
+	"\acluster\x18\x01 \x01(\v2\x1a.akp.cluster.v2.ClusterRefB\x06\xbaH\x03\xc8\x01\x01R\acluster\"\xf7\x01\n" +
 	"\x18GetClusterStatusResponse\x121\n" +
 	"\acluster\x18\x01 \x01(\v2\x17.akp.cluster.v2.ClusterR\acluster\x12(\n" +
 	"\x10cluster_set_name\x18\x02 \x01(\tR\x0eclusterSetName\x12=\n" +
-	"\x1bis_capi_cluster_upgradeable\x18\x03 \x01(\bR\x18isCapiClusterUpgradeable\"^\n" +
+	"\x1bis_capi_cluster_upgradeable\x18\x03 \x01(\bR\x18isCapiClusterUpgradeable\x12?\n" +
+	"\vcluster_api\x18\x04 \x01(\v2\x1e.akp.cluster.v2.ClusterAPIInfoR\n" +
+	"clusterApi\"^\n" +
 	"\x1eListUpgradeableVersionsRequest\x12<\n" +
 	"\acluster\x18\x01 \x01(\v2\x1a.akp.cluster.v2.ClusterRefB\x06\xbaH\x03\xc8\x01\x01R\acluster\"=\n" +
 	"\x1fListUpgradeableVersionsResponse\x12\x1a\n" +
@@ -3843,98 +3854,99 @@ var file_akp_cluster_v2_lifecycle_proto_depIdxs = []int32{
 	60, // 10: akp.cluster.v2.ForgetClusterRequest.cluster:type_name -> akp.cluster.v2.ClusterRef
 	60, // 11: akp.cluster.v2.GetClusterStatusRequest.cluster:type_name -> akp.cluster.v2.ClusterRef
 	61, // 12: akp.cluster.v2.GetClusterStatusResponse.cluster:type_name -> akp.cluster.v2.Cluster
-	60, // 13: akp.cluster.v2.ListUpgradeableVersionsRequest.cluster:type_name -> akp.cluster.v2.ClusterRef
-	17, // 14: akp.cluster.v2.ListArgoCDClustersResponse.clusters:type_name -> akp.cluster.v2.ArgoCDCluster
-	0,  // 15: akp.cluster.v2.GetOperationResponse.operation:type_name -> akp.cluster.v2.Operation
-	58, // 16: akp.cluster.v2.GetHubInfoResponse.hubs:type_name -> akp.cluster.v2.GetHubInfoResponse.HubsEntry
-	25, // 17: akp.cluster.v2.ListAllHubClustersResponse.hubs:type_name -> akp.cluster.v2.HubCluster
-	59, // 18: akp.cluster.v2.HubCluster.create_time:type_name -> google.protobuf.Timestamp
-	26, // 19: akp.cluster.v2.CreateVirtualClusterRequest.cluster:type_name -> akp.cluster.v2.VirtualClusterOptions
-	1,  // 20: akp.cluster.v2.CreateVirtualClusterRequest.operation:type_name -> akp.cluster.v2.OperationOptions
-	0,  // 21: akp.cluster.v2.CreateVirtualClusterResponse.operation:type_name -> akp.cluster.v2.Operation
-	26, // 22: akp.cluster.v2.ImportVirtualClusterRequest.cluster:type_name -> akp.cluster.v2.VirtualClusterOptions
-	1,  // 23: akp.cluster.v2.ImportVirtualClusterRequest.operation:type_name -> akp.cluster.v2.OperationOptions
-	0,  // 24: akp.cluster.v2.ImportVirtualClusterResponse.operation:type_name -> akp.cluster.v2.Operation
-	60, // 25: akp.cluster.v2.ReconcileFeaturesRequest.cluster:type_name -> akp.cluster.v2.ClusterRef
-	35, // 26: akp.cluster.v2.CheckClusterRequest.names:type_name -> akp.cluster.v2.ClusterNames
-	36, // 27: akp.cluster.v2.CheckClusterRequest.provider:type_name -> akp.cluster.v2.ProviderOptions
-	61, // 28: akp.cluster.v2.CheckClusterResponse.cluster:type_name -> akp.cluster.v2.Cluster
-	35, // 29: akp.cluster.v2.ValidateImportRequest.names:type_name -> akp.cluster.v2.ClusterNames
-	36, // 30: akp.cluster.v2.ValidateImportRequest.provider:type_name -> akp.cluster.v2.ProviderOptions
-	41, // 31: akp.cluster.v2.ValidateImportResponse.display_name:type_name -> akp.cluster.v2.NameValidation
-	41, // 32: akp.cluster.v2.ValidateImportResponse.name:type_name -> akp.cluster.v2.NameValidation
-	42, // 33: akp.cluster.v2.ValidateImportResponse.flux_cd:type_name -> akp.cluster.v2.FluxCDStatus
-	43, // 34: akp.cluster.v2.ValidateImportResponse.feature_sets:type_name -> akp.cluster.v2.AvailableFeatureSet
-	45, // 35: akp.cluster.v2.ValidateImportResponse.cluster_api:type_name -> akp.cluster.v2.ClusterAPIInfo
-	62, // 36: akp.cluster.v2.ValidateImportResponse.cluster_metadata:type_name -> akp.cluster.v2.ClusterIdentity
-	44, // 37: akp.cluster.v2.AvailableFeatureSet.features:type_name -> akp.cluster.v2.AvailableFeature
-	35, // 38: akp.cluster.v2.ImportClusterRequest.names:type_name -> akp.cluster.v2.ClusterNames
-	36, // 39: akp.cluster.v2.ImportClusterRequest.provider:type_name -> akp.cluster.v2.ProviderOptions
-	2,  // 40: akp.cluster.v2.ImportClusterRequest.components:type_name -> akp.cluster.v2.ComponentOptions
-	1,  // 41: akp.cluster.v2.ImportClusterRequest.operation:type_name -> akp.cluster.v2.OperationOptions
-	61, // 42: akp.cluster.v2.ImportClusterResponse.cluster:type_name -> akp.cluster.v2.Cluster
-	0,  // 43: akp.cluster.v2.ImportClusterResponse.operation:type_name -> akp.cluster.v2.Operation
-	60, // 44: akp.cluster.v2.ConnectClusterRequest.cluster:type_name -> akp.cluster.v2.ClusterRef
-	61, // 45: akp.cluster.v2.ConnectClusterResponse.cluster:type_name -> akp.cluster.v2.Cluster
-	60, // 46: akp.cluster.v2.ReconfigureClusterRequest.cluster:type_name -> akp.cluster.v2.ClusterRef
-	2,  // 47: akp.cluster.v2.ReconfigureClusterRequest.components:type_name -> akp.cluster.v2.ComponentOptions
-	1,  // 48: akp.cluster.v2.ReconfigureClusterRequest.operation:type_name -> akp.cluster.v2.OperationOptions
-	0,  // 49: akp.cluster.v2.ReconfigureClusterResponse.operation:type_name -> akp.cluster.v2.Operation
-	60, // 50: akp.cluster.v2.ConvertFeatureRequest.cluster:type_name -> akp.cluster.v2.ClusterRef
-	1,  // 51: akp.cluster.v2.ConvertFeatureRequest.operation:type_name -> akp.cluster.v2.OperationOptions
-	0,  // 52: akp.cluster.v2.ConvertFeatureResponse.operation:type_name -> akp.cluster.v2.Operation
-	60, // 53: akp.cluster.v2.UpgradeKubernetesVersionRequest.cluster:type_name -> akp.cluster.v2.ClusterRef
-	1,  // 54: akp.cluster.v2.UpgradeKubernetesVersionRequest.operation:type_name -> akp.cluster.v2.OperationOptions
-	0,  // 55: akp.cluster.v2.UpgradeKubernetesVersionResponse.operation:type_name -> akp.cluster.v2.Operation
-	60, // 56: akp.cluster.v2.DeleteClusterRequest.cluster:type_name -> akp.cluster.v2.ClusterRef
-	1,  // 57: akp.cluster.v2.DeleteClusterRequest.operation:type_name -> akp.cluster.v2.OperationOptions
-	0,  // 58: akp.cluster.v2.DeleteClusterResponse.operation:type_name -> akp.cluster.v2.Operation
-	22, // 59: akp.cluster.v2.GetHubInfoResponse.HubsEntry.value:type_name -> akp.cluster.v2.HubAccess
-	7,  // 60: akp.cluster.v2.LifecycleService.RemoveCluster:input_type -> akp.cluster.v2.RemoveClusterRequest
-	9,  // 61: akp.cluster.v2.LifecycleService.ForgetCluster:input_type -> akp.cluster.v2.ForgetClusterRequest
-	11, // 62: akp.cluster.v2.LifecycleService.GetClusterStatus:input_type -> akp.cluster.v2.GetClusterStatusRequest
-	13, // 63: akp.cluster.v2.LifecycleService.ListUpgradeableVersions:input_type -> akp.cluster.v2.ListUpgradeableVersionsRequest
-	15, // 64: akp.cluster.v2.LifecycleService.ListArgoCDClusters:input_type -> akp.cluster.v2.ListArgoCDClustersRequest
-	31, // 65: akp.cluster.v2.LifecycleService.ReconcileFeatures:input_type -> akp.cluster.v2.ReconcileFeaturesRequest
-	33, // 66: akp.cluster.v2.LifecycleService.CheckSkipCredentials:input_type -> akp.cluster.v2.CheckSkipCredentialsRequest
-	37, // 67: akp.cluster.v2.LifecycleService.CheckCluster:input_type -> akp.cluster.v2.CheckClusterRequest
-	39, // 68: akp.cluster.v2.LifecycleService.ValidateImport:input_type -> akp.cluster.v2.ValidateImportRequest
-	46, // 69: akp.cluster.v2.LifecycleService.ImportCluster:input_type -> akp.cluster.v2.ImportClusterRequest
-	48, // 70: akp.cluster.v2.LifecycleService.ConnectCluster:input_type -> akp.cluster.v2.ConnectClusterRequest
-	50, // 71: akp.cluster.v2.LifecycleService.ReconfigureCluster:input_type -> akp.cluster.v2.ReconfigureClusterRequest
-	52, // 72: akp.cluster.v2.LifecycleService.ConvertFeature:input_type -> akp.cluster.v2.ConvertFeatureRequest
-	54, // 73: akp.cluster.v2.LifecycleService.UpgradeKubernetesVersion:input_type -> akp.cluster.v2.UpgradeKubernetesVersionRequest
-	56, // 74: akp.cluster.v2.LifecycleService.DeleteCluster:input_type -> akp.cluster.v2.DeleteClusterRequest
-	18, // 75: akp.cluster.v2.OperationService.GetOperation:input_type -> akp.cluster.v2.GetOperationRequest
-	20, // 76: akp.cluster.v2.HubService.GetHubInfo:input_type -> akp.cluster.v2.GetHubInfoRequest
-	23, // 77: akp.cluster.v2.HubService.ListAllHubClusters:input_type -> akp.cluster.v2.ListAllHubClustersRequest
-	27, // 78: akp.cluster.v2.VirtualClusterService.CreateVirtualCluster:input_type -> akp.cluster.v2.CreateVirtualClusterRequest
-	29, // 79: akp.cluster.v2.VirtualClusterService.ImportVirtualCluster:input_type -> akp.cluster.v2.ImportVirtualClusterRequest
-	8,  // 80: akp.cluster.v2.LifecycleService.RemoveCluster:output_type -> akp.cluster.v2.RemoveClusterResponse
-	10, // 81: akp.cluster.v2.LifecycleService.ForgetCluster:output_type -> akp.cluster.v2.ForgetClusterResponse
-	12, // 82: akp.cluster.v2.LifecycleService.GetClusterStatus:output_type -> akp.cluster.v2.GetClusterStatusResponse
-	14, // 83: akp.cluster.v2.LifecycleService.ListUpgradeableVersions:output_type -> akp.cluster.v2.ListUpgradeableVersionsResponse
-	16, // 84: akp.cluster.v2.LifecycleService.ListArgoCDClusters:output_type -> akp.cluster.v2.ListArgoCDClustersResponse
-	32, // 85: akp.cluster.v2.LifecycleService.ReconcileFeatures:output_type -> akp.cluster.v2.ReconcileFeaturesResponse
-	34, // 86: akp.cluster.v2.LifecycleService.CheckSkipCredentials:output_type -> akp.cluster.v2.CheckSkipCredentialsResponse
-	38, // 87: akp.cluster.v2.LifecycleService.CheckCluster:output_type -> akp.cluster.v2.CheckClusterResponse
-	40, // 88: akp.cluster.v2.LifecycleService.ValidateImport:output_type -> akp.cluster.v2.ValidateImportResponse
-	47, // 89: akp.cluster.v2.LifecycleService.ImportCluster:output_type -> akp.cluster.v2.ImportClusterResponse
-	49, // 90: akp.cluster.v2.LifecycleService.ConnectCluster:output_type -> akp.cluster.v2.ConnectClusterResponse
-	51, // 91: akp.cluster.v2.LifecycleService.ReconfigureCluster:output_type -> akp.cluster.v2.ReconfigureClusterResponse
-	53, // 92: akp.cluster.v2.LifecycleService.ConvertFeature:output_type -> akp.cluster.v2.ConvertFeatureResponse
-	55, // 93: akp.cluster.v2.LifecycleService.UpgradeKubernetesVersion:output_type -> akp.cluster.v2.UpgradeKubernetesVersionResponse
-	57, // 94: akp.cluster.v2.LifecycleService.DeleteCluster:output_type -> akp.cluster.v2.DeleteClusterResponse
-	19, // 95: akp.cluster.v2.OperationService.GetOperation:output_type -> akp.cluster.v2.GetOperationResponse
-	21, // 96: akp.cluster.v2.HubService.GetHubInfo:output_type -> akp.cluster.v2.GetHubInfoResponse
-	24, // 97: akp.cluster.v2.HubService.ListAllHubClusters:output_type -> akp.cluster.v2.ListAllHubClustersResponse
-	28, // 98: akp.cluster.v2.VirtualClusterService.CreateVirtualCluster:output_type -> akp.cluster.v2.CreateVirtualClusterResponse
-	30, // 99: akp.cluster.v2.VirtualClusterService.ImportVirtualCluster:output_type -> akp.cluster.v2.ImportVirtualClusterResponse
-	80, // [80:100] is the sub-list for method output_type
-	60, // [60:80] is the sub-list for method input_type
-	60, // [60:60] is the sub-list for extension type_name
-	60, // [60:60] is the sub-list for extension extendee
-	0,  // [0:60] is the sub-list for field type_name
+	45, // 13: akp.cluster.v2.GetClusterStatusResponse.cluster_api:type_name -> akp.cluster.v2.ClusterAPIInfo
+	60, // 14: akp.cluster.v2.ListUpgradeableVersionsRequest.cluster:type_name -> akp.cluster.v2.ClusterRef
+	17, // 15: akp.cluster.v2.ListArgoCDClustersResponse.clusters:type_name -> akp.cluster.v2.ArgoCDCluster
+	0,  // 16: akp.cluster.v2.GetOperationResponse.operation:type_name -> akp.cluster.v2.Operation
+	58, // 17: akp.cluster.v2.GetHubInfoResponse.hubs:type_name -> akp.cluster.v2.GetHubInfoResponse.HubsEntry
+	25, // 18: akp.cluster.v2.ListAllHubClustersResponse.hubs:type_name -> akp.cluster.v2.HubCluster
+	59, // 19: akp.cluster.v2.HubCluster.create_time:type_name -> google.protobuf.Timestamp
+	26, // 20: akp.cluster.v2.CreateVirtualClusterRequest.cluster:type_name -> akp.cluster.v2.VirtualClusterOptions
+	1,  // 21: akp.cluster.v2.CreateVirtualClusterRequest.operation:type_name -> akp.cluster.v2.OperationOptions
+	0,  // 22: akp.cluster.v2.CreateVirtualClusterResponse.operation:type_name -> akp.cluster.v2.Operation
+	26, // 23: akp.cluster.v2.ImportVirtualClusterRequest.cluster:type_name -> akp.cluster.v2.VirtualClusterOptions
+	1,  // 24: akp.cluster.v2.ImportVirtualClusterRequest.operation:type_name -> akp.cluster.v2.OperationOptions
+	0,  // 25: akp.cluster.v2.ImportVirtualClusterResponse.operation:type_name -> akp.cluster.v2.Operation
+	60, // 26: akp.cluster.v2.ReconcileFeaturesRequest.cluster:type_name -> akp.cluster.v2.ClusterRef
+	35, // 27: akp.cluster.v2.CheckClusterRequest.names:type_name -> akp.cluster.v2.ClusterNames
+	36, // 28: akp.cluster.v2.CheckClusterRequest.provider:type_name -> akp.cluster.v2.ProviderOptions
+	61, // 29: akp.cluster.v2.CheckClusterResponse.cluster:type_name -> akp.cluster.v2.Cluster
+	35, // 30: akp.cluster.v2.ValidateImportRequest.names:type_name -> akp.cluster.v2.ClusterNames
+	36, // 31: akp.cluster.v2.ValidateImportRequest.provider:type_name -> akp.cluster.v2.ProviderOptions
+	41, // 32: akp.cluster.v2.ValidateImportResponse.display_name:type_name -> akp.cluster.v2.NameValidation
+	41, // 33: akp.cluster.v2.ValidateImportResponse.name:type_name -> akp.cluster.v2.NameValidation
+	42, // 34: akp.cluster.v2.ValidateImportResponse.flux_cd:type_name -> akp.cluster.v2.FluxCDStatus
+	43, // 35: akp.cluster.v2.ValidateImportResponse.feature_sets:type_name -> akp.cluster.v2.AvailableFeatureSet
+	45, // 36: akp.cluster.v2.ValidateImportResponse.cluster_api:type_name -> akp.cluster.v2.ClusterAPIInfo
+	62, // 37: akp.cluster.v2.ValidateImportResponse.cluster_metadata:type_name -> akp.cluster.v2.ClusterIdentity
+	44, // 38: akp.cluster.v2.AvailableFeatureSet.features:type_name -> akp.cluster.v2.AvailableFeature
+	35, // 39: akp.cluster.v2.ImportClusterRequest.names:type_name -> akp.cluster.v2.ClusterNames
+	36, // 40: akp.cluster.v2.ImportClusterRequest.provider:type_name -> akp.cluster.v2.ProviderOptions
+	2,  // 41: akp.cluster.v2.ImportClusterRequest.components:type_name -> akp.cluster.v2.ComponentOptions
+	1,  // 42: akp.cluster.v2.ImportClusterRequest.operation:type_name -> akp.cluster.v2.OperationOptions
+	61, // 43: akp.cluster.v2.ImportClusterResponse.cluster:type_name -> akp.cluster.v2.Cluster
+	0,  // 44: akp.cluster.v2.ImportClusterResponse.operation:type_name -> akp.cluster.v2.Operation
+	60, // 45: akp.cluster.v2.ConnectClusterRequest.cluster:type_name -> akp.cluster.v2.ClusterRef
+	61, // 46: akp.cluster.v2.ConnectClusterResponse.cluster:type_name -> akp.cluster.v2.Cluster
+	60, // 47: akp.cluster.v2.ReconfigureClusterRequest.cluster:type_name -> akp.cluster.v2.ClusterRef
+	2,  // 48: akp.cluster.v2.ReconfigureClusterRequest.components:type_name -> akp.cluster.v2.ComponentOptions
+	1,  // 49: akp.cluster.v2.ReconfigureClusterRequest.operation:type_name -> akp.cluster.v2.OperationOptions
+	0,  // 50: akp.cluster.v2.ReconfigureClusterResponse.operation:type_name -> akp.cluster.v2.Operation
+	60, // 51: akp.cluster.v2.ConvertFeatureRequest.cluster:type_name -> akp.cluster.v2.ClusterRef
+	1,  // 52: akp.cluster.v2.ConvertFeatureRequest.operation:type_name -> akp.cluster.v2.OperationOptions
+	0,  // 53: akp.cluster.v2.ConvertFeatureResponse.operation:type_name -> akp.cluster.v2.Operation
+	60, // 54: akp.cluster.v2.UpgradeKubernetesVersionRequest.cluster:type_name -> akp.cluster.v2.ClusterRef
+	1,  // 55: akp.cluster.v2.UpgradeKubernetesVersionRequest.operation:type_name -> akp.cluster.v2.OperationOptions
+	0,  // 56: akp.cluster.v2.UpgradeKubernetesVersionResponse.operation:type_name -> akp.cluster.v2.Operation
+	60, // 57: akp.cluster.v2.DeleteClusterRequest.cluster:type_name -> akp.cluster.v2.ClusterRef
+	1,  // 58: akp.cluster.v2.DeleteClusterRequest.operation:type_name -> akp.cluster.v2.OperationOptions
+	0,  // 59: akp.cluster.v2.DeleteClusterResponse.operation:type_name -> akp.cluster.v2.Operation
+	22, // 60: akp.cluster.v2.GetHubInfoResponse.HubsEntry.value:type_name -> akp.cluster.v2.HubAccess
+	7,  // 61: akp.cluster.v2.LifecycleService.RemoveCluster:input_type -> akp.cluster.v2.RemoveClusterRequest
+	9,  // 62: akp.cluster.v2.LifecycleService.ForgetCluster:input_type -> akp.cluster.v2.ForgetClusterRequest
+	11, // 63: akp.cluster.v2.LifecycleService.GetClusterStatus:input_type -> akp.cluster.v2.GetClusterStatusRequest
+	13, // 64: akp.cluster.v2.LifecycleService.ListUpgradeableVersions:input_type -> akp.cluster.v2.ListUpgradeableVersionsRequest
+	15, // 65: akp.cluster.v2.LifecycleService.ListArgoCDClusters:input_type -> akp.cluster.v2.ListArgoCDClustersRequest
+	31, // 66: akp.cluster.v2.LifecycleService.ReconcileFeatures:input_type -> akp.cluster.v2.ReconcileFeaturesRequest
+	33, // 67: akp.cluster.v2.LifecycleService.CheckSkipCredentials:input_type -> akp.cluster.v2.CheckSkipCredentialsRequest
+	37, // 68: akp.cluster.v2.LifecycleService.CheckCluster:input_type -> akp.cluster.v2.CheckClusterRequest
+	39, // 69: akp.cluster.v2.LifecycleService.ValidateImport:input_type -> akp.cluster.v2.ValidateImportRequest
+	46, // 70: akp.cluster.v2.LifecycleService.ImportCluster:input_type -> akp.cluster.v2.ImportClusterRequest
+	48, // 71: akp.cluster.v2.LifecycleService.ConnectCluster:input_type -> akp.cluster.v2.ConnectClusterRequest
+	50, // 72: akp.cluster.v2.LifecycleService.ReconfigureCluster:input_type -> akp.cluster.v2.ReconfigureClusterRequest
+	52, // 73: akp.cluster.v2.LifecycleService.ConvertFeature:input_type -> akp.cluster.v2.ConvertFeatureRequest
+	54, // 74: akp.cluster.v2.LifecycleService.UpgradeKubernetesVersion:input_type -> akp.cluster.v2.UpgradeKubernetesVersionRequest
+	56, // 75: akp.cluster.v2.LifecycleService.DeleteCluster:input_type -> akp.cluster.v2.DeleteClusterRequest
+	18, // 76: akp.cluster.v2.OperationService.GetOperation:input_type -> akp.cluster.v2.GetOperationRequest
+	20, // 77: akp.cluster.v2.HubService.GetHubInfo:input_type -> akp.cluster.v2.GetHubInfoRequest
+	23, // 78: akp.cluster.v2.HubService.ListAllHubClusters:input_type -> akp.cluster.v2.ListAllHubClustersRequest
+	27, // 79: akp.cluster.v2.VirtualClusterService.CreateVirtualCluster:input_type -> akp.cluster.v2.CreateVirtualClusterRequest
+	29, // 80: akp.cluster.v2.VirtualClusterService.ImportVirtualCluster:input_type -> akp.cluster.v2.ImportVirtualClusterRequest
+	8,  // 81: akp.cluster.v2.LifecycleService.RemoveCluster:output_type -> akp.cluster.v2.RemoveClusterResponse
+	10, // 82: akp.cluster.v2.LifecycleService.ForgetCluster:output_type -> akp.cluster.v2.ForgetClusterResponse
+	12, // 83: akp.cluster.v2.LifecycleService.GetClusterStatus:output_type -> akp.cluster.v2.GetClusterStatusResponse
+	14, // 84: akp.cluster.v2.LifecycleService.ListUpgradeableVersions:output_type -> akp.cluster.v2.ListUpgradeableVersionsResponse
+	16, // 85: akp.cluster.v2.LifecycleService.ListArgoCDClusters:output_type -> akp.cluster.v2.ListArgoCDClustersResponse
+	32, // 86: akp.cluster.v2.LifecycleService.ReconcileFeatures:output_type -> akp.cluster.v2.ReconcileFeaturesResponse
+	34, // 87: akp.cluster.v2.LifecycleService.CheckSkipCredentials:output_type -> akp.cluster.v2.CheckSkipCredentialsResponse
+	38, // 88: akp.cluster.v2.LifecycleService.CheckCluster:output_type -> akp.cluster.v2.CheckClusterResponse
+	40, // 89: akp.cluster.v2.LifecycleService.ValidateImport:output_type -> akp.cluster.v2.ValidateImportResponse
+	47, // 90: akp.cluster.v2.LifecycleService.ImportCluster:output_type -> akp.cluster.v2.ImportClusterResponse
+	49, // 91: akp.cluster.v2.LifecycleService.ConnectCluster:output_type -> akp.cluster.v2.ConnectClusterResponse
+	51, // 92: akp.cluster.v2.LifecycleService.ReconfigureCluster:output_type -> akp.cluster.v2.ReconfigureClusterResponse
+	53, // 93: akp.cluster.v2.LifecycleService.ConvertFeature:output_type -> akp.cluster.v2.ConvertFeatureResponse
+	55, // 94: akp.cluster.v2.LifecycleService.UpgradeKubernetesVersion:output_type -> akp.cluster.v2.UpgradeKubernetesVersionResponse
+	57, // 95: akp.cluster.v2.LifecycleService.DeleteCluster:output_type -> akp.cluster.v2.DeleteClusterResponse
+	19, // 96: akp.cluster.v2.OperationService.GetOperation:output_type -> akp.cluster.v2.GetOperationResponse
+	21, // 97: akp.cluster.v2.HubService.GetHubInfo:output_type -> akp.cluster.v2.GetHubInfoResponse
+	24, // 98: akp.cluster.v2.HubService.ListAllHubClusters:output_type -> akp.cluster.v2.ListAllHubClustersResponse
+	28, // 99: akp.cluster.v2.VirtualClusterService.CreateVirtualCluster:output_type -> akp.cluster.v2.CreateVirtualClusterResponse
+	30, // 100: akp.cluster.v2.VirtualClusterService.ImportVirtualCluster:output_type -> akp.cluster.v2.ImportVirtualClusterResponse
+	81, // [81:101] is the sub-list for method output_type
+	61, // [61:81] is the sub-list for method input_type
+	61, // [61:61] is the sub-list for extension type_name
+	61, // [61:61] is the sub-list for extension extendee
+	0,  // [0:61] is the sub-list for field type_name
 }
 
 func init() { file_akp_cluster_v2_lifecycle_proto_init() }

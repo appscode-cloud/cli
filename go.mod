@@ -13,7 +13,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/rs/xid v1.6.0
 	github.com/spf13/cobra v1.10.1
-	go.bytebuilders.dev/b3/apis v0.0.0-20261108144657-26f26fba1316
+	go.bytebuilders.dev/b3/apis v0.0.0-20261108173727-9aab4bbcfac7
 	go.bytebuilders.dev/catalog v0.0.19
 	go.bytebuilders.dev/client v0.0.4
 	go.bytebuilders.dev/license-verifier v0.15.0
@@ -282,4 +282,4 @@ replace sigs.k8s.io/controller-runtime => github.com/kmodules/controller-runtime
 
 replace k8s.io/apiserver => github.com/kmodules/apiserver v0.34.4-0.20251227112449-07fa35efc6fc
 
-replace go.bytebuilders.dev/b3/apis => github.com/appscode-cloud/b3/apis v0.0.0-20261108144657-26f26fba1316
+replace go.bytebuilders.dev/b3/apis => github.com/appscode-cloud/b3/apis v0.0.0-20261108173727-9aab4bbcfac7
